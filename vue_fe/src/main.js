@@ -1,23 +1,26 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
 import 'bootstrap'
+import Store from './store';
+import router from './router';
+
+// import fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { dom } from "@fortawesome/fontawesome-svg-core";
+
+library.add(fas);
+library.add(fab);
+library.add(far);
+dom.watch();
 
 
-// Import component
-import Login from './components/pages/Login.vue'
-import Home from './components/pages/Home.vue'
+const app = createApp(App);
 
-const routes = [
-    { path: '/', component: Home, name: 'home' },
-    { path: '/login', component: Login, name: 'login' },
-]
-const router = createRouter({
-    history: createWebHistory(),
-    mode: 'history',
-    routes,
-    linkActiveClass: 'active',
-})
-export default { router }
-
-createApp(App).use(router).mount('#app')
+app.use(router);
+app.use(Store);
+app.component("font-awesome-icon", FontAwesomeIcon);
+app.mount('#app');

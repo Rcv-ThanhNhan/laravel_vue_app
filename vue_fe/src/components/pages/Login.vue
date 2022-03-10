@@ -1,27 +1,50 @@
+
 <template>
-    <div class="container">
+    <div class="container mt-2">
         <h3 class="title-page">
-            Đăng nhập
+            <img src="../../assets/img/banner-login.png" alt="">
         </h3>
         <form class="w-50 mx-auto needs-validation" @submit.prevent="login()" novalidate>
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="email@example.com"
-                        v-model="user.email" required>
-                <div class="invalid-feedback" v-if="errors.email">
-                    {{ errors.email[0] }}
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                    <input type="email" class="form-control" placeholder="email@example.com"
+                            v-model="user.email" required>
+                    <div class="invalid-feedback" v-if="errors.email">
+                        {{ errors.email[0] }}
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" placeholder="password" v-model="user.password" 
-                       minlength="4" required>
-                <div class="invalid-feedback" v-if="errors.password">
-                    {{ errors.password[0] }}
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                    <input :type="passwordFieldType" class="form-control password-toggle" placeholder="password"
+                            v-model="user.password" minlength="4" required>
+                    <span class="toggle-password" @click="toggleShowPassword" v-if="showing">
+                        <i class="fa-solid fa-eye"></i>
+                    </span>
+                    <span class="toggle-password" @click="toggleShowPassword" v-if="!showing">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </span>
+                    <div class="invalid-feedback" v-if="errors.password">
+                        {{ errors.password[0] }}
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="remember"
+                            :checked="user.remember">
+                    <label class="form-check-label" for="remember">
+                        Lưu mật khẩu
+                    </label>
                 </div>
             </div>
             <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-primary" @click="validation()">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary" @click="validation()">
+                    Đăng nhập</button>
             </div>
         </form>
     </div>
@@ -36,9 +59,12 @@ export default {
                 // email: '',
                 // password: '',
                 email: 'admin@admin.com',
-                password: '123123'
+                password: '123123',
+                remember: false
             },
-            errors: {}
+            errors: {},
+            showing: true,
+            passwordFieldType: "password"
         }
     },
     methods:{
@@ -71,9 +97,27 @@ export default {
                 form.classList.add('was-validated')
             }, false)
             })
+        },
+        toggleShowPassword: function(){
+            this.showing = !this.showing;
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
         }
     }
 }
-// Example starter JavaScript for disabling form submissions if there are invalid fields
 
 </script>
+
+<style>
+    .toggle-password{
+        background: transparent;
+        border: unset;
+        position: absolute;
+        right: 10px;
+        top: 6px;
+        cursor: pointer;
+        z-index: 3;
+    }
+    .was-validated .password-toggle.form-control:invalid, .form-control.is-invalid{
+        background-position: right calc(0.375em + 1.6rem) center;
+    }
+</style>

@@ -39,7 +39,8 @@ class LoginController extends Controller
     {
         $email = $request->email;
         $pwd = $request->password;
-        if(Auth::attempt(['email' => $email, 'password' => $pwd])){
+        $remember = $request->remember ? true : false;
+        if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
             $user = User::whereEmail($email)->first();
             $user->token = $user->createToken("App")->plainTextToken;
             return response()->json($user);
