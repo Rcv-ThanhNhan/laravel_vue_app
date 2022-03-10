@@ -71,7 +71,7 @@ export default {
         login: function(){
             axios.post('http://localhost:8000/api/login', this.user)
             .then(response => {
-                window.localStorage.setItem('token', response.data.token);
+                window.localStorage.setItem('user', JSON.stringify(response.data));
                 // direction
                 this.$router.push({name: 'home'})
             })

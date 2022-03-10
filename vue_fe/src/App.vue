@@ -38,18 +38,19 @@ export default {
     },
     methods: {
         checkLoggedIn: function(){
-            let token = window.localStorage.getItem('token');
+            let token =JSON.parse(window.localStorage.getItem('user'));
+            console.log(token);
             if(!token){
                 this.$router.push({name: 'login'})
             }
             axios.get('http://localhost:8000/api/user-info', {
-            headers: {
-                Authorization: 'Bearer '+ token
-            }
+                headers: {
+                    Authorization: 'Bearer '+ token
+                }
             })
             .then(response => {
                 this.user = response.data;
-                this.$store.dispatch('LogIn', this.user);
+                // window.localStorage.setItem('user', JSON.stringify(this.user))
                 this.msg = `Xin chào ${this.user.name}`
             })
             .catch(error => {

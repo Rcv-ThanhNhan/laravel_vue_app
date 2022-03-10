@@ -18,15 +18,15 @@ const router = createRouter({
     linkActiveClass: 'active',
 })
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
 
 
-    // console.log(to.matched.some((record) => record.meta.requiresAuth));
-    console.log(Store.getters);
-    // if (Store.state.user) {
-    //     next();
-    // } else {
+//     // console.log(to.matched.some((record) => record.meta.requiresAuth));
+//     console.log(Store.getters);
+//     // if (Store.state.user) {
+//     //     next();
+//     // } else {
 
-    // }
-})
+//     // }
+// })
 export default router;
