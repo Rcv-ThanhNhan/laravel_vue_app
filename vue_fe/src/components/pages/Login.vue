@@ -1,27 +1,27 @@
 
 <template>
-    <div class="container mt-2">
-        <h3 class="title-page">
-            <img src="../../assets/img/banner-login.png" alt="">
-        </h3>
-        <form class="w-50 mx-auto needs-validation" @submit.prevent="login()" novalidate>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                    <input type="email" class="form-control" placeholder="email@example.com"
+    <div class="container mt-2">        
+        <div class="az-signin-wrapper">
+        <div class="az-card-signin">
+            <h1 class="az-logo">
+                <img src="../../assets/img/banner-login.png" alt="">
+            </h1>
+            <div class="az-signin-header">
+            <h2>Welcome back!</h2>
+
+            <form action="index.html" @submit.prevent="login()" novalidate>
+                <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" placeholder="email@example.com"
                             v-model="user.email" required>
-                    <div class="invalid-feedback" v-if="errors.email">
-                        {{ errors.email[0] }}
-                    </div>
+                <div class="invalid-feedback" v-if="errors.email">
+                    {{ errors.email[0] }}
                 </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Mật khẩu</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                </div><!-- form-group -->
+                <div class="form-group">
+                    <label>Password</label>
                     <input :type="passwordFieldType" class="form-control password-toggle" placeholder="password"
-                            v-model="user.password" minlength="4" required>
+                                v-model="user.password" minlength="4" required>
                     <span class="toggle-password" @click="toggleShowPassword" v-if="showing">
                         <i class="fa-solid fa-eye"></i>
                     </span>
@@ -31,22 +31,23 @@
                     <div class="invalid-feedback" v-if="errors.password">
                         {{ errors.password[0] }}
                     </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-check">
+                </div><!-- form-group -->
+                <div class="form-group">
                     <input class="form-check-input" type="checkbox" value="" id="remember"
-                            :checked="user.remember">
-                    <label class="form-check-label" for="remember">
+                                :checked="user.remember">
+                    <label class="form-check-label ms-2 mb-0" for="remember">
                         Lưu mật khẩu
                     </label>
                 </div>
-            </div>
-            <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-primary" @click="validation()">
-                    Đăng nhập</button>
-            </div>
-        </form>
+                <button class="btn btn-az-primary btn-block" @click="validation()">Đăng nhập</button>
+            </form>
+            </div><!-- az-signin-header -->
+            <div class="az-signin-footer">
+            <!-- <p><a href="">Quên mật khẩu?</a></p> -->
+            <p>Bạn chưa có tài khoản? <router-link :to="{ name: 'register' }">Đăng ký</router-link></p>
+            </div><!-- az-signin-footer -->
+        </div><!-- az-card-signin -->
+        </div>
     </div>
 </template>
 
