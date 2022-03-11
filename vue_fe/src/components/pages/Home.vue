@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        {{ this.msg }}
+        Dashboard is working!
     </div>
 </template>
 
@@ -25213,7 +25213,7 @@ input[type="button"].btn-block {
   padding: 9px 20px;
   border-radius: 0;
   transition: none;
-  min-height: 38px;
+  /* min-height: 38px; */
   font-size: 0.875rem; }
   .btn:active, .btn:focus {
     box-shadow: none; }
@@ -25253,8 +25253,155 @@ input[type="button"].btn-block {
       padding-left: 15px;
       padding-right: 15px; } }
 
-/* ######### FORM ########## */
+
+/* ###### 3.9 Forms ###### */
+.form-control {
+  height: 38px;
+  border-radius: 0; }
+  .form-control:focus {
+    border-color: #97a3b9;
+    box-shadow: none; }
 
 .form-group {
   margin-bottom: 1rem; }
+
+  
+/* ###### 5.11 Select2 ###### */
+.select2-results__option {
+  border-radius: 0;
+  margin-bottom: 1px;
+  font-size: 13px; }
+
+.select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border-color: #cdd4e0;
+  border-radius: 3px;
+  height: 38px;
+  outline: none;
+  border-radius: 0; }
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #596882;
+    line-height: calc(1.5em + 0.75rem + 2px)-0.1rem;
+    padding-left: 0.75rem;
+    height: 100%;
+    display: flex;
+    align-items: center; }
+  .select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #7987a1; }
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    width: 30px;
+    height: 38px;
+    line-height: calc(1.5em + 0.75rem + 2px); }
+    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+      margin-top: -3px; }
+
+.select2-container--default .select2-selection--multiple {
+  background-color: #fff;
+  border-color: #cdd4e0;
+  border-radius: 0;
+  min-height: 38px;
+  outline: none; }
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 0 4px; }
+  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    position: relative;
+    margin-top: 5px;
+    margin-right: 4px;
+    padding: 3px 10px 3px 20px;
+    border-color: transparent;
+    border-radius: 0;
+    background-color: #5b47fb;
+    color: #fff;
+    line-height: 1.45; }
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+    opacity: .5;
+    font-size: 12px;
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    left: 7px; }
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: #cdd4e0; }
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border-color: #cdd4e0;
+  border-radius: 0; }
+
+.select2-container--default .select2-results__option[aria-selected="true"] {
+  background-color: white; }
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #5b47fb; }
+
+.select2-container--default .select2-results > .select2-results__options {
+  margin: 4px; }
+
+.select2-container--default .select2-search--inline .select2-search__field {
+  margin-top: 7px;
+  line-height: 26px;
+  padding-left: 7px;
+  opacity: 1; }
+
+.select2-container--default.select2-container--disabled .select2-selection__choice {
+  padding-left: 10px;
+  background-color: #97a3b9; }
+  .select2-container--default.select2-container--disabled .select2-selection__choice .select2-selection__choice__remove {
+    display: none; }
+
+.select2-container--open .select2-selection--single,
+.select2-container--open .select2-selection--multiple {
+  background-color: #fff;
+  border-color: #cdd4e0; }
+
+.select2-container--open .select2-dropdown--above {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }
+
+.select2-container--open .select2-dropdown--below {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  top: 0; }
+
+.select2-dropdown {
+  border-color: #cdd4e0;
+  z-index: 200; }
+
+.select2-search--dropdown {
+  padding-bottom: 0; }
+
+.select2-results__option {
+  padding: 6px 10px;
+  font-size: 0.875rem; }
+
+.has-success .select2-container--default .select2-selection--single {
+  border-color: #3bb001; }
+
+.has-warning .select2-container--default .select2-selection--single {
+  border-color: #ffc107; }
+
+.has-danger .select2-container--default .select2-selection--single {
+  border-color: #dc3545; }
+
+.select2-xs + .select2-container {
+  font-size: 12px; }
+
+.select2-dropdown-xs .select2-results__option {
+  font-size: 12px; }
+
+.select2-sm + .select2-container {
+  font-size: 14px; }
+
+.select2-dropdown-sm .select2-results__option {
+  font-size: 14px; }
+
+.select2-bd-0 + .select2-container--default .select2-selection--single {
+  border-width: 0; }
+
+.bg-gray + .select2-container--default .select2-selection--single {
+  background-color: #455473; }
+  .bg-gray + .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #cdd4e0; }
+
 </style>

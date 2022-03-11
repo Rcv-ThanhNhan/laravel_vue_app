@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import 'axios';
 export default {
     data(){
         return {

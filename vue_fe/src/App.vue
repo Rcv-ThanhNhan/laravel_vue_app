@@ -17,14 +17,15 @@ import Loading from './components/layouts/Loading.vue'
 @import 'bootstrap/dist/css/bootstrap.css';
 
 .title-page{
-  text-align: center;
+  /* text-align: center; */
   font-weight: 500;
+  font-size: 1.6rem;
 }
 
 </style>
 <script>
     
-import axios from 'axios';
+import  'axios';
 
 export default {
     data(){
@@ -54,7 +55,9 @@ export default {
                 this.msg = `Xin chào ${this.user.name}`
             })
             .catch(error => {
-                console.log(error.response.data.message);
+                if(error.response){
+                    console.log(error.response.data.message);
+                }
             })
             // .then(() => {
             //     if(this.user != null){

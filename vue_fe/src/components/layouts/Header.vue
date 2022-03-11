@@ -3,7 +3,7 @@
       <div class="container">
         <div class="az-header-left">
           <router-link :to="{name: 'home'}" class="navbar-brand">
-            Trang chủ
+            <img src="../../assets/img/banner-login.png" alt="">
           </router-link>
           <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
         </div><!-- az-header-left -->
