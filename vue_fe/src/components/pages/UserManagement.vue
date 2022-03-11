@@ -51,21 +51,70 @@
             <td>{{ user.status }}</td>
             <td>
               <div class="btn-icon-list">
-                <button type="button" class="btn px-2 py-0" @click="showAlert"><i class="fa-solid fa-pen text-info"></i></button>
-                <button type="button" class="btn px-2 py-0"><i class="fa-solid fa-trash-can text-danger"></i></button>
-                <button type="button" class="btn px-2 py-0"><i class="fa-solid fa-user-lock text-warning"></i></button>
+                <button type="button" class="btn px-2 py-0" 
+                        data-bs-toggle="modal" data-bs-target="#UserEditAddModal"
+                        @click="showModal('edit', 1)">
+                  <i class="fa-solid fa-pen text-info"></i>
+                </button>
+                <button type="button" class="btn px-2 py-0">
+                  <i class="fa-solid fa-trash-can text-danger"></i>
+                </button>
+                <button type="button" class="btn px-2 py-0"
+                        data-bs-toggle="modal" data-bs-target="#UserEditAddModal"
+                        @click="showModal('edit', 1)">
+                        <i class="fa-solid fa-user-lock text-warning"></i>
+                </button>
             </div>
             </td>
           </tr>
         </tbody>
       </table>
+      <!-- ##### MODAL EDIT/ADD USER ##### -->
+      <div class="modal fade" id="UserEditAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ modal.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <select class="form-control">
+                  <option label="Chọn nhóm"></option>
+                  <option value="Firefox">Firefox</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-primary">{{ modal.actions }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>  
   </div>  
 </template>
 
 <script>
-import axios from 'axios';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+
 export default {
   data(){
     return {
@@ -79,29 +128,35 @@ export default {
           "created_at":"--",
           "updated_at":"--"
         }
-      ]
+      ], 
+      modal: {
+        title: 'title',
+        actions: 'Save'
+      }
     }
   },
   mounted(){
-    this.getUser()
+    this.getUsers()
   },
   methods:{
-    getUser: function(){
-      // console.log(process.env.VUE_APP_API_URL);
-      axios.get('http://127.0.0.1:8000/api/user')
+    getUsers: function(){
+      this.$axios.get('/user')
       .then(response => {
         this.users = response.data.data;
+        return
       })
       .catch((err) => console.log(err));
     },
-    showAlert() {
-      // Use sweetalert2
-      Swal.fire(
-        'The Internet?',
-        'That thing is still around?',
-        'question'
-      )
-    },
+    showModal: function(type, id = null){
+      if(type === 'edit' && id != null){
+        this.modal.title = `Chỉnh sửa user`,
+        this.modal.actions = 'Lưu'
+      }
+      if(type === 'edit'){
+        this.modal.title = `Tạo mới user`,
+        this.modal.actions = 'Tạo'
+      }
+    }
   }
 }
 </script>

@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
     data(){
         return {
@@ -70,10 +69,9 @@ export default {
     },
     methods:{
         login: function(){
-            axios.post('http://localhost:8000/api/login', this.user)
+            this.$axios.post('http://localhost:8000/api/login', this.user)
             .then(response => {
                 window.localStorage.setItem('user', JSON.stringify(response.data));
-                // direction
                 this.$router.push({name: 'home'})
             })
             .catch(error => {

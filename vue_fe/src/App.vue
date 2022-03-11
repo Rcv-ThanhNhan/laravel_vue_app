@@ -25,7 +25,6 @@ import Loading from './components/layouts/Loading.vue'
 </style>
 <script>
     
-import axios from 'axios';
 
 export default {
     data(){
@@ -35,7 +34,7 @@ export default {
         }
     },
     mounted(){
-        this.checkLoggedIn()
+        // this.checkLoggedIn()
     },
     methods: {
         checkLoggedIn: function(){
@@ -44,7 +43,7 @@ export default {
             if(!token){
                 this.$router.push({name: 'login'})
             }
-            axios.get('http://localhost:8000/api/user-info', {
+            this.$axios.get('http://localhost:8000/api/user-info', {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }

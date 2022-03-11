@@ -25256,8 +25256,10 @@ input[type="button"].btn-block {
 
 /* ###### 3.9 Forms ###### */
 .form-control {
-  height: 38px;
-  border-radius: 0; }
+  height: 32px;
+  border-radius: 0;
+  padding: 0.275rem 0.75rem;
+  font-size: 0.9rem;}
   .form-control:focus {
     border-color: #97a3b9;
     box-shadow: none; }
