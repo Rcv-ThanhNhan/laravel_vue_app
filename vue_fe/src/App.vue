@@ -25,7 +25,7 @@ import Loading from './components/layouts/Loading.vue'
 </style>
 <script>
     
-import  'axios';
+import axios from 'axios';
 
 export default {
     data(){

@@ -65,6 +65,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 export default {
   data(){
     return {
@@ -95,7 +96,11 @@ export default {
     },
     showAlert() {
       // Use sweetalert2
-      this.$swal('Hello Vue world!!!');
+      Swal.fire(
+        'The Internet?',
+        'That thing is still around?',
+        'question'
+      )
     },
   }
 }
