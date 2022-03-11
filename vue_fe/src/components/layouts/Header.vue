@@ -14,7 +14,7 @@
           </div><!-- az-header-menu-header -->
           <ul class="nav">
               <li class="nav-item">
-                <router-link :to="{name: 'user-management'}" class="nav-link" ><i class="fa-solid fa-user mr-2"></i> Quản lí người dùng</router-link>
+                <router-link :to="{name: 'user-management'}" class="nav-link" >Quản lí người dùng</router-link>
               </li>
             </ul>
         </div><!-- az-header-menu -->
