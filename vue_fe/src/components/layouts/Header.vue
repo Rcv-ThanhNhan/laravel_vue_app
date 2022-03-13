@@ -22,14 +22,14 @@
           <div class="az-header-message">
             <a href="#"><i class="typcn typcn-messages"></i></a>
           </div><!-- az-header-message -->
-          <!-- <div class="dropdown az-profile-menu d-flex">
+          <div class="dropdown az-profile-menu d-flex" v-if="!loggedIn">
               <router-link :to="{name: 'login'}" class="az-login">
                 <i class="fa-solid fa-right-to-bracket me-1"></i> Đăng nhập</router-link>
               <router-link :to="{name: 'register'}" class="az-login">
                 <i class="fa-solid fa-user-plus me-1"></i> Đăng ký
               </router-link>
-          </div> -->
-          <div class="dropdown az-profile-menu">
+          </div>
+          <div class="dropdown az-profile-menu" v-if="loggedIn">
             <a href="" class="az-login">admin</a>
             <div class="dropdown-menu">
               <div class="az-dropdown-header d-sm-none">
@@ -59,11 +59,12 @@
 <script>
 export default {
   data(){
-    return [
-      {
-        loggedIn: true,
-      }
-    ]
+    return {
+        loggedIn: false,
+    }
+  },
+  mounted() {
+    console.log(this.loggedIn);
   }
 }
 </script>

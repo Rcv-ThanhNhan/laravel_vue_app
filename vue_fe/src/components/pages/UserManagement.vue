@@ -30,6 +30,13 @@
         </select>
       </div>
     </div>
+    <div class="row">
+      <div class="col text-end">
+        <button class="btn btn-primary">
+          Thêm mới
+        </button>
+      </div>
+    </div>
     <div class="table-responsive">
       <table class="table mg-b-0">
         <thead>

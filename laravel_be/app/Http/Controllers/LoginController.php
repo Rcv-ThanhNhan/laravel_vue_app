@@ -43,6 +43,7 @@ class LoginController extends Controller
         if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
             $user = User::whereEmail($email)->first();
             $user->token = $user->createToken("App")->plainTextToken;
+            return $user;
             return response()->json($user);
         }
         return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác']);
