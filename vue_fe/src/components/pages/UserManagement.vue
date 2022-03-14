@@ -79,27 +79,31 @@
             </div>
             <div class="modal-body">
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label for="" class="form-label">Tên người dùng</label>
+                <input type="text" class="form-control" placeholder="Nguyễn Văn A">
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label class="form-label">Email</label>
+                <input type="text" class="form-control" placeholder="name@example.com">
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label class="form-label">Mật khẩu</label>
+                <input type="email" class="form-control">
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <label class="form-label">Xác nhận mật khẩu</label>
+                <input type="email" class="form-control">
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <label class="form-label">Nhóm người dùng</label>
                 <select class="form-control">
                   <option label="Chọn nhóm"></option>
                   <option value="Firefox">Firefox</option>
                 </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Xác nhận mật khẩu</label>
+                <input type="email" class="form-control">
               </div>
             </div>
             <div class="modal-footer">

@@ -22,13 +22,13 @@
           <div class="az-header-message">
             <a href="#"><i class="typcn typcn-messages"></i></a>
           </div><!-- az-header-message -->
-          <!-- <div class="dropdown az-profile-menu d-flex">
+          <div class="dropdown az-profile-menu d-flex">
               <router-link :to="{name: 'login'}" class="az-login">
                 <i class="fa-solid fa-right-to-bracket me-1"></i> Đăng nhập</router-link>
               <router-link :to="{name: 'register'}" class="az-login">
                 <i class="fa-solid fa-user-plus me-1"></i> Đăng ký
               </router-link>
-          </div> -->
+          </div>
           <div class="dropdown az-profile-menu">
             <a href="" class="az-login">admin</a>
             <div class="dropdown-menu">
@@ -37,17 +37,17 @@
               </div>
               <div class="az-header-profile">
                 <div class="az-img-user">
-                  <img src="../img/faces/face1.jpg" alt="">
+                  <img src="" alt="">
                 </div><!-- az-img-user -->
                 <h6>Aziana Pechon</h6>
                 <span>Premium Member</span>
               </div><!-- az-header-profile -->
 
-              <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
-              <a href="page-signin.html" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
+              <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Hồ sơ</a>
+              <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Chỉnh sửa hồ sơ</a>
+              <!-- <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> </a> -->
+              <!-- <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a> -->
+              <a href="page-signin.html" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Đăng xuất</a>
             </div><!-- dropdown-menu -->
           </div>
         </div><!-- az-header-right -->
