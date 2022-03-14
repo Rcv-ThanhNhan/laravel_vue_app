@@ -1,69 +1,116 @@
-<header class="topbar" data-navbarbg="skin6">
-    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-        <div class="navbar-header" data-logobg="skin6">
-            <!-- ============================================================== -->
-            <!-- Logo -->
-            <!-- ============================================================== -->
-            <a class="navbar-brand" href="index.html">
-                <!-- Logo icon -->
-                <b class="logo-icon">
-                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                    <!-- Dark Logo icon -->
-                    <img src="{{ asset('/images/logo-icon.png') }}" alt="homepage" class="dark-logo" />
+<div class="az-header">
+    <div class="container">
+      <div class="az-header-left">
+        <a href="index.html" class="az-logo"><span></span> azia</a>
+        <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+      </div><!-- az-header-left -->
+      <div class="az-header-menu">
+        <div class="az-header-menu-header">
+          <a href="index.html" class="az-logo"><span></span> azia</a>
+          <a href="" class="close">&times;</a>
+        </div><!-- az-header-menu-header -->
+        <ul class="nav">
+          <li class="nav-item active show">
+            <a href="index.html" class="nav-link"><i class="typcn typcn-chart-area-outline"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>
+            <nav class="az-menu-sub">
+              <a href="page-signin.html" class="nav-link">Sign In</a>
+              <a href="page-signup.html" class="nav-link">Sign Up</a>
+            </nav>
+          </li>
+          <li class="nav-item">
+            <a href="chart-chartjs.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> Charts</a>
+          </li>
+          <li class="nav-item">
+            <a href="form-elements.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> Forms</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link with-sub"><i class="typcn typcn-book"></i> Components</a>
+            <div class="az-menu-sub">
+              <div class="container">
+                <div>
+                  <nav class="nav">
+                    <a href="elem-buttons.html" class="nav-link">Buttons</a>
+                    <a href="elem-dropdown.html" class="nav-link">Dropdown</a>
+                    <a href="elem-icons.html" class="nav-link">Icons</a>
+                    <a href="table-basic.html" class="nav-link">Table</a>
+                  </nav>
+                </div>
+              </div><!-- container -->
+            </div>
+          </li>
+        </ul>
+      </div><!-- az-header-menu -->
+      <div class="az-header-right">
+        <a href="https://www.bootstrapdash.com/demo/azia-free/docs/documentation.html" target="_blank" class="az-header-search-link"><i class="far fa-file-alt"></i></a>
+        <a href="" class="az-header-search-link"><i class="fas fa-search"></i></a>
+        <div class="az-header-message">
+          <a href="#"><i class="typcn typcn-messages"></i></a>
+        </div><!-- az-header-message -->
+        <div class="dropdown az-header-notification">
+          <a href="" class="new"><i class="typcn typcn-bell"></i></a>
+          <div class="dropdown-menu">
+            <div class="az-dropdown-header mg-b-20 d-sm-none">
+              <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+            </div>
+            <h6 class="az-notification-title">Notifications</h6>
+            <p class="az-notification-text">You have 2 unread notification</p>
+            <div class="az-notification-list">
+              <div class="media new">
+                <div class="az-img-user"><img src="../img/faces/face2.jpg" alt=""></div>
+                <div class="media-body">
+                  <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
+                  <span>Mar 15 12:32pm</span>
+                </div><!-- media-body -->
+              </div><!-- media -->
+              <div class="media new">
+                <div class="az-img-user online"><img src="../img/faces/face3.jpg" alt=""></div>
+                <div class="media-body">
+                  <p><strong>Joyce Chua</strong> just created a new blog post</p>
+                  <span>Mar 13 04:16am</span>
+                </div><!-- media-body -->
+              </div><!-- media -->
+              <div class="media">
+                <div class="az-img-user"><img src="../img/faces/face4.jpg" alt=""></div>
+                <div class="media-body">
+                  <p><strong>Althea Cabardo</strong> just created a new blog post</p>
+                  <span>Mar 13 02:56am</span>
+                </div><!-- media-body -->
+              </div><!-- media -->
+              <div class="media">
+                <div class="az-img-user"><img src="../img/faces/face5.jpg" alt=""></div>
+                <div class="media-body">
+                  <p><strong>Adrian Monino</strong> added new comment on your photo</p>
+                  <span>Mar 12 10:40pm</span>
+                </div><!-- media-body -->
+              </div><!-- media -->
+            </div><!-- az-notification-list -->
+            <div class="dropdown-footer"><a href="">View All Notifications</a></div>
+          </div><!-- dropdown-menu -->
+        </div><!-- az-header-notification -->
+        <div class="dropdown az-profile-menu">
+          <a href="" class="az-img-user"><img src="../img/faces/face1.jpg" alt=""></a>
+          <div class="dropdown-menu">
+            <div class="az-dropdown-header d-sm-none">
+              <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+            </div>
+            <div class="az-header-profile">
+              <div class="az-img-user">
+                <img src="../img/faces/face1.jpg" alt="">
+              </div><!-- az-img-user -->
+              <h6>Aziana Pechon</h6>
+              <span>Premium Member</span>
+            </div><!-- az-header-profile -->
 
-                </b>
-                <!--End Logo icon -->
-                <!-- Logo text -->
-                <span class="logo-text">
-                    <!-- dark Logo text -->
-                    <img src="{{ asset('/images/logo-text.png') }}" alt="homepage" class="dark-logo" />
-
-                </span>
-            </a>
-            <!-- ============================================================== -->
-            <!-- End Logo -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
-            <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
-                href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+            <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
+            <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
+            <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
+            <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
+            <a href="page-signin.html" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
+          </div><!-- dropdown-menu -->
         </div>
-        <!-- ============================================================== -->
-        <!-- End Logo -->
-        <!-- ============================================================== -->
-        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav me-auto mt-md-0 ">
-                <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
-
-                <li class="nav-item hidden-sm-down">
-                    <form class="app-search ps-3">
-                        <input type="text" class="form-control" placeholder="Search for..."> <a
-                            class="srh-btn"><i class="ti-search"></i></a>
-                    </form>
-                </li>
-            </ul>
-
-            <!-- ============================================================== -->
-            <!-- Right side toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav">
-                <!-- ============================================================== -->
-                <!-- User profile and search -->
-                <!-- ============================================================== -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('images/users/1.jpg') }}" alt="user" class="profile-pic me-2">Markarn Doe
-                    </a>
-                    <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+      </div><!-- az-header-right -->
+    </div><!-- container -->
+  </div>
