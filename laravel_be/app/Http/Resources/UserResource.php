@@ -14,13 +14,16 @@ class UserResource extends ResourceCollection
      */
     public function toArray($request)
     {
-        $result = $this->first();
+        $r = $this->first();
         return [
-            'id' => $result->id,
-            'name' => $result->name,
-            'email' => $result->email,
-            'created_at' => $result->created_at,
-            'updated_at' => $result->updated_at,
+            'id' => $r->id,
+            'name' => $r->name,
+            'email' => $r->email,
+            'group_role' => $r->group_role,
+            'is_active' => $r->is_active,
+            'is_delete' => $r->is_delete,
+            'created_at' => $r->created_at,
+            'updated_at' => $r->updated_at,
         ];
     }
 }

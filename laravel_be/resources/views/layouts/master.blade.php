@@ -6,7 +6,7 @@
     <!-- az-header -->
     @include('layouts.header')
 
-    <div id="app"></div>
+    @yield('content')
 
     @include('layouts.footer')
 

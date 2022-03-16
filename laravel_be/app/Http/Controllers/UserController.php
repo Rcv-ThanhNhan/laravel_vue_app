@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        return view('pages.users_management');
     }
 
     /**
@@ -49,8 +49,7 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        dd($request->token);
-        return response()->json($request->user('api'));
+
     }
 
     /**
@@ -87,7 +86,5 @@ class UserController extends Controller
         //
     }
 
-    public function userInfo(Request $request){
-        return response()->json($request->user());
-    }
+
 }

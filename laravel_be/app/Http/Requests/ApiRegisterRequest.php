@@ -24,8 +24,21 @@ class ApiRegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'username' => 'required',
             'email' => 'required|email',
-            'password' => 'required|between:8, 32'
+            'passwd' => 'required|between:8, 32',
+            'passwd_confirm' => 'required|between:8, 32|same:passwd',
+            'group' => 'required',
+        ];
+    }
+
+    public function messages(){
+        return [
+            '*.required' => 'Trường không được bỏ trống',
+            'email.email' => 'Email không đúng định dạng',
+            'passwd.between' => 'Mật khẩu phải nhiều hơn :min và ít hơn :max ký tự',
+            'passwd_confirm.same' => 'Mật khẩu và mật khẩu xác nhận không khớp',
+            'group.required' => 'Vui lòng chọn nhóm người dùng',
         ];
     }
 }

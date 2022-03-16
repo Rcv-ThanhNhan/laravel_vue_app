@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApiLoginRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Hash;
 use Auth;
 
-class LoginController extends Controller
+class ApiLoginController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +19,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        // dd(Auth::guard('api')->check());
-        // if(!Auth::guard('api')->check()){
-            return view('pages.login');
-        // }
-        // return redirect()->route('login.index');
+        //
     }
 
     /**
@@ -31,6 +29,7 @@ class LoginController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -39,9 +38,24 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApiLoginRequest $request)
     {
-
+        $email = $request->email;
+        $pwd = $request->password;
+        $remember = $request->remember ? true : false;
+        if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
+            $user = User::whereEmail($email)->first();
+            if(!$user->is_active){
+                return response()->json(['error' => 'Tài khoản đã bị khóa']);
+            }
+            $token = $user->createToken("App")->plainTextToken;
+            $user->token = $token;
+            $request->user()->forceFill([
+                'api_token' => hash('sha256', $token),
+            ])->save();
+            return new UserResource($user);
+        }
+        return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác']);
     }
 
     /**

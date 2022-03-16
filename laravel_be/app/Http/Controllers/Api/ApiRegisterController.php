@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiLoginRequest;
-use App\Models\User;
-use Hash;
-use Auth;
 
-class LoginController extends Controller
+class ApiRegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +14,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        // dd(Auth::guard('api')->check());
-        // if(!Auth::guard('api')->check()){
-            return view('pages.login');
-        // }
-        // return redirect()->route('login.index');
+
     }
 
     /**
@@ -31,6 +24,7 @@ class LoginController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -41,7 +35,7 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
