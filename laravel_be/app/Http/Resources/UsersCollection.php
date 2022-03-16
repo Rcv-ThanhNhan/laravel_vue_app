@@ -14,13 +14,8 @@ class UsersCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        // try {
-        //     view('pages.components.list_users', ['data' => $this->collection])->render();
-        // } catch (\Throwable $th) {
-        //     dd($th->getMessage(), $th->getLine());
-        // }
         return [
-            'data' => view('pages.components.list_users', ['data' => $this->collection])->render(),
+            'data' => view('pages.components.list_users', ['data' => $this->collection, 'page' => $request->page])->render(),
         ];
     }
 }

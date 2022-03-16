@@ -163,4 +163,29 @@ class ApiUserController extends Controller
     public function userInfo(Request $request){
         return response()->json($request->user());
     }
+
+    /**
+     * Method search
+     *
+     * @param Request $request
+     *
+     * @return void
+     */
+    public function search(Request $request){
+        $users = User::Name($request)
+                    ->Email($request)
+                    ->Group($request)
+                    ->IsActive($request)
+                    ->orderBy('id', 'desc')
+                    ->paginate();
+
+        $users->appends([
+            'name' => $request->name,
+            'email' => $request->email,
+            'group' => $request->group,
+            'status' => $request->status,
+        ]);
+
+        return new UsersCollection($users);
+    }
 }

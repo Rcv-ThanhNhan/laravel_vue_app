@@ -6,18 +6,18 @@
     <h2 class="title-page mb-3">
       Quản lí người dùng
     </h2>
-    <div class="row row-sm mb-3">
+    <form action="http://localhost:8000/api/search-user" class="row row-sm mb-3" id="searchUser">
       <div class="col-md">
         <label for="">Tên</label>
-        <input class="form-control" placeholder="Nhập họ tên..." type="text">
+        <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
       </div>
       <div class="col-md">
         <label for="">Email</label>
-        <input class="form-control" placeholder="Email" type="text">
+        <input class="form-control" placeholder="Email" type="text" name="email">
       </div>
       <div class="col-md">
         <label for="">Nhóm</label>
-        <select class="form-control">
+        <select class="form-control" name="group">
           <option label="Chọn nhóm"></option>
           <option value="Admin">Admin</option>
           <option value="Nhân viên">Nhân viên</option>
@@ -25,18 +25,18 @@
       </div>
       <div class="col-md">
         <label for="">Trạng thái</label>
-        <select class="form-control">
+        <select class="form-control" name="status">
           <option label="Chọn trạng thái"></option>
           <option value="1">Đang hoạt động</option>
-          <option value="0">Tạm ngưng</option>
+          <option value="0">Tạm khóa</option>
         </select>
       </div>
 
       <div class="col-12 text-right d-flex mt-3">
-        <button class="btn btn-primary mr-2"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
-        <button class="btn btn-secondary"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+        <button class="btn btn-primary mr-2 btn-search-user"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+        <button class="btn btn-secondary btn-reset-search-user" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
       </div>
-    </div>
+    </form>
     <div class="row text-right mb-3">
         <div class="col-md">
             <button class="btn btn-primary" onclick="modalAddEditUser('add')"

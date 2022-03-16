@@ -25,6 +25,7 @@ Route::apiResources([
 
 Route::get('/user-info',[ ApiUserController::class, 'userInfo'])->middleware('auth:sanctum')->name('user.info');
 Route::post('/user/update-status',[ ApiUserController::class, 'updateStatus']);
+Route::get('/search-user',[ ApiUserController::class, 'search']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

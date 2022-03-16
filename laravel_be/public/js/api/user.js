@@ -1,14 +1,15 @@
-function getUsers(url = 'http://localhost:8000/api/user') {
+function getUsers(url = 'http://localhost:8000/api/user', data = {}) {
 
-    // var url = 'http://localhost:8000/api/user';
     var render = $('#lstUsers');
 
     $.ajax({
             url: url,
-            method: "get"
+            method: "get",
+            data: data
         })
         .done((data) => {
             if (data) {
+
                 render.html(data.data);
                 navigation(data.meta);
             }
@@ -71,69 +72,51 @@ function modalAddEditUser(type, id) {
 }
 
 function navigation(links) {
-
     var render = $('.pagination-container');
     var pageItem = '';
     var paginate = '';
-    let maxItem = 5;
+    // let maxItem = 7;
 
-    //Render nút nhảy trang
+    let pageState = links;
 
-    $(links.links).each((i, v) => {
-        if (v.url != null) {
-            if (links.total > maxItem) {
-                if (v.label <= 2 || v.label > links.last_page - 2) {
-                    if (links.current_page == v.label) {
-                        pageItem += `<li class="page-item">
-                                    <button class="page-link"> ${ v.label } </button>
-                                </li>`
-                    } else {
-                        pageItem += `<li class="page-item">
-                                    <button class="page-link" data-link="${ v.url }"> ${ v.label } </button>
-                                </li>`
-                    }
-                } else if (v.label == links.last_page - 3) {
-                    pageItem += `<li class="page-item">
-                                    <button class="page-link"> ... </button>
-                                </li>`
-                }
-            } else {
-                pageItem += `<li class="page-item">
-                                <button class="page-link" data-link="${ v.url }"> ${ v.label } </button>
-                            </li>`;
-            }
+    $(pageState.links).each((i, v) => {
+        if (i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) {
+            pageItem += ` <li class="page-item ">
+                            <button class="page-link" data-link="${v.url}" > ${v.label}</button>
+                        </li>`;
         }
-    });
+    })
 
     // render nút về trang đầu trang cuối
     var renderPrev = "";
     var renderNext = "";
-    if (links.last_page > 3) {
-        if (links.current_page !== 1 && links.current_page > 3) {
-            renderPrev += ` <li className = "page-item">
-                                <button class="page-link" data-link="${links.links[links.from].url}">&laquo;</button>
-                            </li >`;
+    if (pageState.last_page > 3) {
+        if (pageState.current_page !== 1 && pageState.current_page > 3) {
+            renderPrev =
+                `<li class="page-item"><button class="page-link" data-link="${links.links[0].url}" > Trang đầu</button></li>`
+
         }
-        if (links.current_page !== links.last_page && links.current_page + 2 < links.last_page) {
-            renderNext += `<li class="page-item">
-                                <button class="page-link" data-link="${links.links[links.last_page].url}"> &raquo; </button>
-                            </li>`
+        if (pageState.current_page !== pageState.last_page && pageState.current_page + 2 < pageState.last_page) {
+            renderNext =
+                ` <li class="page-item"><button class="page-link"  data-link="${links.links[links.last_page].url}" > Trang cuối</button></li>`
         }
     }
 
-    if (links.last_page > 1) {
-        paginate += `
-                        <span> Hiển thị từ ${ links.from }
-                        đến ${ links.to }
-                        của ${ links.total }
-                        người dùng </span>
-
-                <ul class="pagination justify-content-end" >
-                    ${ renderPrev } ${ pageItem } ${ renderNext }
-                </ul>`;
+    if (pageState.last_page > 1) {
+        paginate += ` <div class="paginate-style">
+                <nav aria-label="Page navigation example">
+                    <span>Hiện thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
+                    <ul class="pagination justify-content-end">
+                        ${renderPrev}
+                        ${pageItem}
+                        ${renderNext}
+                    </ul>
+                </nav>
+            </div>`
     } else {
-        paginate += `<div class = "paginate-style" ></div>`;
+        paginate += `<div class="paginate-style"></div>`
     }
+
 
 
     render.html(paginate);
@@ -177,7 +160,7 @@ function blockUser(id) {
         })
 
         swalWithBootstrapButtons.fire({
-            title: 'Bạn có muốn khóa tài khoản ' + data.data.name,
+            title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
             // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -391,6 +374,25 @@ function updateUser() {
     })
 }
 
+function findUser(form) {
+
+
+    var frmData = new FormData(form[0]);
+
+    var data = {
+        name: frmData.get('name'),
+        email: frmData.get('email'),
+        group: frmData.get('group'),
+        status: frmData.get('status'),
+    }
+
+    url = form.attr('action');
+
+    getUsers(url, data);
+
+
+}
+
 $(document).ready(function() {
     getUsers();
 
@@ -407,11 +409,19 @@ $(document).ready(function() {
         updateUser();
     })
 
+    $('.btn-search-user').click(function(e) {
+        e.preventDefault();
+
+        let form = $('#searchUser');
+        findUser(form);
+    })
+
+    $('.btn-reset-search-user').click(function() {
+        getUsers();
+    })
+
     $('.pagination-container').click('.page-link', function(e) {
-        // let loading = $('.loading-table');
-        // loading.toggleClass('d-none');
         let url = $(e.target).data('link');
         getUsers(url);
-        // loading.toggleClass('d-none');
     })
 })
