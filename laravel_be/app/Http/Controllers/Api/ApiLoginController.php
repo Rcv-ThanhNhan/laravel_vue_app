@@ -48,12 +48,8 @@ class ApiLoginController extends Controller
             if(!$user->is_active){
                 return response()->json(['error' => 'Tài khoản đã bị khóa']);
             }
-            $token = $user->createToken("App")->plainTextToken;
-            $user->token = $token;
-            $request->user()->forceFill([
-                'api_token' => hash('sha256', $token),
-            ])->save();
-            return new UserResource($user);
+            $user->token = $user->createToken("App")->accessToken;
+            return UserResource::make($user);
         }
         return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác']);
     }

@@ -270,7 +270,7 @@ function addUser() {
                     loading.toggleClass('d-none');
                 }
             })
-            .then(function(data) {
+            .done(function(data) {
                 loading.toggleClass('d-none');
                 if (data && data.status == 200) {
                     modal.modal('toggle');
@@ -338,7 +338,7 @@ function updateUser() {
                     loading.toggleClass('d-none');
                 }
             })
-            .then(function(data) {
+            .done(function(data) {
                 loading.toggleClass('d-none');
                 if (data && data.status == 200) {
                     modal.modal('toggle');

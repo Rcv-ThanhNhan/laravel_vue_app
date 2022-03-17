@@ -27,8 +27,9 @@ function login() {
                     if (data.error) {
                         $('.invalid-feedback-email').toggle().text(data.error);
                     } else {
-                        localStorage.setItem('user', JSON.stringify(data))
-                        window.location = '/user-management';
+                        console.log(data.data.token);
+                        // localStorage.setItem('user', JSON.stringify(data))
+                        // window.location = '/user-management';
                     }
                 }
             })
