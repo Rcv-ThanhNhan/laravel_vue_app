@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiLoginRequest;
-use App\Http\Resources\User\UserResource;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use App\Exports\CustomersExport;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
-class ApiLoginController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,17 +16,15 @@ class ApiLoginController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.customer_management');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    * @return \Illuminate\Support\Collection
+    */
+    public function export()
     {
-        //
+        return Excel::download(new CustomersExport, 'users.xlsx');
     }
 
     /**
@@ -38,21 +33,9 @@ class ApiLoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ApiLoginRequest $request)
+    public function store(Request $request)
     {
-        $email = $request->email;
-        $pwd = $request->password;
-        if(!Auth::attempt(['email' => $email, 'password' => $pwd])){
-            return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], 401);
-        }
-
-        $user = User::whereEmail($email)->first();
-        if(!$user->is_active){
-            return response()->json(['error' => 'Tài khoản đã bị khóa'], 401);
-        }
-
-        $token = $user->createToken('App')->plainTextToken;
-        return UserResource::make($user)->additional(['data' => ['token' => $token]]);
+        //
     }
 
     /**

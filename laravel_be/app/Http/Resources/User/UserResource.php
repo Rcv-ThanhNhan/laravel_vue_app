@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -22,7 +22,6 @@ class UserResource extends ResourceCollection
             'group_role' => $r->group_role,
             'is_active' => $r->is_active,
             'is_delete' => $r->is_delete,
-            'token' => $r->token,
             'created_at' => $r->created_at,
             'updated_at' => $r->updated_at,
         ];

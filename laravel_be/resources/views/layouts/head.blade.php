@@ -34,6 +34,7 @@
 
     <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/api/login.js') }}"></script>
+    <script src="{{ asset('js/api/customer.js') }}"></script>
     <script src="{{ asset('js/api/user.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
   </head>

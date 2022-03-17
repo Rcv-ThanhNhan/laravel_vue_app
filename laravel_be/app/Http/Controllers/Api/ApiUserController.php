@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApiRegisterRequest;
 
-use App\Http\Resources\UsersCollection;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UsersCollection;
+use App\Http\Resources\User\UserResource;
 
 use App\Models\User;
 
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 class ApiUserController extends Controller
 {
@@ -161,7 +161,7 @@ class ApiUserController extends Controller
      * @return void
      */
     public function userInfo(Request $request){
-        return response()->json($request->user());
+        return response()->json(auth()->user());
     }
 
     /**

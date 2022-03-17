@@ -10,8 +10,11 @@
           <a href="" class="close">&times;</a>
         </div><!-- az-header-menu-header -->
         <ul class="nav">
-          <li class="nav-item active show">
-            <a href="/home" class="nav-link" ><i class="typcn typcn-chart-area-outline" ></i> Quản lí người dùng</a>
+          <li class="nav-item">
+            <a href="{{ route('user-management.index') }}" class="nav-link" ><i class="typcn typcn-chart-area-outline" ></i> Quản lí người dùng</a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('customer-management.index') }}" class="nav-link" ><i class="fa-solid fa-users mr-2" ></i> Quản lí khách hàng</a>
           </li>
           {{-- <li class="nav-item">
             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>

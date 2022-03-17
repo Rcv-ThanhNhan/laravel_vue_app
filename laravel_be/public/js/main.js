@@ -1,5 +1,4 @@
-$(document).ready(function() {
-
+var validation = function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
 
@@ -15,4 +14,19 @@ $(document).ready(function() {
                 form.classList.add('was-validated')
             }, false)
         })
+}
+
+function activeRoute() {
+    var pgurl = window.location.href;
+    $("ul.nav > li > a").each(function() {
+        if ($(this).attr("href") == pgurl || $(this).attr("href") == '')
+            $(this).parent('li').addClass("active");
+        // $(this).parent("li").addClass("active");
+    })
+}
+
+$(document).ready(function() {
+
+    activeRoute();
+    validation()
 })

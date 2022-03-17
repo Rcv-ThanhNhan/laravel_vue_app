@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,9 @@ use App\Http\Controllers\UserController;
 
 Route::resource('/login', LoginController::class);
 
-// Route::middleware('auth:api')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/user-management', UserController::class);
+    Route::resource('/customer-management', CustomerController::class);
+    Route::get('/export-customer', [CustomerController::class, 'export'])->name('export.customer');
+    Route::get('/import-customer', [CustomerController::class, 'import']);
 // });
