@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exports\CustomersExport;
-use App\Imports\UsersImport;
+use App\Imports\CustomersImport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Models\Customer;
 
 class CustomerController extends Controller
 {
@@ -22,9 +24,37 @@ class CustomerController extends Controller
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new CustomersExport, 'users.xlsx');
+        $lstCustomer = Customer::orderBy('customer_id', 'desc')
+                                    ->Name($request)
+                                    ->Email($request)
+                                    ->Address($request)
+                                    ->IsActive($request)
+                                    ->limit(10)
+                                    ->get();
+
+        if($lstCustomer->isEmpty()){
+            return back()->with([
+                                    'isEmpty' => 'no value'
+                                ]
+                            )
+                        ->withInput($request->input());
+        }
+        return Excel::download(new CustomersExport($request), 'customer.xlsx');
+    }
+    /**
+     * Method import
+     *
+     * @param Request $request
+     *
+     * @return void
+     */
+    public function import(Request $request)
+    {
+        $import = Excel::import(new CustomersImport, $request->file('file_import')->store('tem'));
+        // dd($import);
+        return back();
     }
 
     /**

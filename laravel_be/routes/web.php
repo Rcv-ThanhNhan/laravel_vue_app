@@ -22,5 +22,5 @@ Route::resource('/login', LoginController::class);
     Route::resource('/user-management', UserController::class);
     Route::resource('/customer-management', CustomerController::class);
     Route::get('/export-customer', [CustomerController::class, 'export'])->name('export.customer');
-    Route::get('/import-customer', [CustomerController::class, 'import']);
+    Route::post('/import-customer', [CustomerController::class, 'import'])->name('import.customer');
 // });

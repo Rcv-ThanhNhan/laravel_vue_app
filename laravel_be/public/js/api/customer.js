@@ -9,7 +9,6 @@ function getCustomers(url = 'http://localhost:8000/api/customer', data = {}) {
         })
         .done((data) => {
             if (data) {
-
                 render.html(data.data);
                 navigation(data.meta);
             }
@@ -24,9 +23,11 @@ function modalAddEditCustomer(type, id) {
     var modal = $('#customerEditAddModal');
 
 
+
     var title = '';
     var action = '';
     var url = '';
+
 
     if (type == 'add') {
         resetForm(modal.find('form'))
@@ -35,7 +36,6 @@ function modalAddEditCustomer(type, id) {
         url = 'http://localhost:8000/api/customer';
 
         modal.find('form [name="email"]').prop('disabled', false);
-        addCustomer();
     }
 
     if (type == 'edit') {
@@ -60,7 +60,6 @@ function modalAddEditCustomer(type, id) {
             modal.find('form [name="number_phone"]').val(number_phone);
             modal.find('form [name="status"]').prop('checked', is_active);
 
-            updateCustomer();
         })
     }
 
@@ -80,7 +79,7 @@ function navigation(links) {
     let pageState = links;
 
     $(pageState.links).each((i, v) => {
-        if (i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) {
+        if ((i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) && v.url != null) {
             pageItem += ` <li class="page-item ">
                             <button class="page-link" data-link="${v.url}" > ${v.label}</button>
                         </li>`;
@@ -114,7 +113,7 @@ function navigation(links) {
                 </nav>
             </div>`
     } else {
-        paginate += `<div class="paginate-style"></div>`
+        paginate += `<div class="paginate-style1"></div>`
     }
 
 
@@ -307,6 +306,7 @@ function addCustomer() {
             })
     })
 
+    return;
 }
 
 function updateCustomer() {
@@ -369,6 +369,7 @@ function updateCustomer() {
                 }
             })
     })
+    return;
 }
 
 function findCustomer(form) {
@@ -377,7 +378,7 @@ function findCustomer(form) {
     var data = {
         name: frmData.get('name'),
         email: frmData.get('email'),
-        group: frmData.get('address'),
+        address: frmData.get('address'),
         status: frmData.get('status'),
     }
 
@@ -385,11 +386,79 @@ function findCustomer(form) {
 
     getCustomers(url, data);
 
+    exportCustomer(data);
 
+}
+
+function exportCustomer(data) {
+    let newUrl = '';
+    let url = new URL($('.export-customer').attr('href'));
+    if (data.name != '') {
+        url.searchParams.set('name', data.name);
+    }
+    if (data.email != '') {
+        url.searchParams.set('email', data.email);
+    }
+    if (data.address != '') {
+        url.searchParams.set('address', data.address);
+    }
+    if (data.status != '') {
+        url.searchParams.set('status', data.status);
+    }
+
+    newUrl = url.href;
+
+    $('.export-customer').attr('href', newUrl)
+}
+
+function importCustomer() {
+    var btnImport = $('.import-customer');
+    var inputFile = $('.file-import-input');
+    var formImport = $('#formImport');
+
+    btnImport.click(function() {
+        inputFile.click();
+    })
+
+    inputFile.change(function(e) {
+        let file = e.target.files[0];
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger mr-2'
+            },
+            buttonsStyling: false
+        })
+        file.extention = file.name.split('.').pop();
+
+        if (file.extention != "xlsx") {
+            swalWithBootstrapButtons.fire({
+                title: 'File không đúng định dạng',
+                icon: 'warning',
+                confirmButtonText: 'Đóng',
+            })
+            return;
+        } else {
+            swalWithBootstrapButtons.fire({
+                title: 'Đồng ý import file ' + file.name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formImport.submit();
+                }
+            })
+        }
+
+    })
 }
 
 $(document).ready(function() {
     getCustomers();
+    importCustomer();
 
     $('#lstCustomers').on('click', '.btn-block-Customer', function() {
         blockCustomer($(this).data('id'));
@@ -399,9 +468,16 @@ $(document).ready(function() {
         deleteCustomer($(this).data('id'));
     })
 
-    // $('.btn-submit').click(function() {
+    var crudCustomerRunning = false;
 
-    // })
+    document.querySelector('#customerEditAddModal').addEventListener('shown.bs.modal', function(event) {
+        if (crudCustomerRunning != true) {
+            updateCustomer();
+            addCustomer();
+        }
+
+        crudCustomerRunning = true;
+    })
 
     $('.btn-search-customer').click(function(e) {
         e.preventDefault();

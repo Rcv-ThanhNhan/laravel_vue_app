@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('api')
+<script src="{{ asset('js/api/user.js') }}"></script>
+@endsection
+
 @section('content')
 
 <div class="container my-3">

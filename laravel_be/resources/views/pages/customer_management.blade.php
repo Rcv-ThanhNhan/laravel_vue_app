@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('api')
+<script src="{{ asset('js/api/customer.js') }}"></script>
+@endsection
+
 @section('content')
 
 <div class="container my-3">
@@ -37,8 +41,14 @@
     <div class="row text-right mb-3">
         <div class="col-12 row mt-3 mx-0">
             <div class="col-md-6 d-flex px-0">
-                <button class="btn btn-success mr-2 "><i class="fa-solid fa-file-import"></i> Import CSV</button>
-                <button class="btn btn-success " type="reset"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+                <a href="{{ route('export.customer') }}" class="btn btn-success mr-2 export-customer">
+                    <i class="fa-solid fa-file-export"></i> Export CSV
+                </a>
+                <form action="{{ route('import.customer') }}"  method="POST" id="formImport" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file_import" class="file-import-input" hidden>
+                    <button class="btn btn-success import-customer" type="button"><i class="fa-solid fa-file-import"></i> Import CSV</button>
+                </form>
             </div>
             <div class="col-md-6 justify-content-end d-flex px-0">
                 <button class="btn btn-primary" onclick="modalAddEditCustomer('add')"
@@ -64,9 +74,9 @@
 
         </tbody>
       </table>
-      <div class="loading-table d-none">
+      {{-- <div class="loading-table d-none">
         <div class="spinner-border text-light" role="status"></div>
-      </div>
+      </div> --}}
     </div>
     <div class="text-right mt-3">
         <nav class="pagination-container">
@@ -135,4 +145,39 @@
 
   </div>
 
+@if (Session::has('isEmpty'))
+  <script>
+      $(document).ready(function(){
+       Swal.fire({
+            title: 'Không có dữ liệu để xuất.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Đóng',
+        });
+        })
+  </script>
+@endif
+@if($errors->getMessages())
+    @php
+        $err = '';
+        $notification = '';
+        $lastKey = array_key_last($errors->getMessages());
+        foreach ($errors->getMessages() as $k => $v){
+            $index = (int)explode(".",$k)[0] + 2;
+            $notification .= $k != $lastKey ? 'Dòng '.$index.': '.$v[0].'</br>' : 'Dòng '.$index.': '.$v[0];
+        }
+    @endphp
+
+    <script>
+        $(document).ready(function(){
+        Swal.fire({
+            title: 'Thông báo',
+            html: '{!! $notification !!}',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'Đóng',
+        });
+        })
+    </script>
+@endif
 @endsection

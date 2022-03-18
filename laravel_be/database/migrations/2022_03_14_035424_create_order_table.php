@@ -19,6 +19,7 @@ class CreateOrderTable extends Migration
             $table->integer('customer_id')->length(11);
             $table->integer('total_price')->length(11);
             $table->integer('payment_method')->length(4)->comment('1: COD, 2: Paypal, 3: GMO');
+            // $table->addColumn('integer', 'payment_method', ['length' => 50])->comment('1: COD, 2: Paypal, 3: GMO');
             $table->integer('ship_charge');
             $table->integer('tax');
             $table->datetime('order_date');
