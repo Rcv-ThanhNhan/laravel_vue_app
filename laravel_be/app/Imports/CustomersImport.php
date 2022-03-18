@@ -7,14 +7,15 @@ use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 
-class CustomersImport implements ToCollection, WithStartRow, WithValidation
+class CustomersImport implements ToCollection, WithStartRow, SkipsOnFailure
 {
-    use SkipsFailures;
+    use Importable, SkipsErrors, SkipsFailures;
 
     /**
      * @return int
@@ -31,23 +32,6 @@ class CustomersImport implements ToCollection, WithStartRow, WithValidation
     */
     public function collection(Collection $rows)
     {
-        // $rules = [
-        //     '*.1' => 'required',
-        //     '*.2' => 'required|email|unique:App\Models\Customer,email',
-        //     '*.3' => 'required|numeric',
-        //     '*.4' => 'required',
-        // ];
-
-        $messages = [
-            '*.*.required' => 'Không được bỏ trống',
-            '*.2.email' => 'Email không đúng định dạng',
-            '*.2.unique' => 'Email đã được đăng ký',
-            '*.3.numeric' => 'Số điện không đúng định dạng',
-            '*.1.min' => 'Tên quá ngắn tối thiểu :min ký tự',
-        ];
-
-        // Validator::validate($rows->toArray(), $rules, $messages);
-
         foreach ($rows as $row)
         {
             Customer::create([
@@ -77,10 +61,31 @@ class CustomersImport implements ToCollection, WithStartRow, WithValidation
     {
         return [
             '*.*.required' => 'Không được bỏ trống',
-            '*.2.email' => 'Email không đúng định dạng',
-            '*.2.unique' => 'Email đã được đăng ký',
+            '*.2.email' => 'Dòng :row Email không đúng định dạng',
+            '*.2.unique' => 'Dòng :row Email đã được đăng ký',
             '*.3.numeric' => 'Số điện không đúng định dạng',
             '*.1.min' => 'Tên quá ngắn tối thiểu :min ký tự',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function customValidationAttributes()
+    {
+        return [
+            '1' => 'name',
+            '2' => 'email',
+            '3' => 'address',
+            '4' => 'is_active',
+        ];
+    }
+
+    /**
+     * @param Failure $failures
+     */
+    public function onFailure(Failure ...$failures)
+    {
+        return $failures;
     }
 }
