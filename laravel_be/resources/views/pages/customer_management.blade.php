@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lí khách hàng')
+
 @section('api')
 <script src="{{ asset('js/api/customer.js') }}"></script>
 @endsection
@@ -22,7 +24,7 @@
       <div class="col-md">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status">
-          <option label="Chọn nhóm"></option>
+          <option label="Chọn trạng thái"></option>
           <option value="1">Đang hoạt động</option>
           <option value="0">Tạm khóa</option>
         </select>
@@ -145,6 +147,7 @@
 
   </div>
 
+
 @if (Session::has('isEmpty'))
   <script>
       $(document).ready(function(){
@@ -157,14 +160,21 @@
         })
   </script>
 @endif
-@if($errors->getMessages())
+
+@if(Session::has('failures'))
     @php
-        $err = '';
         $notification = '';
-        $lastKey = array_key_last($errors->getMessages());
-        foreach ($errors->getMessages() as $k => $v){
-            $index = (int)explode(".",$k)[0] + 2;
-            $notification .= $k != $lastKey ? 'Dòng '.$index.': '.$v[0].'</br>' : 'Dòng '.$index.': '.$v[0];
+
+        foreach (Session::get('failures') as $k => $v){
+            $index = $v->row();
+            $e = '';
+
+            $lastItem = array_key_last($v->errors());
+            foreach($v->errors() as $err){
+                $e .=  $err;
+            }
+
+            $notification .= 'Dòng '.$index.': '.$e.'</br>';
         }
     @endphp
 
@@ -173,11 +183,12 @@
         Swal.fire({
             title: 'Thông báo',
             html: '{!! $notification !!}',
-            icon: 'success',
+            icon: 'warning',
             showCancelButton: false,
             confirmButtonText: 'Đóng',
         });
         })
     </script>
 @endif
+
 @endsection

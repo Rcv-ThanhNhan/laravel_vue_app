@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Quản lí người dùng')
+
 @section('api')
 <script src="{{ asset('js/api/user.js') }}"></script>
 @endsection

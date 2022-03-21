@@ -8,14 +8,20 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithValidation;
+
 use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\SkipsOnError;
-use Maatwebsite\Excel\Concerns\SkipsErrors;
+// use Maatwebsite\Excel\Concerns\SkipsOnError;
+// use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 
-class CustomersImport implements ToCollection, WithStartRow, SkipsOnFailure
+class CustomersImport implements
+    ToCollection,
+    WithStartRow,
+    WithValidation,
+    SkipsOnFailure
 {
-    use Importable, SkipsErrors, SkipsFailures;
+    use Importable, SkipsFailures;
 
     /**
      * @return int
@@ -60,11 +66,11 @@ class CustomersImport implements ToCollection, WithStartRow, SkipsOnFailure
     public function customValidationMessages()
     {
         return [
-            '*.*.required' => 'Không được bỏ trống',
-            '*.2.email' => 'Dòng :row Email không đúng định dạng',
-            '*.2.unique' => 'Dòng :row Email đã được đăng ký',
-            '*.3.numeric' => 'Số điện không đúng định dạng',
-            '*.1.min' => 'Tên quá ngắn tối thiểu :min ký tự',
+            '*.*.required' => ':attribute không được bỏ trống',
+            '*.2.email' => ':attribute không đúng định dạng',
+            '*.2.unique' => ':attribute đã được sử dụng',
+            '*.3.numeric' => ':attribute không đúng định dạng',
+            '*.1.min' => ':attribute quá ngắn tối thiểu :min ký tự',
         ];
     }
 
@@ -74,18 +80,18 @@ class CustomersImport implements ToCollection, WithStartRow, SkipsOnFailure
     public function customValidationAttributes()
     {
         return [
-            '1' => 'name',
-            '2' => 'email',
-            '3' => 'address',
+            '1' => 'Tên khách hàng',
+            '2' => 'Email',
+            '3' => 'địa chỉ',
             '4' => 'is_active',
         ];
     }
 
-    /**
-     * @param Failure $failures
-     */
-    public function onFailure(Failure ...$failures)
-    {
-        return $failures;
-    }
+    // /**
+    //  * @param Failure $failures
+    //  */
+    // public function onFailure(Failure ...$failures)
+    // {
+    //     return $failures;
+    // }
 }

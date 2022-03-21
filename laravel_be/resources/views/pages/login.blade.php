@@ -1,4 +1,11 @@
 @extends('layouts.master')
+
+@section('title', 'Đăng nhập')
+
+@section('api')
+{{-- <script src="{{ asset('js/api/login.js') }}"></script> --}}
+@endsection
+
 @section('content')
 
 <div class="az-signin-wrapper">
@@ -9,14 +16,14 @@
         <div class="az-signin-header">
         <h2>Đăng nhập</h2>
 
-        <form action="{{ 'http://localhost:8000/api/login' }}" novalidate class="login-form needs-validation">
+        <form action="{{ route('login.store') }}" novalidate class="login-form needs-validation" method="post">
             @csrf
             <div class="form-group">
             <label>Email</label>
             <input type="email" class="form-control" placeholder="email@example.com"
                        required name="username">
             <div class="invalid-feedback invalid-feedback-email">
-
+                Email không được bỏ trống
             </div>
             </div><!-- form-group -->
             <div class="form-group">
@@ -24,17 +31,21 @@
                 <input type="password" class="form-control password-toggle" placeholder="password"
                             minlength="4" required name="password">
                 <div class="invalid-feedback invalid-feedback-password">
-
+                    Passport không được bỏ trống
                 </div>
             </div><!-- form-group -->
+            @if(Session::has('errorLogin'))
+                <div class="text-danger" style="font-size: 12px;">
+                    {{ Session::get('errorLogin') }}
+                </div>
+            @endif
             <div class="form-group ml-4">
                 <input class="form-check-input" type="checkbox" value="" id="remember" name="remember">
                 <label class="form-check-label ms-2 mb-0" for="remember">
                     Lưu mật khẩu
                 </label>
             </div>
-            <button class="btn btn-az-primary btn-block">
-                <div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div>
+            <button class="btn btn-az-primary" type="submit">
                 Đăng nhập
             </button>
         </form>

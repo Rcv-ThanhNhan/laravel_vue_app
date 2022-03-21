@@ -16,6 +16,9 @@
           <li class="nav-item">
             <a href="{{ route('customer-management.index') }}" class="nav-link" ><i class="fa-solid fa-users mr-2" ></i> Quản lí khách hàng</a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Quản lí sản phẩm</a>
+          </li>
           {{-- <li class="nav-item">
             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>
             <nav class="az-menu-sub">
@@ -62,11 +65,11 @@
               {{-- <span>Premium Member</span> --}}
             {{-- </div><!-- az-header-profile --> --}}
 
-            <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Hồ sơ</a>
-            <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
+            {{-- <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Hồ sơ</a> --}}
+            {{-- <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
             <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
-            <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
-            <a href="page-signin.html" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
+            <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a> --}}
+            <a href="{{ route('logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Đăng xuất</a>
           </div><!-- dropdown-menu -->
         </div>
       </div><!-- az-header-right -->

@@ -55,8 +55,13 @@ class CustomerController extends Controller
         $file =  $request->file('file_import')->store('tem');
         $import = new CustomersImport;
         $import->import($file);
-        dd($import->failures());
-        return back();
+
+        // dd($import->failures());
+        if($import->failures()->isNotEmpty()){
+            return back()->withFailures($import->failures());
+        }
+
+        return back()->with('success', 'Thêm khách hàng thành công');
     }
 
     /**

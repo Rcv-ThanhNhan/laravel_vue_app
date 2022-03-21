@@ -17,7 +17,7 @@
     <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
     <meta name="author" content="BootstrapDash">
 
-    <title>Azia Responsive Bootstrap 4 Dashboard Template</title>
+    <title>@yield('title')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- vendor css -->
     {{-- <link href="{{ asset('lib/fontawesome-free/css/all.min.css') }}" rel="stylesheet"> --}}
@@ -33,7 +33,8 @@
     {{-- #### API ##### --}}
 
     <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/api/login.js') }}"></script> --}}
+
     @yield('api')
+
     <script src="{{ asset('js/main.js') }}"></script>
   </head>
