@@ -27,9 +27,6 @@
             </nav>
           </li>
           <li class="nav-item">
-            <a href="chart-chartjs" class="nav-link" ><i class="typcn typcn-chart-bar-outline"></i> Charts</a>
-          </li>
-          <li class="nav-item">
             <a href="form-elements.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> Forms</a>
           </li>
           <li class="nav-item">
@@ -50,28 +47,43 @@
         </ul>
       </div><!-- az-header-menu -->
       <div class="az-header-right">
+        @if (Auth::check())
+            <div class="dropdown az-profile-menu">
+                <a href="">
+                    <span>
+                        {{ Auth::user()->name }}
+                    </span>
+                    <div class="az-img-user">
+                        <img src="{{ asset('img/faces/face1.jpg') }}" alt="">
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="az-dropdown-header d-sm-none">
+                        <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+                    </div>
+                    <div class="az-header-profile">
+                        <div class="az-img-user">
+                        <img src="{{ asset('img/faces/face1.jpg') }}" alt="">
+                        </div><!-- az-img-user -->
+                        <h6>{{ Auth::user()->name }}</h6>
+                        <span>Premium Member</span>
+                    </div><!-- az-header-profile -->
 
-        <div class="dropdown az-profile-menu">
-          <a href="" class="az-img-user"><img src="../img/faces/face1.jpg" alt=""></a>
-          <div class="dropdown-menu">
-            <div class="az-dropdown-header d-sm-none">
-              <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+                    {{-- <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Hồ sơ</a> --}}
+                    {{-- <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
+                    <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
+                    <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a> --}}
+                    <a href="{{ route('logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Đăng xuất</a>
+                </div>
             </div>
-            {{-- <div class="az-header-profile"> --}}
-              {{-- <div class="az-img-user"> --}}
-                {{-- <img src="../img/faces/face1.jpg" alt=""> --}}
-              {{-- </div><!-- az-img-user --> --}}
-              {{-- <h6>Aziana Pechon</h6> --}}
-              {{-- <span>Premium Member</span> --}}
-            {{-- </div><!-- az-header-profile --> --}}
-
-            {{-- <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Hồ sơ</a> --}}
-            {{-- <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
-            <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
-            <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a> --}}
-            <a href="{{ route('logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Đăng xuất</a>
-          </div><!-- dropdown-menu -->
-        </div>
+        @else
+            <li class="nav-item">
+            <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Đăng nhập</a>
+            </li>
+            <li class="nav-item">
+            <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Đăng ký</a>
+            </li>
+        @endif
       </div><!-- az-header-right -->
     </div><!-- container -->
   </div>

@@ -16,6 +16,9 @@ use App\Http\Controllers\ProductController;
 |
 */
 
+Route::get('/', function(){
+    return redirect()->route('login.index');
+});
 
 Route::resource('/login', LoginController::class);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

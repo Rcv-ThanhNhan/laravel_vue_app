@@ -11,6 +11,8 @@ use App\Http\Resources\Product\ProductsCollection;
 
 use App\Models\Product;
 
+use Illuminate\Support\Facades\File;
+
 class ApiProductController extends Controller
 {
     /**
@@ -21,16 +23,6 @@ class ApiProductController extends Controller
     public function index()
     {
         return new ProductsCollection(Product::orderBy('product_id', 'desc')->paginate());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -46,10 +38,9 @@ class ApiProductController extends Controller
             'product_name' => $request->name_product,
             'product_price' => $request->price_product,
             'description' => $request->desc,
-            'image' => $file_name,
+            'product_image' => $file_name,
             'is_sale' => $request->status ? $request->status : 0,
         ];
-
         if($request->file('img_product')->move ('upload/images', $file_name, 'local')){
             if(Product::create($data)){
                 return response()->json(['message' => 'Thêm sản phẩm thành công']);
@@ -70,17 +61,6 @@ class ApiProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -89,22 +69,37 @@ class ApiProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $product = Product::where('product_id', $id);
-        // if(!$product){
-        //     return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
-        // }
+        $product = Product::where('product_id', $id);
+        if(!$product){
+            return response()->json(['error' => 'Không tìm thấy sản phẩm'], 500);
+        }
 
-        // $data = [
-        //     'product_name' => $request->name,
-        //     'tel_num' => $request->number_phone,
-        //     'address' => $request->address,
-        //     'is_active' => $request->is_active ? $request->is_active : 0,
-        // ];
+        $old_file = $request->img_product_name;
+        $img = $product->first()->product_image;
+        $file_name = $old_file;
 
-        // if($product->update($data)){
-        //     return response()->json(['status' => 200, 'message' => 'Chỉnh sửa người dùng thành công']);
-        // }
-        // return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
+        if($old_file != $img){
+            if(File::exists(public_path('upload/images/'.$img))){
+                File::delete(public_path('upload/images/'.$img));
+            };
+            $new_file = $request->file('img_product');
+            $file_name = date("Y-m-d-H-i-s").'-'.$new_file->getClientOriginalName();
+
+            $request->file('img_product')->move('upload/images', $file_name, 'local');
+        }
+
+
+        $data = [
+            'product_name' => $request->name_product,
+            'product_price' => $request->price_product,
+            'description' => $request->desc,
+            'product_image' => $file_name,
+            'is_sale' => $request->status ? $request->status : 0,
+        ];
+        if($product->update($data)){
+            return response()->json(['message' => 'Chỉnh sửa người dùng thành công'], 200);
+        }
+        return response()->json(['error' => 'Chỉnh sửa người dùng thất bại'], 500);
     }
 
     /**
@@ -120,9 +115,11 @@ class ApiProductController extends Controller
             return response()->json(['error' => 'Xóa sản phẩm thất bại'], 500);
         }
 
-        $product->is_sale = !$product->is_sale;
+        if(File::exists(public_path('upload/images/'.$product->first()->product_image))){
+            File::delete(public_path('upload/images/'.$product->first()->product_image));
+        };
 
-        if($product->update()){
+        if($product->delete()){
             return response()->json(['message' => 'Xóa sản phẩm thành công'], 200);
         }
     }

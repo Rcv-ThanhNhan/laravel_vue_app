@@ -294,10 +294,12 @@ function addCustomer() {
                         $('.invalid-feedback-name').text(err.name);
                     }
                     if (err.email) {
-                        $('.invalid-feedback-email').addClass('d-block').text(err.email);
+                        $('[name="email"]')[0].setCustomValidity('Invalid field.');
+                        $('.invalid-feedback-email').text(err.email);
                     }
                     if (err.number_phone) {
-                        $('.invalid-feedback-tel').addClass('d-block').text(err.number_phone);
+                        $('[name="number_phone"]')[0].setCustomValidity('Invalid field.');
+                        $('.invalid-feedback-tel').text(err.number_phone);
                     }
                     if (err.address) {
                         $('.invalid-feedback-address').text(err.address);

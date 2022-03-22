@@ -284,7 +284,8 @@ function addUser() {
                     getUsers();
                 }
                 if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
+                    $('[name="email"]')[0].setCustomValidity('Invalid field.');
+                    $('.invalid-feedback-email').text(data.error);
                 }
             })
             .fail(function(error) {
@@ -302,10 +303,12 @@ function addUser() {
                         $('.invalid-feedback-group').text(err.group);
                     }
                     if (err.passwd) {
-                        $('.invalid-feedback-passwd').toggleClass('d-block').text(err.passwd);
+                        $('[name="passwd"]')[0].setCustomValidity('Invalid field.');
+                        $('.invalid-feedback-passwd').text(err.passwd);
                     }
                     if (err.passwd_confirm) {
-                        $('.invalid-feedback-passwd_confirm').toggleClass('d-block').text(err.passwd_confirm);
+                        $('[name="passwd_confirm"]')[0].setCustomValidity('Invalid field.');
+                        $('.invalid-feedback-passwd_confirm').text(err.passwd_confirm);
                     }
                 }
             })

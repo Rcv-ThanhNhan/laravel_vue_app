@@ -24,46 +24,51 @@ function getProducts(url = urlApi, data = {}) {
 function modalAddEditProduct(type, id) {
     var modal = $('#productEditAddModal');
 
+    resetForm(modal.find('form'));
     var title = '';
     var action = '';
     var url = '';
+    var method = '';
 
 
     if (type == 'add') {
-        // resetForm(modal.find('form'));
 
         title = 'Thêm khách sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
         url = urlApi;
+        method = 'POST'
 
-        modal.find('form [name="email"]').prop('disabled', false);
     }
 
     if (type == 'edit') {
         title = 'Chỉnh sửa sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
         url = urlApi + '/' + id;
+        method = 'POST'
 
         let productData = getProduct(id);
         productData.then(function(data) {
 
             let product = data.data;
             let name = product.product_name;
-            let price = number_format(product.product_price, 0, ',', '.');
+            let price = product.product_price;
             let description = product.description;
-            let image = product.image;
+            let image = product.product_image;
             let is_sale = product.is_sale;
+            let imgPath = window.location.origin + (image ? '/upload/images/' + image : '/img/no_image.png');
 
+            modal.find('.img-preview').attr('src', imgPath);
             modal.find('form [name="name_product"]').val(name);
             modal.find('form [name="price_product"]').val(price);
             modal.find('form [name="desc"]').val(description);
-            modal.find('form [name=""]').val(image);
+            modal.find('form [name="img_product_name"]').val(image);
             modal.find('form [name="status"]').val(is_sale).change();
 
         })
     }
 
     modal.find('form').attr('action', url);
+    modal.find('form').attr('method', method);
     modal.find('form').attr('data-type', type);
     modal.find('.modal-title').text(title);
     modal.find('.btn-submit').html(action);
@@ -122,8 +127,11 @@ function navigation(links) {
 }
 
 function resetForm(form) {
-    form.removeClass('was-validated')
+    form.removeClass('was-validated');
     $(form).find("input").each(function() {
+        $(this).val("");
+    });
+    $(form).find("textarea").each(function() {
         $(this).val("");
     });
     $(form).find('select').prop("selectedIndex", 0);
@@ -193,34 +201,36 @@ function deleteProduct(id) {
     })
 }
 
-function addProduct() {
-    var modal = $('#productEditAddModal');
+function removeFileFromFileList() {
+    // const dt = new DataTransfer();
+    // const input = $('[name="img_product"]');
 
-    var form = modal.find('form[data-type="add"]');
+    // console.log(dt.files);
+    // input.files = dt.files;
+    // console.log(input.prop('files'), input.files)
+    console.log('not work');
+}
 
+
+function addEditProduct(form) {
     form.submit(function(e) {
         e.preventDefault();
 
+        var url = $(this).attr('action');
+        var method = $(this).attr('method');
+
         var frmData = new FormData(this);
+        frmData.append('_method', 'PATCH');
+
         var loading = $('.loading-submit');
 
-        // var data = {
-        //     product_name: frmData.get('name_product'),
-        //     product_price: frmData.get('price_product'),
-        //     desc: frmData.get('desc'),
-        //     status: frmData.get('status'),
-        //     // image: frmData.get('img_product'),
-        // }
-
-        frmData.append('attrachment', frmData.get('img_product'));
-
-
         $.ajax({
-                url: form.attr('action'),
-                method: 'post',
+                url: url,
+                method: method,
                 data: frmData,
                 contentType: false,
                 processData: false,
+                cache: false,
                 beforeSend: function() {
                     loading.toggleClass('d-none');
                 }
@@ -228,7 +238,7 @@ function addProduct() {
             .done(function(data) {
                 loading.toggleClass('d-none');
                 if (data) {
-                    modal.modal('toggle');
+                    $('#productEditAddModal').modal('toggle');
                     resetForm(form);
                     Swal.fire({
                         icon: 'success',
@@ -238,90 +248,25 @@ function addProduct() {
                     });
                     getProducts();
                 }
-                if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
-                }
             })
             .fail(function(error) {
                 var err = error.responseJSON.errors;
                 loading.toggleClass('d-none');
-                // console.log(error.responseJSON, error);
                 if (err) {
                     if (err.name_product) {
+
                         $('.invalid-feedback-name_product').text(err.name_product);
                     }
                     if (err.price_product) {
+                        $('[name="price_product"]')[0].setCustomValidity('Invalid field.');
                         $('.invalid-feedback-price_product').text(err.price_product);
                     }
                 }
             })
+        return;
     })
-
-    return;
 }
 
-function updateProduct() {
-    var modal = $('#customerEditAddModal');
-
-    var form = modal.find('form[data-type="edit"]');
-
-    form.submit(function(e) {
-        e.preventDefault();
-        var frmData = new FormData(this);
-        var loading = $('.loading-submit');
-
-        var data = {
-            name: frmData.get('name'),
-            email: frmData.get('email'),
-            number_phone: frmData.get('number_phone'),
-            address: frmData.get('address'),
-            active: frmData.get('status'),
-        }
-
-        $.ajax({
-                url: form.attr('action'),
-                method: 'PATCH',
-                data: data,
-                beforeSend: function() {
-                    loading.toggleClass('d-none');
-                }
-            })
-            .done(function(data) {
-                loading.toggleClass('d-none');
-                if (data && data.status == 200) {
-                    modal.modal('toggle');
-                    resetForm(form);
-                    Swal.fire({
-                        icon: 'success',
-                        title: data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    getProducts();
-                }
-                if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
-                }
-            })
-            .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
-
-                if (err) {
-                    if (err.Customername) {
-                        $('.invalid-feedback-Customername').text(err.Customername);
-                    }
-                    if (err.email) {
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.group) {
-                        $('.invalid-feedback-group').text(err.group);
-                    }
-                }
-            })
-    })
-    return;
-}
 
 function findProduct(form) {
     var frmData = new FormData(form[0]);
@@ -364,9 +309,15 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 function previewImage(file, render) {
     var reader = new FileReader();
-
+    if (file.size > 1024000) {
+        return Swal.fire({
+            title: 'Dung lượng ảnh phải nhỏ hơn 1MB',
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonText: 'Đóng',
+        });
+    }
     reader.onload = function() {
-        console.log(render.src);
         render.attr('src', reader.result);
     }
 
@@ -378,22 +329,15 @@ function previewImage(file, render) {
 $(document).ready(function() {
     getProducts();
 
-
     $('#lstProducts').on('click', '.btn-delete-product', function() {
         deleteProduct($(this).data('id'));
     })
 
-    // kiểm tra các hàm Add/edit có đang chạy không
-    var crudProductRunning = false;
 
     // gọi hàm khi modal hiện ra
-    document.querySelector('#productEditAddModal').addEventListener('shown.bs.modal', function(event) {
-        if (crudProductRunning != true) {
-            updateProduct();
-            addProduct();
-        }
-
-        crudProductRunning = true;
+    $('.btn-submit').one("click", function() {
+        var form = $(this).closest('form');
+        addEditProduct(form);
     })
 
     // nút tìm kiếm
@@ -426,14 +370,7 @@ $(document).ready(function() {
         previewImage(file, render)
     })
 
-    // over mouse chuột vào mã sản phẩm thì show hình ảnh sản phẩm
-    $('#lstProducts').mouseover('.show-image', function(e) {
-        if ($(e.target).data('id')) {
-            var id = $(e.target).data('id');
-            var imgPath = window.location.origin + '/image/no_image.png';
-            getProduct(id).then(function(data) {
-
-            })
-        }
+    $('[for="destroyImage"]').click(function() {
+        removeFileFromFileList();
     })
 })

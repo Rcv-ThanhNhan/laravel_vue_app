@@ -43,3 +43,42 @@ button[type=reset] {
     padding-left: 0;
     padding-right: 0;
 }
+
+
+/* show image when hover */
+
+.product-code {
+    position: relative;
+}
+
+#lstProducts tr .product-code:hover {
+    color: #5b47fb;
+    cursor: pointer;
+}
+
+#lstProducts tr .product-code:hover .image-product-container {
+    display: block;
+}
+
+#lstProducts tr .product-code .image-product-container {
+    display: none;
+    transition: all 0.1s ease;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+#lstProducts tr .product-code .image-product-container img {
+    width: 100%;
+    height: 100%;
+}
+
+#lstProducts tr:first-child .product-code .image-product-container {
+    bottom: -40px;
+}
+
+#lstProducts tr:last-child .product-code .image-product-container {
+    bottom: 5px;
+}
