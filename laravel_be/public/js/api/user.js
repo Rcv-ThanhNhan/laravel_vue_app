@@ -1,11 +1,19 @@
-function getUsers(url = 'http://localhost:8000/api/user', data = {}) {
+var urlApi = 'http://127.0.0.1:8000/api/user';
+
+function getUsers(url = urlApi, data = {}) {
 
     var render = $('#lstUsers');
 
     $.ajax({
             url: url,
             method: "get",
-            data: data
+            data: data,
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
         })
         .done((data) => {
             if (data) {
@@ -27,12 +35,14 @@ function modalAddEditUser(type, id) {
     var title = '';
     var action = '';
     var url = '';
+    var method = '';
 
     if (type == 'add') {
         resetForm(modal.find('form'))
         title = 'Thêm user';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
-        url = 'http://localhost:8000/api/user';
+        url = urlApi;
+        method = 'POST';
 
         modal.find('form [name="passwd_confirm"]').closest('.mb-3').removeClass('d-none');
         modal.find('form [name="passwd"]').closest('.mb-3').removeClass('d-none');
@@ -42,7 +52,8 @@ function modalAddEditUser(type, id) {
     if (type == 'edit') {
         title = 'Chỉnh sửa user';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
-        url = 'http://localhost:8000/api/user/' + id;
+        url = urlApi + '/' + id;
+        method = 'PATCH';
 
         modal.find('form [name="passwd_confirm"]').closest('.mb-3').addClass('d-none');
         modal.find('form [name="passwd"]').closest('.mb-3').addClass('d-none');
@@ -63,8 +74,9 @@ function modalAddEditUser(type, id) {
         })
     }
 
-    modal.find('form').attr('action', url);
-    modal.find('form').attr('data-type', type);
+    var form = modal.find('form');
+    form.attr('action', url);
+    form.attr('data-type', type);
     modal.find('.modal-title').text(title);
     modal.find('.btn-submit').html(action);
 
@@ -132,7 +144,7 @@ function resetForm(form) {
 
 function getUser(id) {
 
-    var url = 'http://localhost:8000/api/user/' + id;
+    var url = urlApi + '/' + id;
 
     var user = $.ajax({
             url: url,
@@ -169,7 +181,7 @@ function blockUser(id) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                var url = 'http://localhost:8000/api/user/update-status';
+                var url = urlApi + '/update-status';
 
                 $.ajax({
                         url: url,
@@ -217,7 +229,7 @@ function deleteUser(id) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                var url = 'http://localhost:8000/api/user/' + id;
+                var url = urlApi + '/' + id;
 
                 $.ajax({
                         url: url,
@@ -242,13 +254,12 @@ function deleteUser(id) {
     })
 }
 
-function addUser() {
-    var modal = $('#UserEditAddModal');
-
-    var form = modal.find('form[data-type="add"]');
-
+function addUser(form) {
     form.submit(function(e) {
         e.preventDefault();
+
+        var url = $(this).attr('action');
+        var method = $(this).attr('method');
 
         var frmData = new FormData(this);
         var loading = $('.loading-submit');
@@ -263,8 +274,8 @@ function addUser() {
         }
 
         $.ajax({
-                url: form.attr('action'),
-                method: 'post',
+                url: url,
+                method: method,
                 data: data,
                 beforeSend: function() {
                     loading.toggleClass('d-none');
@@ -316,66 +327,6 @@ function addUser() {
 
 }
 
-function updateUser() {
-    var modal = $('#UserEditAddModal');
-
-    var form = modal.find('form[data-type="edit"]');
-
-    form.submit(function(e) {
-        e.preventDefault();
-        var frmData = new FormData(this);
-        var loading = $('.loading-submit');
-
-        var data = {
-            username: frmData.get('username'),
-            email: frmData.get('email'),
-            group: frmData.get('group'),
-            is_active: frmData.get('status'),
-        }
-
-        $.ajax({
-                url: form.attr('action'),
-                method: 'PATCH',
-                data: data,
-                beforeSend: function() {
-                    loading.toggleClass('d-none');
-                }
-            })
-            .done(function(data) {
-                loading.toggleClass('d-none');
-                if (data && data.status == 200) {
-                    modal.modal('toggle');
-                    resetForm(form);
-                    Swal.fire({
-                        icon: 'success',
-                        title: data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    getUsers();
-                }
-                if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
-                }
-            })
-            .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
-
-                if (err) {
-                    if (err.username) {
-                        $('.invalid-feedback-username').text(err.username);
-                    }
-                    if (err.email) {
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.group) {
-                        $('.invalid-feedback-group').text(err.group);
-                    }
-                }
-            })
-    })
-}
 
 function findUser(form) {
 
@@ -408,8 +359,8 @@ $(document).ready(function() {
     })
 
     $('.btn-submit').click(function() {
-        addUser();
-        updateUser();
+        var form = $(this).closest('form');
+        addEditUser(form);
     })
 
     $('.btn-search-user').click(function(e) {

@@ -87,7 +87,7 @@ class ApiCustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApiCustomerRequest $request, $id)
     {
         $customer = Customer::where('customer_id', $id);
         if(!$customer){
@@ -103,13 +103,13 @@ class ApiCustomerController extends Controller
             'customer_name' => $request->name,
             'tel_num' => $request->number_phone,
             'address' => $request->address,
-            'is_active' => $request->is_active ? $request->is_active : 0,
+            'is_active' => $request->is_active ? $request->is_active : 1,
         ];
 
         if($customer->update($data)){
-            return response()->json(['status' => 200, 'message' => 'Chỉnh sửa người dùng thành công']);
+            return response()->json(['message' => 'Chỉnh sửa người dùng thành công']);
         }
-        return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
+        return response()->json(['error' => 'Chỉnh sửa người dùng thất bại'], 500);
     }
 
     /**

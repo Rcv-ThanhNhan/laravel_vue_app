@@ -1,11 +1,19 @@
-function getCustomers(url = 'http://localhost:8000/api/customer', data = {}) {
+var urlApi = 'http://127.0.0.1:8000/api/customer';
+
+function getCustomers(url = urlApi, data = {}) {
 
     var render = $('#lstCustomers');
 
     $.ajax({
             url: url,
             method: "get",
-            data: data
+            data: data,
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
         })
         .done((data) => {
             if (data) {
@@ -22,18 +30,18 @@ function getCustomers(url = 'http://localhost:8000/api/customer', data = {}) {
 function modalAddEditCustomer(type, id) {
     var modal = $('#customerEditAddModal');
 
-
-
     var title = '';
     var action = '';
     var url = '';
+    var method = '';
 
 
     if (type == 'add') {
         resetForm(modal.find('form'))
         title = 'Thêm khách hàng';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
-        url = 'http://localhost:8000/api/customer';
+        url = urlApi;
+        method = 'POST';
 
         modal.find('form [name="email"]').prop('disabled', false);
     }
@@ -41,7 +49,8 @@ function modalAddEditCustomer(type, id) {
     if (type == 'edit') {
         title = 'Chỉnh sửa khách hàng';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
-        url = 'http://localhost:8000/api/customer/' + id;
+        url = urlApi + '/' + id;
+        method = 'PATCH'
 
         modal.find('form [name="email"]').prop('disabled', true);
 
@@ -63,8 +72,10 @@ function modalAddEditCustomer(type, id) {
         })
     }
 
-    modal.find('form').attr('action', url);
-    modal.find('form').attr('data-type', type);
+    var form = modal.find('form');
+    form.attr('action', url);
+    form.attr('method', method);
+    form.attr('data-type', type);
     modal.find('.modal-title').text(title);
     modal.find('.btn-submit').html(action);
 
@@ -131,7 +142,7 @@ function resetForm(form) {
 
 function getCustomer(id) {
 
-    var url = 'http://localhost:8000/api/customer/' + id;
+    var url = urlApi + '/' + id;
 
     var customer = $.ajax({
             url: url,
@@ -168,7 +179,7 @@ function blockCustomer(id) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                var url = 'http://localhost:8000/api/customer/update-status';
+                var url = urlApi + '/update-status';
 
                 $.ajax({
                         url: url,
@@ -216,7 +227,7 @@ function deleteCustomer(id) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                var url = 'http://localhost:8000/api/customer/' + id;
+                var url = urlApi + '/' + id;
 
                 $.ajax({
                         url: url,
@@ -241,13 +252,12 @@ function deleteCustomer(id) {
     })
 }
 
-function addCustomer() {
-    var modal = $('#customerEditAddModal');
-
-    var form = modal.find('form[data-type="add"]');
-
+function addEditCustomer(form) {
     form.submit(function(e) {
         e.preventDefault();
+
+        var url = $(this).attr('action');
+        var method = $(this).attr('method');
 
         var frmData = new FormData(this);
         var loading = $('.loading-submit');
@@ -261,8 +271,8 @@ function addCustomer() {
         }
 
         $.ajax({
-                url: form.attr('action'),
-                method: 'post',
+                url: url,
+                method: method,
                 data: data,
                 beforeSend: function() {
                     loading.toggleClass('d-none');
@@ -311,66 +321,91 @@ function addCustomer() {
     return;
 }
 
-function updateCustomer() {
-    var modal = $('#customerEditAddModal');
+function toggleEditCustomer(e) {
+    var row = $(e.target).closest('tr');
 
-    var form = modal.find('form[data-type="edit"]');
+    var input = row.find('input');
+    var text = row.find('span');
 
-    form.submit(function(e) {
-        e.preventDefault();
-        var frmData = new FormData(this);
-        var loading = $('.loading-submit');
-
-        var data = {
-            name: frmData.get('name'),
-            email: frmData.get('email'),
-            number_phone: frmData.get('number_phone'),
-            address: frmData.get('address'),
-            active: frmData.get('status'),
-        }
-
-        $.ajax({
-                url: form.attr('action'),
-                method: 'PATCH',
-                data: data,
-                beforeSend: function() {
-                    loading.toggleClass('d-none');
-                }
-            })
-            .done(function(data) {
-                loading.toggleClass('d-none');
-                if (data && data.status == 200) {
-                    modal.modal('toggle');
-                    resetForm(form);
-                    Swal.fire({
-                        icon: 'success',
-                        title: data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    getCustomers();
-                }
-                if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
-                }
-            })
-            .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
-
-                if (err) {
-                    if (err.Customername) {
-                        $('.invalid-feedback-Customername').text(err.Customername);
-                    }
-                    if (err.email) {
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.group) {
-                        $('.invalid-feedback-group').text(err.group);
-                    }
-                }
-            })
+    input.each(function() {
+        $(this).toggleClass('d-none');
     })
+
+    row.find('.btn-edit').toggleClass('d-none');
+    row.find('.edit-customer').toggleClass('d-none');
+
+    text.each(function() {
+        $(this).toggleClass('d-none');
+    })
+
+    $('.valid-field').each(function() {
+        $(this).removeClass('show')
+    })
+}
+
+function saveCustomer(e, id) {
+    var row = $(e.target).closest('tr');
+
+    var input = row.find('input');
+
+    const data = {
+        name: $(input[0]).val(),
+        email: $(input[1]).val(),
+        address: $(input[2]).val(),
+        number_phone: $(input[3]).val(),
+        _method: 'PATCH'
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+            url: urlApi + '/' + id,
+            method: 'post',
+            data: data
+        })
+        .done(function(data) {
+            if (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                getCustomers();
+            }
+        })
+        .fail(function(error) {
+            var err = error.responseJSON.errors;
+            if (err) {
+                if (err.name) {
+                    row.find('.valid-field-name').addClass('show').text(err.name);
+                } else {
+                    row.find('.valid-field-name').removeClass('show')
+                }
+
+                if (err.email) {
+                    row.find('.valid-field-email').addClass('show').text(err.email);
+                } else {
+                    row.find('.valid-field-email').removeClass('show')
+                }
+
+                if (err.address) {
+                    row.find('.valid-field-address').addClass('show').text(err.address);
+                } else {
+                    row.find('.valid-field-address').removeClass('show')
+                }
+
+                if (err.number_phone) {
+                    row.find('.valid-field-number_phone').addClass('show').text(err.number_phone);
+                } else {
+                    row.find('.valid-field-number_phone').removeClass('show')
+                }
+            }
+        })
     return;
 }
 
@@ -470,15 +505,9 @@ $(document).ready(function() {
         deleteCustomer($(this).data('id'));
     })
 
-    var crudCustomerRunning = false;
-
-    document.querySelector('#customerEditAddModal').addEventListener('shown.bs.modal', function(event) {
-        if (crudCustomerRunning != true) {
-            updateCustomer();
-            addCustomer();
-        }
-
-        crudCustomerRunning = true;
+    $('.btn-submit').one("click", function() {
+        var form = $(this).closest('form');
+        addEditCustomer(form);
     })
 
     $('.btn-search-customer').click(function(e) {
@@ -496,4 +525,7 @@ $(document).ready(function() {
         let url = $(e.target).data('link');
         getCustomers(url);
     })
+
+
+
 })

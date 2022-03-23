@@ -43,7 +43,8 @@ class LoginController extends Controller
         $email = $request->username;
         $pwd = $request->password;
         $remember = $request->remember ? true : false;
-        if(Auth::attempt(['email' => $email, 'password' => $pwd])){
+
+        if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
             return redirect()->route('user-management.index');
         }
         return back()->with('errorLogin', 'Tên tài khoản hoặc mật khẩu không chính xác');

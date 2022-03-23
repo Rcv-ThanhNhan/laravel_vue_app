@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\ApiProductController;
 
 Route::apiResources([
     '/register' => RegisterController::class,
-    '/login' => ApiLoginController::class,
+    '/login-api' => ApiLoginController::class,
     '/user' => ApiUserController::class,
     '/customer' => ApiCustomerController::class,
     '/product' => ApiProductController::class,

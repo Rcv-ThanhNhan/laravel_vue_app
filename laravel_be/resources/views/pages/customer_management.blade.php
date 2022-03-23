@@ -3,7 +3,7 @@
 @section('title', 'Quản lí khách hàng')
 
 @section('api')
-<script src="{{ asset('js/api/customer.js') }}"></script>
+    <script src="{{ asset('js/api/customer.js') }}"></script>
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
     <h2 class="title-page mb-3">
       Quản lí khách hàng
     </h2>
-    <form action="http://localhost:8000/api/search-customer" class="row row-sm mb-3" id="searchCustomer">
+    <form action="{{ env('APP_API').'/search-customer' }}" class="row row-sm mb-3" id="searchCustomer">
       <div class="col-md">
         <label for="">Tên</label>
         <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
@@ -89,6 +89,7 @@
     <div class="modal fade" id="customerEditAddModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <form class="modal-content needs-validation" novalidate >
+            @csrf
           <div class="modal-header">
             <h5 class="modal-title"></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

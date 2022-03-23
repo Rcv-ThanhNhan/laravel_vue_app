@@ -21,12 +21,10 @@ function activeRoute() {
     $("ul.nav > li > a").each(function() {
         if ($(this).attr("href") == pgurl || $(this).attr("href") == '')
             $(this).parent('li').addClass("active");
-        // $(this).parent("li").addClass("active");
     })
 }
 
 $(document).ready(function() {
-
     activeRoute();
     validation()
 })

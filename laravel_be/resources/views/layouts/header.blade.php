@@ -1,3 +1,5 @@
+@if (Auth::check())
+
 <div class="az-header">
     <div class="container">
       <div class="az-header-left">
@@ -76,14 +78,8 @@
                     <a href="{{ route('logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Đăng xuất</a>
                 </div>
             </div>
-        @else
-            <li class="nav-item">
-            <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Đăng nhập</a>
-            </li>
-            <li class="nav-item">
-            <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Đăng ký</a>
-            </li>
         @endif
       </div><!-- az-header-right -->
     </div><!-- container -->
   </div>
+  @endif

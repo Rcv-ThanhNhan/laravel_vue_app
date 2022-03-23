@@ -32,11 +32,11 @@ function modalAddEditProduct(type, id) {
 
 
     if (type == 'add') {
-
+        resetForm(modal.find('form'))
         title = 'Thêm khách sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
         url = urlApi;
-        method = 'POST'
+        method = 'POST';
 
     }
 
@@ -208,7 +208,7 @@ function removeFileFromFileList() {
     // console.log(dt.files);
     // input.files = dt.files;
     // console.log(input.prop('files'), input.files)
-    console.log('not work');
+    alert('not work');
 }
 
 
@@ -334,7 +334,7 @@ $(document).ready(function() {
     })
 
 
-    // gọi hàm khi modal hiện ra
+    // Chỉnh sửa/thêm
     $('.btn-submit').one("click", function() {
         var form = $(this).closest('form');
         addEditProduct(form);

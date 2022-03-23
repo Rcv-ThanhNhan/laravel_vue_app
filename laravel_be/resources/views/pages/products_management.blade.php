@@ -12,7 +12,7 @@
     <h2 class="title-page mb-3">
       Quản lí sản phẩm
     </h2>
-    <form action="http://localhost:8000/api/search-product" class="row row-sm mb-3" id="searchProduct">
+    <form action="{{ env('APP_API').'/search-product' }}" class="row row-sm mb-3" id="searchProduct">
       <div class="col-md-3">
         <label for="">Tên sản phẩm</label>
         <input class="form-control" placeholder="Tên sản phẩm..." type="text" name="name_product">

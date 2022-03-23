@@ -12,7 +12,7 @@
     <h2 class="title-page mb-3">
       Quản lí người dùng
     </h2>
-    <form action="http://localhost:8000/api/search-user" class="row row-sm mb-3" id="searchUser">
+    <form action="{{ env('APP_API').'/search-user' }}" class="row row-sm mb-3" id="searchUser">
       <div class="col-md">
         <label for="">Tên</label>
         <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
@@ -67,9 +67,6 @@
 
         </tbody>
       </table>
-      <div class="loading-table d-none">
-        <div class="spinner-border text-light" role="status"></div>
-      </div>
     </div>
     <div class="text-right mt-3">
         <nav class="pagination-container">

@@ -82,3 +82,18 @@ button[type=reset] {
 #lstProducts tr:last-child .product-code .image-product-container {
     bottom: 5px;
 }
+
+.w-p-100 {
+    width: 100px;
+}
+
+.valid-field {
+    font-size: 12px;
+    font-style: italic;
+    display: none;
+    margin-top: 3px;
+}
+
+.show.valid-field {
+    display: block;
+}
