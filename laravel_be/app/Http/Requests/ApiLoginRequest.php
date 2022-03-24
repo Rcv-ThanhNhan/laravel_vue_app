@@ -25,7 +25,7 @@ class ApiLoginRequest extends FormRequest
     {
         return [
 
-            'email' => 'required|email:rfc,dns',
+            'username' => 'required|email:rfc,dns',
             'password' => 'required|between:4, 32'
         ];
     }
@@ -34,7 +34,7 @@ class ApiLoginRequest extends FormRequest
     {
         return [
             '*.required' => 'Trường không được bỏ trống',
-            'email.email' => 'Email không đúng định dạng',
+            'username.email' => 'Email không đúng định dạng',
             'password.between' => 'Mật khẩu phải lớn hơn :min và nhỏ hơn :max',
         ];
     }

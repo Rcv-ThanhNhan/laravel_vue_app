@@ -68,7 +68,7 @@ class ApiProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApiProductRequest $request, $id)
     {
         $product = Product::where('product_id', $id);
         if(!$product){
@@ -78,7 +78,6 @@ class ApiProductController extends Controller
         $old_file = $request->img_product_name;
         $img = $product->first()->product_image;
         $file_name = $old_file;
-        dd($old_file, $img);
         if($old_file != $img && $old_file != null){
             if(File::exists(public_path('upload/images/'.$img))){
                 File::delete(public_path('upload/images/'.$img));
@@ -88,7 +87,6 @@ class ApiProductController extends Controller
 
             $request->file('img_product')->move('upload/images', $file_name, 'local');
         }
-
 
         $data = [
             'product_name' => $request->name_product,

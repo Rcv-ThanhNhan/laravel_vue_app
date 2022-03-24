@@ -24,7 +24,15 @@ function activeRoute() {
     })
 }
 
+function setMaxlength(ele) {
+    if (ele.val().length >= ele.attr('maxlength'))
+        ele.val(ele.val().slice(0, ele.attr('maxlength')));
+}
 $(document).ready(function() {
     activeRoute();
     validation()
+
+    $('[maxlength][type="number"]').on('input', function() {
+        setMaxlength($(this))
+    })
 })

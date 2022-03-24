@@ -76,13 +76,17 @@ button[type=reset] {
     height: 100%;
 }
 
-#lstProducts tr:first-child .product-code .image-product-container {
-    bottom: -40px;
-}
-
 #lstProducts tr:last-child .product-code .image-product-container {
     bottom: 5px;
 }
+
+#lstProducts tr:first-child .product-code .image-product-container,
+#lstProducts tr:nth-child(1) .product-code .image-product-container {
+    bottom: -40px;
+}
+
+
+/* ================= */
 
 .w-p-100 {
     width: 100px;
@@ -97,4 +101,11 @@ button[type=reset] {
 
 .show.valid-field {
     display: block;
+}
+
+.invalid-text {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
 }

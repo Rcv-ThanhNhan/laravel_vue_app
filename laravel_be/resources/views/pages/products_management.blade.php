@@ -96,7 +96,7 @@
                 <div class="mb-3 row  mx-0 align-items-center">
                 <label class="form-label col-4">Giá bán</label>
                 <div class="col-8 px-0">
-                    <input type="number" class="form-control" name="price_product" placeholder="1000000" required>
+                    <input type="number" class="form-control" name="price_product" placeholder="1000000" maxlength="11" required>
                     <div class="invalid-feedback invalid-feedback-price_product">
                     </div>
                 </div>

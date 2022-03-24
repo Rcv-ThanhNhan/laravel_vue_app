@@ -20,7 +20,7 @@ class ApiLoginController extends Controller
      */
     public function store(ApiLoginRequest $request)
     {
-        $email = $request->email;
+        $email = $request->username;
         $pwd = $request->password;
         if(!Auth::attempt(['email' => $email, 'password' => $pwd])){
             return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], 401);

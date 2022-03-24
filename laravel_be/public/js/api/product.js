@@ -50,7 +50,7 @@ function modalAddEditProduct(type, id) {
         title = 'Chỉnh sửa sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
         url = urlApi + '/' + id;
-        method = 'PATCH'
+        method = 'POST'
 
         let productData = getProduct(id);
         productData.then(function(data) {
@@ -227,8 +227,8 @@ function addEditProduct(form) {
 
         var frmData = new FormData(this);
 
-        if (method == 'PATCH') {
-            frmData.append('_method', method);
+        if ($(this).data('type') == 'edit') {
+            frmData.append('_method', 'PATCH');
         }
 
         var loading = $('.loading-submit');

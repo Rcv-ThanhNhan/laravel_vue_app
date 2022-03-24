@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-
 <div class="az-signin-wrapper">
     <div class="az-card-signin">
         <h1 class="az-logo">
@@ -20,22 +19,34 @@
             @csrf
             <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control" placeholder="email@example.com"
+            <input type="email" class="form-control" placeholder="email@example.com" value="{{ old('username') }}"
                        required name="username">
-            <div class="invalid-feedback invalid-feedback-email">
-                Email không được bỏ trống
-            </div>
+            @if($errors->has('username'))
+                <div class="invalid-text">
+                    {{ $errors->first('username') }}
+                </div>
+            @else
+                <div class="invalid-feedback invalid-feedback-email">
+                        Email không được bỏ trống
+                </div>
+            @endif
             </div><!-- form-group -->
             <div class="form-group">
                 <label>Mật khẩu</label>
                 <input type="password" class="form-control password-toggle" placeholder="password"
                             minlength="4" required name="password">
-                <div class="invalid-feedback invalid-feedback-password">
-                    Passport không được bỏ trống
-                </div>
+                @if($errors->has('password'))
+                    <div class="invalid-text">
+                        {{ $errors->first('password') }}
+                    </div>
+                @else
+                    <div class="invalid-feedback invalid-feedback-password">
+                            Mật khẩu không được bỏ trống
+                    </div>
+                @endif
             </div><!-- form-group -->
             @if(Session::has('errorLogin'))
-                <div class="text-danger" style="font-size: 12px;">
+                <div class="invalid-text">
                     {{ Session::get('errorLogin') }}
                 </div>
             @endif
@@ -52,8 +63,23 @@
         </div><!-- az-signin-header -->
         <div class="az-signin-footer">
         <!-- <p><a href="">Quên mật khẩu?</a></p> -->
-        <p>Bạn chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký</a></p>
+        {{-- <p>Bạn chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký</a></p> --}}
         </div><!-- az-signin-footer -->
     </div><!-- az-card-signin -->
     </div>
+
+    <script>
+        $('form').submit(function(e){
+            // e.preventDefault();
+            let inputUserName = $(this).find('[name="username"]');
+            let inputPass = $(this).find('[name="password"]');
+            if(inputUserName.val() == ''){
+                return inputUserName.next('.invalid-text').text('Email không được bỏ trống')
+            }
+            if(inputPass.val() == ''){
+                return inputPass.next('.invalid-text').text('Mật khẩu không được bỏ trống')
+            }
+            // $(this).submit();
+        })
+    </script>
 @endsection
