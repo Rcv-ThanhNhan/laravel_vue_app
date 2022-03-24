@@ -327,8 +327,9 @@ function toggleEditCustomer(e) {
     var input = row.find('input');
     var text = row.find('span');
 
-    input.each(function() {
+    input.each(function(i) {
         $(this).toggleClass('d-none');
+        if ($(this).val() == '') { $(this).val($(text[i]).text()) };
     })
 
     row.find('.btn-edit').toggleClass('d-none');
@@ -525,7 +526,4 @@ $(document).ready(function() {
         let url = $(e.target).data('link');
         getCustomers(url);
     })
-
-
-
 })

@@ -12,6 +12,7 @@ class Product extends Model
     protected $perPage = 10;
 
     protected $fillable = [
+        'product_id',
         'product_name',
         'product_image',
         'product_price',

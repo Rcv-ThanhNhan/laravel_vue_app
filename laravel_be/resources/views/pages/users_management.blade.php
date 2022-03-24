@@ -136,7 +136,8 @@
                     Trạng thái
                 </label>
                 <div class="col-8">
-                    <input class="form-check-input p-0" style="margin-top: -10px" type="checkbox" value="1" name="status" id="labelAcitve">
+                    <input class="form-check-input p-0" style="margin-top: -10px" type="checkbox"
+                           name="status" id="labelAcitve">
                 </div>
             </div>
           </div>

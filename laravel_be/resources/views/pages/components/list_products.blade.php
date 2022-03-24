@@ -11,7 +11,7 @@
     <tr>
         <th scope="row">{{ $index }}</th>
         <td class="product-code">
-            {{ $v->code }}
+            {{ $v->product_id }}
             <div class="image-product-container">
                 <img src="{{ $v->product_image ? asset('upload/images/'.$v->product_image) : asset('img/no_image.png') }}" alt="">
             </div>

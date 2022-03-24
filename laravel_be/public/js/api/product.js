@@ -1,4 +1,4 @@
-var urlApi = 'http://localhost:8000/api/product';
+var urlApi = 'http://127.0.0.1:8000/api/product';
 
 function getProducts(url = urlApi, data = {}) {
 
@@ -7,7 +7,13 @@ function getProducts(url = urlApi, data = {}) {
     $.ajax({
             url: url,
             method: "get",
-            data: data
+            data: data,
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
         })
         .done((data) => {
             if (data) {
@@ -44,7 +50,7 @@ function modalAddEditProduct(type, id) {
         title = 'Chỉnh sửa sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
         url = urlApi + '/' + id;
-        method = 'POST'
+        method = 'PATCH'
 
         let productData = getProduct(id);
         productData.then(function(data) {
@@ -220,10 +226,19 @@ function addEditProduct(form) {
         var method = $(this).attr('method');
 
         var frmData = new FormData(this);
-        frmData.append('_method', 'PATCH');
+
+        if (method == 'PATCH') {
+            frmData.append('_method', method);
+        }
 
         var loading = $('.loading-submit');
 
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.ajax({
                 url: url,
                 method: method,

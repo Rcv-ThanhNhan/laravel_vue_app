@@ -26,16 +26,6 @@ class ApiUserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  App\Http\Requests\ApiRegisterRequest  $request
@@ -45,7 +35,7 @@ class ApiUserController extends Controller
     {
         $userCheck = User::whereEmail($request->email)->where('is_delete', 0)->first();
         if($userCheck){
-            return response()->json(['status' => 500, 'error' => 'Email đã tồn tại']);
+            return response()->json(['error' => 'Email đã tồn tại'], 500);
         }
         $data = [
             'name' => $request->username,
@@ -55,9 +45,9 @@ class ApiUserController extends Controller
             'is_active' => $request->is_active ? $request->is_active : 0,
         ];
         if(User::create($data)){
-            return response()->json(['status' => 200, 'message' => 'Thêm người dùng thành công']);
+            return response()->json(['message' => 'Thêm người dùng thành công']);
         }
-        return response()->json(['status' => 500, 'error' => 'Thêm người dùng thất bại']);
+        return response()->json(['error' => 'Thêm người dùng thất bại'], 500);
     }
 
     /**
@@ -70,17 +60,6 @@ class ApiUserController extends Controller
     {
         return response()->json(['data' => User::find($id)]);
         // return UserResource::make(User::findOrFail($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // return UserResource::make(User::find($id));
     }
 
     /**
@@ -176,6 +155,7 @@ class ApiUserController extends Controller
                     ->Email($request)
                     ->Group($request)
                     ->IsActive($request)
+                    ->where('is_delete', 0)
                     ->orderBy('id', 'desc')
                     ->paginate();
 

@@ -21,6 +21,9 @@ Route::get('/', function(){
 });
 
 Route::resource('/login', LoginController::class);
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register', [LoginController::class, 'register'])->name('register.store');
+
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {

@@ -26,7 +26,7 @@ class ApiCustomerRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email:rfc,dns',
             'number_phone' => 'required|numeric|digits_between:8, 12',
         ];
     }

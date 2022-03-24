@@ -35,6 +35,7 @@ class ApiProductController extends Controller
     {
         $file_name = date("Y-m-d-H-i-s").'-'.$request->file('img_product')->getClientOriginalName();
         $data = [
+            'product_id' => createIdProduct($request->name_product),
             'product_name' => $request->name_product,
             'product_price' => $request->price_product,
             'description' => $request->desc,
@@ -77,8 +78,8 @@ class ApiProductController extends Controller
         $old_file = $request->img_product_name;
         $img = $product->first()->product_image;
         $file_name = $old_file;
-
-        if($old_file != $img){
+        dd($old_file, $img);
+        if($old_file != $img && $old_file != null){
             if(File::exists(public_path('upload/images/'.$img))){
                 File::delete(public_path('upload/images/'.$img));
             };

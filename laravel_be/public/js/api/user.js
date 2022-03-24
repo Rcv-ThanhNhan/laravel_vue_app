@@ -1,5 +1,11 @@
 var urlApi = 'http://127.0.0.1:8000/api/user';
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 function getUsers(url = urlApi, data = {}) {
 
     var render = $('#lstUsers');
@@ -17,7 +23,6 @@ function getUsers(url = urlApi, data = {}) {
         })
         .done((data) => {
             if (data) {
-
                 render.html(data.data);
                 navigation(data.meta);
             }
@@ -30,7 +35,6 @@ function getUsers(url = urlApi, data = {}) {
 
 function modalAddEditUser(type, id) {
     var modal = $('#UserEditAddModal');
-
 
     var title = '';
     var action = '';
@@ -77,6 +81,7 @@ function modalAddEditUser(type, id) {
     var form = modal.find('form');
     form.attr('action', url);
     form.attr('data-type', type);
+    form.attr('method', method);
     modal.find('.modal-title').text(title);
     modal.find('.btn-submit').html(action);
 
@@ -140,6 +145,8 @@ function resetForm(form) {
         $(this).val("");
     });
     $(form).find('select').prop("selectedIndex", 0);
+
+    form.find('[name="status"]').prop('checked', false);
 }
 
 function getUser(id) {
@@ -254,7 +261,7 @@ function deleteUser(id) {
     })
 }
 
-function addUser(form) {
+function addEditUser(form) {
     form.submit(function(e) {
         e.preventDefault();
 
@@ -270,9 +277,14 @@ function addUser(form) {
             passwd: frmData.get('passwd'),
             passwd_confirm: frmData.get('passwd_confirm'),
             group: frmData.get('group'),
-            is_active: frmData.get('status'),
+            is_active: $(this).find('[name="status"]').prop('checked') ? 1 : 0,
         }
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.ajax({
                 url: url,
                 method: method,
@@ -281,10 +293,10 @@ function addUser(form) {
                     loading.toggleClass('d-none');
                 }
             })
-            .done(function(data) {
+            .done(function(data, textStatus, xhr) {
                 loading.toggleClass('d-none');
-                if (data && data.status == 200) {
-                    modal.modal('toggle');
+                if (data && xhr.status == 200) {
+                    $('#UserEditAddModal').modal('toggle');
                     resetForm(form);
                     Swal.fire({
                         icon: 'success',
@@ -294,6 +306,7 @@ function addUser(form) {
                     });
                     getUsers();
                 }
+                console.log(123, data.error, data);
                 if (data.error) {
                     $('[name="email"]')[0].setCustomValidity('Invalid field.');
                     $('.invalid-feedback-email').text(data.error);
@@ -308,17 +321,18 @@ function addUser(form) {
                         $('.invalid-feedback-username').text(err.username);
                     }
                     if (err.email) {
+                        $('#UserEditAddModal').find('[name="email"]')[0].setCustomValidity('Invalid field.');
                         $('.invalid-feedback-email').text(err.email);
                     }
                     if (err.group) {
                         $('.invalid-feedback-group').text(err.group);
                     }
                     if (err.passwd) {
-                        $('[name="passwd"]')[0].setCustomValidity('Invalid field.');
+                        $('#UserEditAddModal').find('[name="passwd"]')[0].setCustomValidity('Invalid field.');
                         $('.invalid-feedback-passwd').text(err.passwd);
                     }
                     if (err.passwd_confirm) {
-                        $('[name="passwd_confirm"]')[0].setCustomValidity('Invalid field.');
+                        $('#UserEditAddModal').find('[name="passwd_confirm"]')[0].setCustomValidity('Invalid field.');
                         $('.invalid-feedback-passwd_confirm').text(err.passwd_confirm);
                     }
                 }
@@ -358,7 +372,7 @@ $(document).ready(function() {
         deleteUser($(this).data('id'));
     })
 
-    $('.btn-submit').click(function() {
+    $('.btn-submit').one('click', function() {
         var form = $(this).closest('form');
         addEditUser(form);
     })

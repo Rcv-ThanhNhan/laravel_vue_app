@@ -25,9 +25,9 @@ class ApiRegisterRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'email' => 'required|email',
-            'passwd' => 'required|between:8, 32',
-            'passwd_confirm' => 'required|between:8, 32|same:passwd',
+            'email' => 'required|email:rfc,dns',
+            'passwd' => 'required|between:6, 32',
+            'passwd_confirm' => 'required|same:passwd',
             'group' => 'required',
         ];
     }

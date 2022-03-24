@@ -25,7 +25,7 @@ class ApiLoginRequest extends FormRequest
     {
         return [
 
-            'email' => 'required|email',
+            'email' => 'required|email:rfc,dns',
             'password' => 'required|between:4, 32'
         ];
     }
