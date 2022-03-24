@@ -306,7 +306,6 @@ function addEditUser(form) {
                     });
                     getUsers();
                 }
-                console.log(123, data.error, data);
                 if (data.error) {
                     $('[name="email"]')[0].setCustomValidity('Invalid field.');
                     $('.invalid-feedback-email').text(data.error);
