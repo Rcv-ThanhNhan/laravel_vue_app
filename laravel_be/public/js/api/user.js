@@ -117,7 +117,7 @@ function navigation(links) {
     let pageState = links;
 
     $(pageState.links).each((i, v) => {
-        if (i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) {
+        if ((i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) && v.url != null) {
             pageItem += ` <li class="page-item${v.active ? ' active' : ''}">
                             <button class="page-link" data-link="${v.url}" > ${v.label}</button>
                         </li>`;

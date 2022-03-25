@@ -39,7 +39,7 @@ function modalAddEditProduct(type, id) {
 
     if (type == 'add') {
         resetForm(modal.find('form'))
-        title = 'Thêm khách sản phẩm';
+        title = 'Thêm sản phẩm';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
         url = urlApi;
         method = 'POST';
@@ -218,12 +218,15 @@ function removeFileFromFileList() {
 }
 
 
-function addEditProduct(form) {
+function addEditProduct() {
+    var form = $('#productEditAddModal').find('form');
+
     form.submit(function(e) {
         e.preventDefault();
 
         var url = $(this).attr('action');
         var method = $(this).attr('method');
+        let type = $(this).attr('data-type');
 
         var frmData = new FormData(this);
 
@@ -231,8 +234,19 @@ function addEditProduct(form) {
             frmData.append('_method', 'PATCH');
         }
 
-        var loading = $('.loading-submit');
+        if (type == 'edit') {
+            frmData.append('_method', 'PATCH');
+        }
 
+
+        if (
+            frmData.get('name_product') == '' ||
+            frmData.get('price_product') == ''
+        ) {
+            return;
+        }
+
+        var loading = $('.loading-submit');
 
         $.ajaxSetup({
             headers: {
@@ -247,11 +261,11 @@ function addEditProduct(form) {
                 processData: false,
                 cache: false,
                 beforeSend: function() {
-                    loading.toggleClass('d-none');
+                    loading.addClass('d-none');
                 }
             })
             .done(function(data) {
-                loading.toggleClass('d-none');
+                loading.removeClass('d-none');
                 if (data) {
                     $('#productEditAddModal').modal('toggle');
                     resetForm(form);
@@ -266,7 +280,7 @@ function addEditProduct(form) {
             })
             .fail(function(error) {
                 var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
+                loading.removeClass('d-none');
                 if (err) {
                     if (err.name_product) {
 
@@ -343,16 +357,10 @@ function previewImage(file, render) {
 
 $(document).ready(function() {
     getProducts();
+    addEditProduct();
 
     $('#lstProducts').on('click', '.btn-delete-product', function() {
         deleteProduct($(this).data('id'));
-    })
-
-
-    // Chỉnh sửa/thêm
-    $('.btn-submit').one("click", function() {
-        var form = $(this).closest('form');
-        addEditProduct(form);
     })
 
     // nút tìm kiếm
