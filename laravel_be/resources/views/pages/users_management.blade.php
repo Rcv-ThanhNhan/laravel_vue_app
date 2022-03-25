@@ -85,36 +85,32 @@
             <div class="mb-3 row mx-0 align-items-center">
               <label for="" class="form-label col-4">Tên người dùng <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
-                    <input type="text" class="form-control"  name="username" placeholder="Nguyễn Văn A" required>
+                    <input type="text" class="form-control"  name="username" placeholder="Nguyễn Văn A" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-username">
-                        Tên người dùng không được bỏ trống
                     </div>
                 </div>
             </div>
             <div class="mb-3 row  mx-0 align-items-center">
               <label class="form-label col-4">Email <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
-                <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+                <input type="email" class="form-control" name="email" placeholder="name@example.com" maxlength="32" required>
                 <div class="invalid-feedback invalid-feedback-email">
-                    Email không được bỏ trống
                 </div>
             </div>
             </div>
             <div class="mb-3 row mx-0 align-items-center">
                 <label class="form-label col-4">Mật khẩu <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
-                    <input type="password" name="passwd" class="form-control" required>
+                    <input type="password" name="passwd" class="form-control" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-passwd">
-                        Mật khẩu không được bỏ trống
                     </div>
                 </div>
             </div>
             <div class="mb-3 row mx-0 align-items-center">
               <label class="form-label col-4">Xác nhận mật khẩu<span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
-                <input type="password" name="passwd_confirm" class="form-control" required>
+                <input type="password" name="passwd_confirm" class="form-control" maxlength="191" required>
                 <div class="invalid-feedback invalid-feedback-passwd_confirm">
-                    Xác nhận mật khẩu không được bỏ trống
                 </div>
             </div>
             </div>

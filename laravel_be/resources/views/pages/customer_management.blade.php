@@ -98,16 +98,15 @@
             <div class="mb-3 row mx-0 align-items-center">
               <label for="" class="form-label col-4">Tên <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
-                    <input type="text" class="form-control"  name="name" placeholder="Nguyễn Văn A" required>
+                    <input type="text" class="form-control"  name="name" placeholder="Nguyễn Văn A" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-name">
-
                     </div>
                 </div>
             </div>
             <div class="mb-3 row  mx-0 align-items-center">
               <label class="form-label col-4">Email <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
-                <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+                <input type="email" class="form-control" name="email" placeholder="name@example.com" maxlength="191" required>
                 <div class="invalid-feedback invalid-feedback-email">
                 </div>
             </div>
@@ -123,9 +122,8 @@
             <div class="mb-3 row mx-0 align-items-center">
               <label class="form-label col-4">Địa chỉ <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
-                    <input type="text" name="address" class="form-control" required>
+                    <input type="text" name="address" class="form-control" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-address">
-
                     </div>
                 </div>
             </div>

@@ -358,8 +358,8 @@ function addEditUser() {
                 beforeSend: function() {
                     loading.removeClass('d-none');
                 },
-                success: function() {
-                    loading.addClass('d-none');
+                error: function(data) {
+                    loading.removeClass('d-none');
                 }
             })
             .done(function(data) {
@@ -399,6 +399,7 @@ function addEditUser() {
             .fail(function(error) {
                 return error.responseJSON;
             })
+
     })
 }
 
@@ -435,8 +436,6 @@ function getUsersInPage(url = urlApi) {
 $(document).ready(function() {
     getUsers();
     addEditUser();
-
-
 
     $('#lstUsers').on('click', '.btn-block-user', function() {
         blockUser($(this).data('id'));

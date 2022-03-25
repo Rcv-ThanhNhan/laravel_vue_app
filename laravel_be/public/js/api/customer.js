@@ -1,13 +1,32 @@
 var urlApi = 'http://127.0.0.1:8000/api/customer';
 
-function getCustomers(url = urlApi, data = {}) {
-
+function getCustomers(url = urlApi) {
+    const form = $('#searchCustomer');
+    const frmData = new FormData(form[0]);
+    var dataSearch = {};
     var render = $('#lstCustomers');
+
+    var data = {
+        name: frmData.get('name'),
+        email: frmData.get('email'),
+        address: frmData.get('address'),
+        status: frmData.get('status'),
+    }
+
+    if (
+        data.name != '' ||
+        data.email != '' ||
+        data.address != '' ||
+        data.status != ''
+    ) {
+        url = form.attr('action');
+        dataSearch = data;
+    }
 
     $.ajax({
             url: url,
             method: "get",
-            data: data,
+            data: dataSearch,
             beforeSend: function() {
                 render.html(`
                 <div class="loading-table">
@@ -23,6 +42,36 @@ function getCustomers(url = urlApi, data = {}) {
         })
         .fail((error) => {
             console.log(error.responseJSON);
+        })
+
+}
+
+function getCustomersInPage(url = urlApi) {
+    var render = $('#lstCustomers');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+            url: url,
+            method: "get",
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
+        })
+        .done((data) => {
+            if (data) {
+                render.html(data.data);
+                navigation(data.meta);
+            }
+        })
+        .fail((error) => {
+            return error.responseJSON;
         })
 
 }
@@ -91,7 +140,7 @@ function navigation(links) {
 
     $(pageState.links).each((i, v) => {
         if ((i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) && v.url != null) {
-            pageItem += ` <li class="page-item ">
+            pageItem += ` <li class="page-item${v.active ? ' active': ''}">
                             <button class="page-link" data-link="${v.url}" > ${v.label}</button>
                         </li>`;
         }
@@ -410,23 +459,6 @@ function saveCustomer(e, id) {
     return;
 }
 
-function findCustomer(form) {
-    var frmData = new FormData(form[0]);
-
-    var data = {
-        name: frmData.get('name'),
-        email: frmData.get('email'),
-        address: frmData.get('address'),
-        status: frmData.get('status'),
-    }
-
-    url = form.attr('action');
-
-    getCustomers(url, data);
-
-    exportCustomer(data);
-
-}
 
 function exportCustomer(data) {
     let newUrl = '';
@@ -513,17 +545,18 @@ $(document).ready(function() {
 
     $('.btn-search-customer').click(function(e) {
         e.preventDefault();
-
-        let form = $('#searchCustomer');
-        findCustomer(form);
+        getCustomers()
     })
 
     $('.btn-reset-search-customer').click(function() {
+        resetForm($('#searchCustomer'));
         getCustomers();
     })
 
     $('.pagination-container').click('.page-link', function(e) {
-        let url = $(e.target).data('link');
-        getCustomers(url);
+        if ($(e.target).data('link')) {
+            let url = $(e.target).data('link');
+            getCustomersInPage(url);
+        }
     })
 })

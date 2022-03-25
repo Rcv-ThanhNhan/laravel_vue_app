@@ -1,10 +1,11 @@
 <?php
- namespace Database\Seeders;
+
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Customer;
 
-class UserSeeder extends Seeder
+class CustomerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,14 +16,15 @@ class UserSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $limit = 30;
+        $limit = 50;
 
         for ($i = 0; $i < $limit; $i++) {
-            User::insert([
-                'name' => $faker->name,
+            Customer::insert([
+                'customer_name' => $faker->name,
                 'email' => $faker->unique()->email,
-                'password' => $faker->password,
-                'group_role' => $faker->sentence(10),
+                'address' => $faker->address,
+                'tel_num' => '0123456789',
+                'is_active' => 1
             ]);
         }
     }

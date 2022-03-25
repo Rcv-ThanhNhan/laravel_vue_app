@@ -24,7 +24,16 @@ function checkValidation() {
         input.on('input', function(e) {
             var _this = $(e.target);
             var _thisVal = _this.val();
+            var maxLength = _this.attr('maxlength') ? _this.attr('maxlength') : 191;
+            if (_thisVal.length > maxLength) {
+                _this.next('.invalid-feedback').text('Không được nhập nhiều hơn ' + maxLength + ' ký tự')
+                _this.removeClass('is-valid').addClass('is-invalid');
+                _this.val(_this.val().slice(0, maxLength))
+            } else {
+                _this.removeClass('is-invalid').addClass('is-valid')
+            }
             if (_thisVal == '') {
+                _this.next('.invalid-feedback').text('Vui lòng nhập vào trường này')
                 _this.removeClass('is-valid').addClass('is-invalid');
             } else {
                 _this.removeClass('is-invalid').addClass('is-valid')

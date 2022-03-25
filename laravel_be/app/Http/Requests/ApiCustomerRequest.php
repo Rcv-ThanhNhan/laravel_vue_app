@@ -24,22 +24,23 @@ class ApiCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'address' => 'required',
-            'email' => 'required|email:rfc,dns',
+            'username' => 'required|max:191',
+            'address' => 'required|max:191',
+            'email' => 'required|email:rfc,dns|max:191',
             'number_phone' => 'required|numeric|digits_between:8, 12',
         ];
     }
 
     public function messages(){
         return [
-            'name.required' => 'Tên không được bỏ trống',
+            'username.required' => 'Tên không được bỏ trống',
             'address.required' => 'Địa chỉ không được bỏ trống',
             'email.required' => 'Email không được bỏ trống',
             'email.email' => 'Email không đúng định dạng',
             'number_phone.required' => 'Số điện thoại không được bỏ trống',
             'number_phone.numeric' => 'Số điện thoại không đúng định dạng',
             'number_phone.digits_between' => 'Số điện thoại không đúng định dạng',
+            '*.max' => ':attribute quá dài'
         ];
     }
 }
