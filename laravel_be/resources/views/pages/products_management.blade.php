@@ -85,7 +85,7 @@
           <div class="modal-body row">
             <div class="col-md-7">
                 <div class="mb-3 row mx-0 align-items-center">
-                <label for="" class="form-label col-4">Tên sản phẩm</label>
+                <label for="" class="form-label col-4">Tên sản phẩm <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
                         <input type="text" class="form-control"  name="name_product" placeholder="Sản phẩm 1" required>
                         <div class="invalid-feedback invalid-feedback-name_product">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="mb-3 row  mx-0 align-items-center">
-                <label class="form-label col-4">Giá bán</label>
+                <label class="form-label col-4">Giá bán <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
                     <input type="number" class="form-control" name="price_product" placeholder="1000000" maxlength="11" required>
                     <div class="invalid-feedback invalid-feedback-price_product">

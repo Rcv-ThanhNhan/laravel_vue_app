@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApiRegisterRequest extends FormRequest
 {
@@ -25,20 +27,31 @@ class ApiRegisterRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'email' => 'required|email:rfc,dns',
-            'passwd' => 'required|between:6, 32',
-            'passwd_confirm' => 'required|same:passwd',
+            'email' => 'email:rfc,dns',
+            'passwd' => 'between:6,32',
+            'passwd_confirm' => 'same:passwd',
             'group' => 'required',
         ];
     }
 
     public function messages(){
         return [
-            '*.required' => 'Trường không được bỏ trống',
             'email.email' => 'Email không đúng định dạng',
-            'passwd.between' => 'Mật khẩu phải nhiều hơn :min và ít hơn :max ký tự',
+            'passwd.between' => ':attribute phải nhiều hơn :min và ít hơn :max ký tự',
             'passwd_confirm.same' => 'Mật khẩu và mật khẩu xác nhận không khớp',
+            'passwd_confirm.between' => ':attribute phải nhiều hơn :min và ít hơn :max ký tự',
             'group.required' => 'Vui lòng chọn nhóm người dùng',
         ];
+    }
+
+    public function attributes(){
+        return [
+
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json(['status' => 422,'errors' => $validator->errors()], 200));
     }
 }

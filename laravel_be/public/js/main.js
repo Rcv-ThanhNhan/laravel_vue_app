@@ -16,6 +16,23 @@ var validation = function() {
         })
 }
 
+function checkValidation() {
+    var formValidate = $('form.needs-validation');
+
+    formValidate.each(function(index, ele) {
+        var input = $(ele).find('input.form-control');
+        input.on('input', function(e) {
+            var _this = $(e.target);
+            var _thisVal = _this.val();
+            if (_thisVal == '') {
+                _this.removeClass('is-valid').addClass('is-invalid');
+            } else {
+                _this.removeClass('is-invalid').addClass('is-valid')
+            }
+        })
+    })
+}
+
 function activeRoute() {
     var pgurl = window.location.href;
     $("ul.nav > li > a").each(function() {
@@ -30,7 +47,8 @@ function setMaxlength(ele) {
 }
 $(document).ready(function() {
     activeRoute();
-    validation()
+    validation();
+    checkValidation()
 
     $('[maxlength][type="number"]').on('input', function() {
         setMaxlength($(this))

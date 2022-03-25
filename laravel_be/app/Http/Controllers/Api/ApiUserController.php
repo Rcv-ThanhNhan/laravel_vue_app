@@ -35,7 +35,7 @@ class ApiUserController extends Controller
     {
         $userCheck = User::whereEmail($request->email)->where('is_delete', 0)->first();
         if($userCheck){
-            return response()->json(['error' => 'Email đã tồn tại'], 500);
+            return response()->json(['errors' => ['email' => 'Email đã tồn tại'], 'status' => 422]);
         }
         $data = [
             'name' => $request->username,
@@ -47,7 +47,7 @@ class ApiUserController extends Controller
         if(User::create($data)){
             return response()->json(['message' => 'Thêm người dùng thành công']);
         }
-        return response()->json(['error' => 'Thêm người dùng thất bại'], 500);
+        return response()->json(['error' => 'Thêm người dùng thất bại']);
     }
 
     /**
@@ -73,7 +73,7 @@ class ApiUserController extends Controller
     {
         $user = User::find($id);
         if(!$user){
-            return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
+            return response()->json(['status' => 500, 'error' => 'Chỉnh sửa người dùng thất bại']);
         }
 
         // $userCheck = User::whereEmail($request->email)->where('is_delete', 0)->first();
@@ -90,7 +90,7 @@ class ApiUserController extends Controller
         if($user->update($data)){
             return response()->json(['status' => 200, 'message' => 'Chỉnh sửa người dùng thành công']);
         }
-        return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
+        return response()->json(['status' => 500, 'error' => 'Chỉnh sửa người dùng thất bại']);
     }
 
     /**

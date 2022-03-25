@@ -1,10 +1,5 @@
 var urlApi = 'http://127.0.0.1:8000/api/user';
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-    }
-});
 
 function getUsers(url = urlApi, data = {}) {
 
@@ -54,10 +49,11 @@ function modalAddEditUser(type, id) {
     }
 
     if (type == 'edit') {
+        resetForm(modal.find('form'))
         title = 'Chỉnh sửa user';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
         url = urlApi + '/' + id;
-        method = 'PATCH';
+        method = 'POST';
 
         modal.find('form [name="passwd_confirm"]').closest('.mb-3').addClass('d-none');
         modal.find('form [name="passwd"]').closest('.mb-3').addClass('d-none');
@@ -98,7 +94,7 @@ function navigation(links) {
 
     $(pageState.links).each((i, v) => {
         if (i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) {
-            pageItem += ` <li class="page-item ">
+            pageItem += ` <li class="page-item${v.active ? ' active' : ''}">
                             <button class="page-link" data-link="${v.url}" > ${v.label}</button>
                         </li>`;
         }
@@ -110,7 +106,7 @@ function navigation(links) {
     if (pageState.last_page > 3) {
         if (pageState.current_page !== 1 && pageState.current_page > 3) {
             renderPrev =
-                `<li class="page-item"><button class="page-link" data-link="${links.links[0].url}" > Trang đầu</button></li>`
+                `<li class="page-item"><button class="page-link" data-link="${links.links[1].url}" > Trang đầu</button></li>`
 
         }
         if (pageState.current_page !== pageState.last_page && pageState.current_page + 2 < pageState.last_page) {
@@ -147,6 +143,10 @@ function resetForm(form) {
     $(form).find('select').prop("selectedIndex", 0);
 
     form.find('[name="status"]').prop('checked', false);
+
+    $(form.find('input.form-control')).each(function(e) {
+        $(this).removeClass('is-valid').removeClass('is-invalid')
+    })
 }
 
 function getUser(id) {
@@ -261,12 +261,14 @@ function deleteUser(id) {
     })
 }
 
-function addEditUser(form) {
+function addEditUser() {
+    var form = $('#UserEditAddModal').find('form');
     form.submit(function(e) {
         e.preventDefault();
 
-        var url = $(this).attr('action');
-        var method = $(this).attr('method');
+        let url = $(this).attr('action');
+        let method = $(this).attr('method');
+        let type = $(this).attr('data-type');
 
         var frmData = new FormData(this);
         var loading = $('.loading-submit');
@@ -280,6 +282,29 @@ function addEditUser(form) {
             is_active: $(this).find('[name="status"]').prop('checked') ? 1 : 0,
         }
 
+        if (type == 'edit') {
+            data._method = 'PATCH';
+            if (
+                data.username == '' ||
+                data.email == '' ||
+                data.group == ''
+            ) {
+                return;
+            }
+        }
+
+        if (type == 'add') {
+            if (
+                data.username == '' ||
+                data.email == '' ||
+                data.passwd == '' ||
+                data.passwd_confirm == '' ||
+                data.group == ''
+            ) {
+                return;
+            }
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -289,14 +314,36 @@ function addEditUser(form) {
                 url: url,
                 method: method,
                 data: data,
+                cache: false,
                 beforeSend: function() {
-                    loading.toggleClass('d-none');
+                    loading.addClass('d-none');
                 }
             })
-            .done(function(data, textStatus, xhr) {
-                loading.toggleClass('d-none');
-                if (data && xhr.status == 200) {
-                    $('#UserEditAddModal').modal('toggle');
+            .done(function(data) {
+
+                loading.removeClass('d-none');
+                if (data && data.status == 422) {
+                    if (data.errors.username) {
+                        $('#UserEditAddModal').find('[name="username"]').addClass('is-invalid');
+                        $('.invalid-feedback-username').text(data.errors.username);
+                    }
+                    if (data.errors.email) {
+                        $('#UserEditAddModal').find('[name="email"]').addClass('is-invalid');
+                        $('.invalid-feedback-email').text(data.errors.email);
+                    }
+                    if (data.errors.group) {
+                        $('#UserEditAddModal').find('[name="group"]').addClass('is-invalid');
+                        $('.invalid-feedback-group').text(data.errors.group);
+                    }
+                    if (data.errors.passwd) {
+                        $('#UserEditAddModal').find('[name="passwd"]').addClass('is-invalid');
+                        $('.invalid-feedback-passwd').text(data.errors.passwd);
+                    }
+                    if (data.errors.passwd_confirm) {
+                        $('#UserEditAddModal').find('[name="passwd_confirm"]').addClass('is-invalid');
+                        $('.invalid-feedback-passwd_confirm').text(data.errors.passwd_confirm);
+                    }
+                } else {
                     resetForm(form);
                     Swal.fire({
                         icon: 'success',
@@ -305,45 +352,19 @@ function addEditUser(form) {
                         timer: 1500
                     });
                     getUsers();
+                    $('#UserEditAddModal').modal('toggle');
                 }
-                if (data.error) {
-                    $('[name="email"]')[0].setCustomValidity('Invalid field.');
-                    $('.invalid-feedback-email').text(data.error);
-                }
+                return
             })
             .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
-
-                if (err) {
-                    if (err.username) {
-                        $('.invalid-feedback-username').text(err.username);
-                    }
-                    if (err.email) {
-                        $('#UserEditAddModal').find('[name="email"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.group) {
-                        $('.invalid-feedback-group').text(err.group);
-                    }
-                    if (err.passwd) {
-                        $('#UserEditAddModal').find('[name="passwd"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-passwd').text(err.passwd);
-                    }
-                    if (err.passwd_confirm) {
-                        $('#UserEditAddModal').find('[name="passwd_confirm"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-passwd_confirm').text(err.passwd_confirm);
-                    }
-                }
+                return error.responseJSON;
             })
     })
-
+    return
 }
 
 
 function findUser(form) {
-
-
     var frmData = new FormData(form[0]);
 
     var data = {
@@ -362,6 +383,7 @@ function findUser(form) {
 
 $(document).ready(function() {
     getUsers();
+    addEditUser();
 
     $('#lstUsers').on('click', '.btn-block-user', function() {
         blockUser($(this).data('id'));
@@ -371,10 +393,6 @@ $(document).ready(function() {
         deleteUser($(this).data('id'));
     })
 
-    $('.btn-submit').one('click', function() {
-        var form = $(this).closest('form');
-        addEditUser(form);
-    })
 
     $('.btn-search-user').click(function(e) {
         e.preventDefault();
@@ -391,4 +409,6 @@ $(document).ready(function() {
         let url = $(e.target).data('link');
         getUsers(url);
     })
+
+
 })

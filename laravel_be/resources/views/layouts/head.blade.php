@@ -34,6 +34,7 @@
     {{-- #### API ##### --}}
 
     <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.validation.js') }}"></script>
 
     @yield('api')
 

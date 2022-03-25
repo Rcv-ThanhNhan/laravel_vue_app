@@ -96,7 +96,7 @@
           </div>
           <div class="modal-body">
             <div class="mb-3 row mx-0 align-items-center">
-              <label for="" class="form-label col-4">Tên</label>
+              <label for="" class="form-label col-4">Tên <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
                     <input type="text" class="form-control"  name="name" placeholder="Nguyễn Văn A" required>
                     <div class="invalid-feedback invalid-feedback-name">
@@ -105,7 +105,7 @@
                 </div>
             </div>
             <div class="mb-3 row  mx-0 align-items-center">
-              <label class="form-label col-4">Email</label>
+              <label class="form-label col-4">Email <span class="invalid-text">*</span></label>
               <div class="col-8 px-0">
                 <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
                 <div class="invalid-feedback invalid-feedback-email">
@@ -113,7 +113,7 @@
             </div>
             </div>
             <div class="mb-3 row mx-0 align-items-center">
-                <label class="form-label col-4">Điện thoại</label>
+                <label class="form-label col-4">Điện thoại <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
                     <input type="number" name="number_phone" placeholder="0123456789" maxLength="12" class="form-control" required>
                     <div class="invalid-feedback invalid-feedback-tel">
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="mb-3 row mx-0 align-items-center">
-              <label class="form-label col-4">Địa chỉ</label>
+              <label class="form-label col-4">Địa chỉ <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
                     <input type="text" name="address" class="form-control" required>
                     <div class="invalid-feedback invalid-feedback-address">

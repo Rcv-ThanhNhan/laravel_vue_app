@@ -18,7 +18,7 @@
         <form action="{{ route('login.store') }}" novalidate class="login-form needs-validation" method="post">
             @csrf
             <div class="form-group">
-            <label>Email</label>
+            <label>Email <span class="invalid-text">*</span></label>
             <input type="email" class="form-control" placeholder="email@example.com" value="{{ old('username') }}"
                        required name="username">
             @if($errors->has('username'))
@@ -32,7 +32,7 @@
             @endif
             </div><!-- form-group -->
             <div class="form-group">
-                <label>Mật khẩu</label>
+                <label>Mật khẩu <span class="invalid-text">*</span></label>
                 <input type="password" class="form-control password-toggle" placeholder="password"
                             minlength="4" required name="password">
                 @if($errors->has('password'))

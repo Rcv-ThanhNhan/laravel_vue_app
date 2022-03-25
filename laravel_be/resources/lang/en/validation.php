@@ -142,8 +142,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        // 'attribute-name' => [
+        //     'rule-name' => 'custom-message',
+        // ],
+
+        '*' => [
+            'required' => ':attribute không được bỏ trống'
+        ],
+        '*' => [
+            'unique' => ':attribute đã tồn tại'
         ],
     ],
 
@@ -158,6 +165,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'passwd' => 'Mật khẩu',
+        'passwd_confirm' => 'Mật khẩu xác nhận',
+        'email' => 'Email'
+    ],
 
 ];
