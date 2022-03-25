@@ -1,14 +1,38 @@
 var urlApi = 'http://127.0.0.1:8000/api/user';
 
-
-function getUsers(url = urlApi, data = {}) {
-
+function getUsers(url = urlApi) {
+    const form = $('#searchUser');
+    const frmData = new FormData(form[0]);
+    var dataSearch = {};
     var render = $('#lstUsers');
 
+    var data = {
+        name: frmData.get('name'),
+        email: frmData.get('email'),
+        group: frmData.get('group'),
+        status: frmData.get('status'),
+    }
+
+    if (
+        data.name != '' ||
+        data.email != '' ||
+        data.group != '' ||
+        data.status != ''
+    ) {
+        url = form.attr('action');
+        dataSearch = data;
+    }
+
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $.ajax({
             url: url,
             method: "get",
-            data: data,
+            data: dataSearch,
             beforeSend: function() {
                 render.html(`
                 <div class="loading-table">
@@ -169,18 +193,16 @@ function getUser(id) {
 }
 
 function blockUser(id) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-2'
+        },
+        buttonsStyling: false
+    })
     getUser(id).then(function(data) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger mr-2'
-            },
-            buttonsStyling: false
-        })
-
         swalWithBootstrapButtons.fire({
             title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
-            // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Đồng ý',
@@ -217,18 +239,16 @@ function blockUser(id) {
 }
 
 function deleteUser(id) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-2'
+        },
+        buttonsStyling: false
+    })
     getUser(id).then(function(data) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger mr-2'
-            },
-            buttonsStyling: false
-        })
-
         swalWithBootstrapButtons.fire({
             title: 'Bạn có muốn xoá tài khoản ' + data.data.name,
-            // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Đồng ý',
@@ -316,12 +336,13 @@ function addEditUser() {
                 data: data,
                 cache: false,
                 beforeSend: function() {
+                    loading.removeClass('d-none');
+                },
+                success: function() {
                     loading.addClass('d-none');
                 }
             })
             .done(function(data) {
-
-                loading.removeClass('d-none');
                 if (data && data.status == 422) {
                     if (data.errors.username) {
                         $('#UserEditAddModal').find('[name="username"]').addClass('is-invalid');
@@ -354,36 +375,18 @@ function addEditUser() {
                     getUsers();
                     $('#UserEditAddModal').modal('toggle');
                 }
-                return
             })
             .fail(function(error) {
                 return error.responseJSON;
             })
     })
-    return
-}
-
-
-function findUser(form) {
-    var frmData = new FormData(form[0]);
-
-    var data = {
-        name: frmData.get('name'),
-        email: frmData.get('email'),
-        group: frmData.get('group'),
-        status: frmData.get('status'),
-    }
-
-    url = form.attr('action');
-
-    getUsers(url, data);
-
-
 }
 
 $(document).ready(function() {
     getUsers();
     addEditUser();
+
+
 
     $('#lstUsers').on('click', '.btn-block-user', function() {
         blockUser($(this).data('id'));
@@ -396,12 +399,11 @@ $(document).ready(function() {
 
     $('.btn-search-user').click(function(e) {
         e.preventDefault();
-
-        let form = $('#searchUser');
-        findUser(form);
+        getUsers()
     })
 
     $('.btn-reset-search-user').click(function() {
+        resetForm($('#searchUser'));
         getUsers();
     })
 
