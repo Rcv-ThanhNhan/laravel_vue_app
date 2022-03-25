@@ -358,7 +358,7 @@ function addEditUser() {
                 beforeSend: function() {
                     loading.removeClass('d-none');
                 },
-                error: function(data) {
+                success: function(data) {
                     loading.removeClass('d-none');
                 }
             })
