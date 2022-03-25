@@ -47,7 +47,7 @@ function getUsers(url = urlApi) {
             }
         })
         .fail((error) => {
-            console.log(error.responseJSON);
+            return error.responseJSON;
         })
 
 }
@@ -201,40 +201,50 @@ function blockUser(id) {
         buttonsStyling: false
     })
     getUser(id).then(function(data) {
-        swalWithBootstrapButtons.fire({
-            title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Đồng ý',
-            cancelButtonText: 'Hủy',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var url = urlApi + '/update-status';
+        if (data.data) {
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = urlApi + '/update-status';
 
-                $.ajax({
-                        url: url,
-                        method: "post",
-                        data: {
-                            id: id
-                        }
-                    })
-                    .done((data) => {
-                        if (data) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            getUsers();
-                        }
-                    })
-                    .fail((error) => {
-                        return console.log(error.responseJSON);
-                    })
-            }
-        })
+                    $.ajax({
+                            url: url,
+                            method: "post",
+                            data: {
+                                id: id
+                            }
+                        })
+                        .done((data) => {
+                            if (data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                getUsers();
+                            }
+                        })
+                        .fail((error) => {
+                            return error.responseJSON;
+                        })
+                }
+            })
+        } else {
+            swalWithBootstrapButtons.fire({
+                title: 'Không tìm thấy người dùng',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Đóng',
+                timer: 3000
+            })
+        }
     })
 }
 
@@ -247,37 +257,47 @@ function deleteUser(id) {
         buttonsStyling: false
     })
     getUser(id).then(function(data) {
-        swalWithBootstrapButtons.fire({
-            title: 'Bạn có muốn xoá tài khoản ' + data.data.name,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Đồng ý',
-            cancelButtonText: 'Hủy',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var url = urlApi + '/' + id;
+        if (data.data) {
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn xoá tài khoản ' + data.data.name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = urlApi + '/' + id;
 
-                $.ajax({
-                        url: url,
-                        method: "delete",
-                    })
-                    .done((data) => {
-                        if (data) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            getUsers();
-                        }
-                    })
-                    .fail((error) => {
-                        return console.log(error.responseJSON);
-                    })
-            }
-        })
+                    $.ajax({
+                            url: url,
+                            method: "delete",
+                        })
+                        .done((data) => {
+                            if (data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                getUsers();
+                            }
+                        })
+                        .fail((error) => {
+                            return error.responseJSON;
+                        })
+                }
+            })
+        } else {
+            swalWithBootstrapButtons.fire({
+                title: 'Không tìm thấy người dùng',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Đóng',
+                timer: 3000
+            })
+        }
     })
 }
 
@@ -307,7 +327,7 @@ function addEditUser() {
             if (
                 data.username == '' ||
                 data.email == '' ||
-                data.group == ''
+                (data.group == '' || data.group == null)
             ) {
                 return;
             }
@@ -319,7 +339,7 @@ function addEditUser() {
                 data.email == '' ||
                 data.passwd == '' ||
                 data.passwd_confirm == '' ||
-                data.group == ''
+                (data.group == '' || data.group == null)
             ) {
                 return;
             }
@@ -382,6 +402,36 @@ function addEditUser() {
     })
 }
 
+function getUsersInPage(url = urlApi) {
+    var render = $('#lstUsers');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+            url: url,
+            method: "get",
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
+        })
+        .done((data) => {
+            if (data) {
+                render.html(data.data);
+                navigation(data.meta);
+            }
+        })
+        .fail((error) => {
+            return error.responseJSON;
+        })
+
+}
+
 $(document).ready(function() {
     getUsers();
     addEditUser();
@@ -393,7 +443,7 @@ $(document).ready(function() {
     })
 
     $('#lstUsers').on('click', '.btn-delete-user', function() {
-        deleteUser($(this).data('id'));
+        deleteUser($(this).attr('data-id'));
     })
 
 
@@ -408,9 +458,9 @@ $(document).ready(function() {
     })
 
     $('.pagination-container').click('.page-link', function(e) {
-        let url = $(e.target).data('link');
-        getUsers(url);
+        if ($(e.target).data('link')) {
+            let url = $(e.target).data('link');
+            getUsersInPage(url);
+        }
     })
-
-
 })

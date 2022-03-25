@@ -76,10 +76,9 @@ class ApiUserController extends Controller
             return response()->json(['status' => 500, 'error' => 'Chỉnh sửa người dùng thất bại']);
         }
 
-        // $userCheck = User::whereEmail($request->email)->where('is_delete', 0)->first();
-        // if($userCheck){
-        //     return response()->json(['status' => 422, 'error' => 'Email đã tồn tại']);
-        // }
+        if($request->email){
+            return response()->json(['errors' => ['email' => 'Không thể thay đổi email'], 'status' => 422]);
+        }
 
         $data = [
             'name' => $request->username,
