@@ -94,7 +94,7 @@
                 <div class="col-8 px-0">
                         <input type="text" class="form-control"  name="name_product" placeholder="Sản phẩm 1" required>
                         <div class="invalid-feedback invalid-feedback-name_product">
-
+                            Tên sản phẩm không được bỏ trống
                         </div>
                     </div>
                 </div>
@@ -103,6 +103,7 @@
                 <div class="col-8 px-0">
                     <input type="number" class="form-control" name="price_product" placeholder="1000000" maxlength="11" required>
                     <div class="invalid-feedback invalid-feedback-price_product">
+                        Giá sản phẩm không được bỏ trống
                     </div>
                 </div>
                 </div>
@@ -138,7 +139,7 @@
                     <label class="input-group-text bg-success text-light" role="button" for="chooseImage">Upload</label>
                     <button class="input-group-text bg-danger text-light" type="button" for="destroyImage">Xóa file</button>
                     <input type="text" class="form-control name-file" readonly name="img_product_name">
-                    <input type="file" class="form-control" accept="image/*.jpg,*.png,*.jpeg" id="chooseImage" name="img_product" hidden>
+                    <input type="file" class="form-control" accept="image/jpg,image/png,image/jpeg" id="chooseImage" name="img_product" hidden>
                 </div>
             </div>
         </div>

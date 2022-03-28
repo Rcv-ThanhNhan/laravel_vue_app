@@ -22,7 +22,7 @@ class ApiProductController extends Controller
      */
     public function index()
     {
-        return new ProductsCollection(Product::orderBy('product_id', 'desc')->paginate());
+        return new ProductsCollection(Product::orderBy('created_at', 'desc')->paginate());
     }
 
     /**

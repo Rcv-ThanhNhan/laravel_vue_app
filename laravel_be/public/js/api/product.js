@@ -1,13 +1,32 @@
 var urlApi = 'http://127.0.0.1:8000/api/product';
 
-function getProducts(url = urlApi, data = {}) {
-
+function getProducts(url = urlApi) {
     var render = $('#lstProducts');
+
+    const form = $('#searchProduct');
+    const frmData = new FormData(form[0]);
+    var dataSearch = {};
+
+    var data = {
+        name_product: frmData.get('name_product'),
+        price_from: frmData.get('price_from'),
+        price_to: frmData.get('price_to'),
+        status_product: frmData.get('status_product'),
+    }
+    if (
+        data.name_product != '' ||
+        data.price_from != '' ||
+        data.price_to != '' ||
+        data.status_product != ''
+    ) {
+        url = form.attr('action');
+        dataSearch = data;
+    }
 
     $.ajax({
             url: url,
             method: "get",
-            data: data,
+            data: dataSearch,
             beforeSend: function() {
                 render.html(`
                 <div class="loading-table">
@@ -18,7 +37,7 @@ function getProducts(url = urlApi, data = {}) {
         .done((data) => {
             if (data) {
                 render.html(data.data);
-                // navigation(data.meta);
+                navigation(data.meta);
             }
         })
         .fail((error) => {
@@ -91,7 +110,7 @@ function navigation(links) {
 
     $(pageState.links).each((i, v) => {
         if ((i > pageState.current_page - 3 && i < pageState.current_page + 3 || pageState.current_page === i) && v.url != null) {
-            pageItem += ` <li class="page-item ">
+            pageItem += ` <li class="page-item ${v.active ? ' active' : ''}">
                             <button class="page-link" data-link="${v.url}" > ${v.label}</button>
                         </li>`;
         }
@@ -164,46 +183,55 @@ function getProduct(id) {
 }
 
 function deleteProduct(id) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-2'
+        },
+        buttonsStyling: false
+    })
     getProduct(id).then(function(data) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger mr-2'
-            },
-            buttonsStyling: false
-        })
+        if (data.data) {
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn xoá sản phẩm ' + data.data.product_name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = urlApi + '/' + id;
 
-        swalWithBootstrapButtons.fire({
-            title: 'Bạn có muốn xoá sản phẩm ' + data.data.product_name,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Đồng ý',
-            cancelButtonText: 'Hủy',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var url = urlApi + '/' + id;
-
-                $.ajax({
-                        url: url,
-                        method: "delete",
-                    })
-                    .done((data) => {
-                        if (data) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            getProducts();
-                        }
-                    })
-                    .fail((error) => {
-                        return error.responseJSON;
-                    })
-            }
-        })
+                    $.ajax({
+                            url: url,
+                            method: "delete",
+                        })
+                        .done((data) => {
+                            if (data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                getProducts();
+                            }
+                        })
+                        .fail((error) => {
+                            return error.responseJSON;
+                        })
+                }
+            })
+        } else {
+            swalWithBootstrapButtons.fire({
+                title: 'Không tìm thấy người dùng',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Đóng',
+                timer: 2500
+            })
+        }
     })
 }
 
@@ -296,22 +324,6 @@ function addEditProduct() {
     })
 }
 
-
-function findProduct(form) {
-    var frmData = new FormData(form[0]);
-
-    var data = {
-        name_product: frmData.get('name_product'),
-        price_from: frmData.get('price_from'),
-        price_to: frmData.get('price_to'),
-        status_product: frmData.get('status_product'),
-    }
-
-    url = form.attr('action');
-
-    getProducts(url, data);
-}
-
 function number_format(number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
@@ -353,7 +365,38 @@ function previewImage(file, render) {
     reader.readAsDataURL(file);
 }
 
+function getExtension(filename) {
+    return filename.split('.').pop().toLowerCase();
+}
 
+function getProductsInPage(url = urlApi) {
+    var render = $('#lstProducts');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+            url: url,
+            method: "get",
+            beforeSend: function() {
+                render.html(`
+                <div class="loading-table">
+                  <div class="spinner-border text-dark" role="status"></div>
+                </div>`)
+            }
+        })
+        .done((data) => {
+            if (data) {
+                render.html(data.data);
+                navigation(data.meta);
+            }
+        })
+        .fail((error) => {
+            return error.responseJSON;
+        })
+}
 
 $(document).ready(function() {
     getProducts();
@@ -366,20 +409,33 @@ $(document).ready(function() {
     // nút tìm kiếm
     $('.btn-search-product').click(function(e) {
         e.preventDefault();
+        let form = $(this).closest('form');
+        let frmData = new FormData(form[0]);
+        var data = {
+            name_product: frmData.get('name_product'),
+            price_from: frmData.get('price_from'),
+            price_to: frmData.get('price_to'),
+            status_product: frmData.get('status_product'),
+        }
 
-        let form = $('#searchProduct');
-        findProduct(form);
+        if (data.name_product == '' && data.price_from == '' && data.price_to == '' && data.status_product == '') {
+            return;
+        }
+        getProducts();
     })
 
     // reset form tìm kiếm
     $('.btn-reset-search-product').click(function() {
+        resetForm($('#searchProduct'));
         getProducts();
     })
 
     // chuyển trang danh sách
     $('.pagination-container').click('.page-link', function(e) {
-        let url = $(e.target).data('link');
-        getProducts(url);
+        if ($(e.target).data('link')) {
+            let url = $(e.target).data('link');
+            getProductsInPage(url);
+        }
     })
 
     // chọn hình ảnh upload
@@ -387,7 +443,17 @@ $(document).ready(function() {
         var showFileName = $('.name-file');
         var render = $('.img-preview');
         var file = this.files[0];
+        var extentionAcept = ['jpg', 'jepg', 'png']
 
+        if ($.inArray(getExtension(file.name), extentionAcept)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'File không đúng định dạng',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
         showFileName.val(file.name)
 
         previewImage(file, render)

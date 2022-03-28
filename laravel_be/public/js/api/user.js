@@ -456,7 +456,7 @@ $(document).ready(function() {
 
     $('.btn-search-user').click(function(e) {
         e.preventDefault();
-        getUsers()
+        getUsers();
     })
 
     $('.btn-reset-search-user').click(function() {
