@@ -56,12 +56,11 @@ class CustomerController extends Controller
         $import = new CustomersImport;
         $import->import($file);
 
-        // dd($import->failures());
         if($import->failures()->isNotEmpty()){
-            return back()->withFailures($import->failures());
+            return back()->withFailures($import->failures())->with('successCount', $import->getRowCount());
         }
 
-        return back()->with('success', 'Thêm khách hàng thành công');
+        return back()->with(['success'=> 'Thêm khách hàng thành công', 'successCount' => $import->getRowCount()]);
     }
 
     /**

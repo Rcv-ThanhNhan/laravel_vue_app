@@ -11,8 +11,6 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 use Maatwebsite\Excel\Concerns\SkipsFailures;
-// use Maatwebsite\Excel\Concerns\SkipsOnError;
-// use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 
 class CustomersImport implements
@@ -40,12 +38,13 @@ class CustomersImport implements
     {
         foreach ($rows as $row)
         {
+            ++$this->rows;
             Customer::create([
                 'customer_name' => $row[1],
                 'email'         => $row[2],
                 'tel_num'       => $row[3],
                 'address'       => $row[4],
-                'is_active'     => 0,
+                'is_active'     => 1,
             ]);
         }
     }
@@ -87,11 +86,10 @@ class CustomersImport implements
         ];
     }
 
-    // /**
-    //  * @param Failure $failures
-    //  */
-    // public function onFailure(Failure ...$failures)
-    // {
-    //     return $failures;
-    // }
+    private $rows = 0;
+
+    public function getRowCount(): int
+    {
+        return $this->rows;
+    }
 }

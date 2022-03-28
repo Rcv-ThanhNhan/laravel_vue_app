@@ -157,7 +157,7 @@
        Swal.fire({
             title: 'Không có dữ liệu để xuất.',
             icon: 'warning',
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonText: 'Đóng',
         });
         })
@@ -167,7 +167,8 @@
 @if(Session::has('failures'))
     @php
         $notification = '';
-
+        $success_count = Session::get('successCount') ? Session::get('successCount') : 0;
+        $fail_count = Session::get('failures') ? count(Session::get('failures')) : 0;
         foreach (Session::get('failures') as $k => $v){
             $index = $v->row();
             $e = '';
@@ -184,9 +185,10 @@
     <script>
         $(document).ready(function(){
         Swal.fire({
-            title: 'Thông báo',
-            html: '{!! $notification !!}',
+            title: 'Thông báo!',
+            html: 'Thành công: ' + {{ $success_count }} + ', thất bại: ' + {{ $fail_count }} + '</br>{!! $notification !!}',
             icon: 'warning',
+            customClass: 'swal-import',
             showCancelButton: false,
             confirmButtonText: 'Đóng',
         });

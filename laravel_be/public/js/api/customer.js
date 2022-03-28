@@ -427,8 +427,9 @@ function toggleEditCustomer(e) {
         $(this).toggleClass('d-none');
     })
 
-    $('.valid-field').each(function() {
-        $(this).removeClass('show')
+    row.find('input').each(function(index, ele) {
+        $(ele)[0].setCustomValidity('');
+        $(ele).removeClass('is-invalid');
     })
 }
 
@@ -593,6 +594,19 @@ $(document).ready(function() {
 
     $('.btn-search-customer').click(function(e) {
         e.preventDefault();
+
+        let form = $(this).closest('form');
+        let frmData = new FormData(form[0]);
+        var data = {
+            name: frmData.get('name'),
+            email: frmData.get('email'),
+            address: frmData.get('address'),
+            status: frmData.get('status'),
+        }
+        if (data.name == '' && data.email == '' && data.address == '' && data.status == '') {
+            return;
+        }
+        exportCustomer(data);
         getCustomers()
     })
 
