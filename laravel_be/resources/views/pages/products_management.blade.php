@@ -10,34 +10,39 @@
 
 <div class="container my-3">
     <h2 class="title-page mb-3">
-      Quản lí sản phẩm
+    Quản lí sản phẩm
     </h2>
     <form action="{{ env('APP_API').'/search-product' }}" class="row row-sm mb-3" id="searchProduct">
-      <div class="col-md-3">
+    <div class="col-md-2">
         <label for="">Tên sản phẩm</label>
         <input class="form-control" placeholder="Tên sản phẩm..." type="text" name="name_product">
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-md-2">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status_product">
-          <option label="Chọn trạng thái"></option>
-          <option value="1">Đang bán</option>
-          <option value="2">Hết hàng</option>
-          <option value="0">Ngừng bán</option>
+        <option label="Chọn trạng thái"></option>
+        <option value="1">Đang bán</option>
+        <option value="2">Hết hàng</option>
+        <option value="0">Ngừng bán</option>
         </select>
-      </div>
-      <div class="col-md-6 row">
-          <div class="col-6 mx-0">
-            <label for="">Giá bán từ</label>
-            <input class="form-control" placeholder="Giá bán từ" type="number" name="price_from"></div>
-          <div class="col-6 mx-0">
-            <label for="">Giá bán đến</label>
-            <input class="form-control" placeholder="Giá bán đến" type="number" name="price_to"></div>
-      </div>
+    </div>
+        <div class="col-md-4 d-flex">
+            <div class="col-6 pl-0 pr-2">
+                <label for="">Giá bán từ</label>
+                <input class="form-control" placeholder="Giá bán từ" min="0" type="number" name="price_from">
+            </div>
+            <div class="col-6 pr-0 pl-2">
+                <label for="">Giá bán đến</label>
+                <input class="form-control" placeholder="Giá bán đến" min="0" type="number" name="price_to">
+            </div>
+        </div>
 
-      <div class="col-12 d-flex mt-3 mx-0">
-            <button class="btn btn-primary mr-2 btn-search-product"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
-            <button class="btn btn-secondary btn-reset-search-product" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+        <div class="col-md-2 d-flex">
+            <button class="col-12 btn btn-primary align-self-end btn-search-product"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+        </div>
+
+        <div class="col-md-2 d-flex">
+            <button class="col-12 btn btn-secondary align-self-end btn-reset-search-product" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
         </div>
     </form>
     <div class="row text-right mb-3">
@@ -49,9 +54,9 @@
         </div>
     </div>
     <div class="table-responsive h-250 position-relative pt-2">
-      <table class="table mg-b-0">
+    <table class="table mg-b-0">
         <thead>
-          <tr>
+        <tr>
             <th>#</th>
             <th>Mã sản phẩm</th>
             <th>Tên sản phẩm</th>
@@ -59,15 +64,15 @@
             <th>Giá</th>
             <th>Tình trạng</th>
             <th></th>
-          </tr>
+        </tr>
         </thead>
         <tbody id="lstProducts">
 
         </tbody>
-      </table>
-      {{-- <div class="loading-table d-none">
+    </table>
+    {{-- <div class="loading-table d-none">
         <div class="spinner-border text-light" role="status"></div>
-      </div> --}}
+    </div> --}}
     </div>
     <div class="text-right mt-3">
         <nav class="pagination-container">
@@ -76,13 +81,13 @@
     </div>
     <!-- ##### MODAL EDIT/ADD USER ##### -->
     <div class="modal fade" id="productEditAddModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <form class="modal-content needs-validation" novalidate enctype="multipart/form-data">
-          <div class="modal-header">
+        <div class="modal-header">
             <h5 class="modal-title"></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body row">
+        </div>
+        <div class="modal-body row">
             <div class="col-md-7">
                 <div class="mb-3 row mx-0 align-items-center">
                 <label for="" class="form-label col-4">Tên sản phẩm <span class="invalid-text">*</span></label>
@@ -136,29 +141,29 @@
                     <input type="file" class="form-control" accept="image/*.jpg,*.png,*.jpeg" id="chooseImage" name="img_product" hidden>
                 </div>
             </div>
-          </div>
-          <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             <button type="submit" class="btn btn-primary btn-submit"></button>
-          </div>
+        </div>
         </form>
-      </div>
+    </div>
     </div>
 
-  </div>
+</div>
 
 
 @if (Session::has('isEmpty'))
-  <script>
-      $(document).ready(function(){
-       Swal.fire({
+<script>
+    $(document).ready(function(){
+    Swal.fire({
             title: 'Không có dữ liệu để xuất.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Đóng',
         });
         })
-  </script>
+</script>
 @endif
 
 @if(Session::has('failures'))

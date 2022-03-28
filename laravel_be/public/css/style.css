@@ -39,11 +39,12 @@
     width: 100%;
 }
 
-button[type=reset] {
+
+/* button[type=reset] {
     width: 135px;
     padding-left: 0;
     padding-right: 0;
-}
+} */
 
 
 /* show image when hover */

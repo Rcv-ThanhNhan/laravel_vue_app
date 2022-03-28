@@ -13,15 +13,15 @@
       Quản lí người dùng
     </h2>
     <form action="{{ env('APP_API').'/search-user' }}" class="row row-sm mb-3" id="searchUser">
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Tên</label>
         <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
       </div>
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Email</label>
         <input class="form-control" placeholder="Email" type="text" name="email">
       </div>
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Nhóm</label>
         <select class="form-control" name="group">
           <option label="Chọn nhóm"></option>
@@ -29,7 +29,7 @@
           <option value="Nhân viên">Nhân viên</option>
         </select>
       </div>
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status">
           <option label="Chọn trạng thái"></option>
@@ -38,9 +38,11 @@
         </select>
       </div>
 
-      <div class="col-12 text-right d-flex mt-3">
-        <button class="btn btn-primary mr-2 btn-search-user"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
-        <button class="btn btn-secondary btn-reset-search-user" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+      <div class="col-md-2 d-flex">
+        <button class="col-12 btn btn-primary align-self-end btn-search-user"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+      </div>
+      <div class="col-md-2 d-flex">
+        <button class="col-12 btn btn-secondary align-self-end btn-reset-search-user" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
       </div>
     </form>
     <div class="row text-right mb-3">

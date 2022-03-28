@@ -13,15 +13,15 @@
       Quản lí khách hàng
     </h2>
     <form action="{{ env('APP_API').'/search-customer' }}" class="row row-sm mb-3" id="searchCustomer">
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Tên</label>
         <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
       </div>
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Email</label>
         <input class="form-control" placeholder="Email" type="text" name="email">
       </div>
-      <div class="col-md">
+      <div class="col-md-2">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status">
           <option label="Chọn trạng thái"></option>
@@ -30,14 +30,17 @@
         </select>
       </div>
 
-      <div class="col-md">
-        <label for="">Địa chỉ</label>
-        <input class="form-control" placeholder="Địa chỉ" type="text" name="address">
-      </div>
+        <div class="col-md-2">
+            <label for="">Địa chỉ</label>
+            <input class="form-control" placeholder="Địa chỉ" type="text" name="address">
+        </div>
 
-      <div class="col-12 d-flex mt-3 mx-0">
-            <button class="btn btn-primary mr-2 btn-search-customer"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
-            <button class="btn btn-secondary btn-reset-search-customer" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+        <div class="col-md-2 d-flex">
+            <button class="col-12 btn btn-primary align-self-end btn-search-customer"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+        </div>
+
+        <div class="col-md-2 d-flex">
+            <button class="col-12 btn btn-secondary align-self-end btn-reset-search-customer" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
         </div>
     </form>
     <div class="row text-right mb-3">
