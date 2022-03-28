@@ -7,30 +7,38 @@
     <tr>
         <th scope="row">{{ $index }}</th>
         <td>
-            <input type="text" class="form-control d-none" value="{{ $v->customer_name }}" name="name" style="height:24px" required>
-            <div class="valid-field text-danger valid-field-name">
-
+            <div class="position-relative">
+                <input type="text" class="form-control d-none" value="{{ $v->customer_name }}" name="name" style="height:24px" required>
+                <div class="invalid-tooltip valid-field-name">
+                    Tên không được bỏ trống
+                </div>
             </div>
             <span>{{ $v->customer_name }}</span>
         </td>
         <td>
-            <input type="text" class="form-control d-none" value="{{ $v->email }}" name="email" style="height:24px" required>
-            <div class="valid-field text-danger valid-field-email">
-
+            <div class="position-relative">
+                <input type="text" class="form-control d-none" value="{{ $v->email }}" name="email" style="height:24px" required>
+                <div class="invalid-tooltip valid-field-email">
+                    Email không được bỏ trống
+                </div>
             </div>
             <span>{{ $v->email }}</span>
         </td>
         <td>
-            <input type="text" class="form-control d-none" value="{{ $v->address }}" name="address" style="height:24px" required>
-            <div class="valid-field text-danger valid-field-address">
-
+            <div class="position-relative">
+                <input type="text" class="form-control d-none" value="{{ $v->address }}" name="address" style="height:24px" required>
+                <div class="invalid-tooltip valid-field-address">
+                    Địa chỉ không được bỏ trống
+                </div>
             </div>
             <span>{{ $v->address }}</span>
         </td>
         <td>
-            <input type="number" class="form-control d-none" value="{{ $v->tel_num }}" name="number_phone" style="height:24px" required>
-            <div class="valid-field text-danger valid-field-number_phone">
-
+            <div class="position-relative">
+                <input type="number" class="form-control d-none" value="{{ $v->tel_num }}" name="number_phone" style="height:24px" required>
+                <div class="invalid-tooltip valid-field-number_phone">
+                    Số điện thoại không được bỏ trống
+                </div>
             </div>
             <span>{{ $v->tel_num }}</span>
         </td>

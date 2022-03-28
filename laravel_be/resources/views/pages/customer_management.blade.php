@@ -79,9 +79,6 @@
 
         </tbody>
       </table>
-      {{-- <div class="loading-table d-none">
-        <div class="spinner-border text-light" role="status"></div>
-      </div> --}}
     </div>
     <div class="text-right mt-3">
         <nav class="pagination-container">
@@ -103,6 +100,7 @@
               <div class="col-8 px-0">
                     <input type="text" class="form-control"  name="name" placeholder="Nguyễn Văn A" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-name">
+                        Tên không được bỏ trống
                     </div>
                 </div>
             </div>
@@ -111,6 +109,7 @@
               <div class="col-8 px-0">
                 <input type="email" class="form-control" name="email" placeholder="name@example.com" maxlength="191" required>
                 <div class="invalid-feedback invalid-feedback-email">
+                    Email không được bỏ trống
                 </div>
             </div>
             </div>
@@ -119,6 +118,7 @@
                 <div class="col-8 px-0">
                     <input type="number" name="number_phone" placeholder="0123456789" maxLength="12" class="form-control" required>
                     <div class="invalid-feedback invalid-feedback-tel">
+                        Số điện thoại không được bỏ trống
                     </div>
                 </div>
             </div>
@@ -127,6 +127,7 @@
                 <div class="col-8 px-0">
                     <input type="text" name="address" class="form-control" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-address">
+                        Địa chỉ không được bỏ trống
                     </div>
                 </div>
             </div>

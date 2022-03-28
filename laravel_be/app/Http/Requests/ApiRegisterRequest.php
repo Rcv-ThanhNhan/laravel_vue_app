@@ -36,17 +36,11 @@ class ApiRegisterRequest extends FormRequest
 
     public function messages(){
         return [
-            'email.email' => 'Email không đúng định dạng',
+            'email.email' => ':attribute không đúng định dạng',
             'passwd.between' => ':attribute phải nhiều hơn :min và ít hơn :max ký tự',
             'passwd_confirm.same' => 'Mật khẩu và mật khẩu xác nhận không khớp',
             'passwd_confirm.between' => ':attribute phải nhiều hơn :min và ít hơn :max ký tự',
             'group.required' => 'Vui lòng chọn nhóm người dùng',
-        ];
-    }
-
-    public function attributes(){
-        return [
-
         ];
     }
 

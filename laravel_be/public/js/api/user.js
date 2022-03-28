@@ -396,9 +396,17 @@ function addEditUser() {
                     $('#UserEditAddModal').modal('toggle');
                 }
             })
-            .fail(function(error) {
-                return error.responseJSON;
-            })
+            .fail(function(jqXHR) {
+                if (jqXHR.status != 200 || jqXHR.status == 0) {
+                    loading.addClass('d-none');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thêm người dùng thất bại',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
 
     })
 }

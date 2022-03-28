@@ -38,12 +38,21 @@ function getCustomers(url = urlApi) {
             if (data) {
                 render.html(data.data);
                 navigation(data.meta);
+
+                $('#lstCustomers').find('input').each(function(index, ele) {
+                    $(ele).on('input', function(e) {
+                        if ($(e.target).val() == '') {
+                            $(e.target).removeClass('is-valid').addClass('is-invalid');
+                        } else {
+                            $(e.target).addClass('is-valid').removeClass('is-invalid');
+                        }
+                    })
+                })
             }
         })
         .fail((error) => {
             console.log(error.responseJSON);
         })
-
 }
 
 function getCustomersInPage(url = urlApi) {
@@ -182,11 +191,15 @@ function navigation(links) {
 }
 
 function resetForm(form) {
-    form.removeClass('was-validated')
+    form.removeClass('was-validated');
     $(form).find("input").each(function() {
         $(this).val("");
     });
     $(form).find('select').prop("selectedIndex", 0);
+
+    form.find('input').each(function() {
+        $(this).removeClass(['is-invalid', 'is-valid'])
+    })
 }
 
 function getCustomer(id) {
@@ -301,7 +314,7 @@ function deleteCustomer(id) {
     })
 }
 
-function addEditCustomer(form) {
+function addCustomer(form) {
     form.submit(function(e) {
         e.preventDefault();
 
@@ -319,17 +332,53 @@ function addEditCustomer(form) {
             active: frmData.get('status'),
         }
 
+        if (
+            data.name == '' ||
+            data.email == '' ||
+            data.number_phone == '' ||
+            data.address == ''
+        ) {
+            return;
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.ajax({
                 url: url,
                 method: method,
                 data: data,
                 beforeSend: function() {
-                    loading.toggleClass('d-none');
-                }
+                    loading.removeClass('d-none');
+                },
+                success: function() {
+                    loading.addClass('d-none');
+                },
             })
             .done(function(data) {
-                loading.toggleClass('d-none');
-                if (data) {
+                var modal = $('#customerEditAddModal');
+                if (data && data.status == 422) {
+                    err = data.errors;
+                    console.log(err);
+                    if (err.name) {
+                        modal.find('[name="name"]').removeClass('is-valid').addClass('is-invalid');
+                        $('.invalid-feedback-name').text(err.name);
+                    }
+                    if (err.email) {
+                        modal.find('[name="email"]').removeClass('is-valid').addClass('is-invalid');
+                        $('.invalid-feedback-email').text(err.email);
+                    }
+                    if (err.number_phone) {
+                        modal.find('[name="tel"]').removeClass('is-valid').addClass('is-invalid');
+                        $('.invalid-feedback-tel').text(err.number_phone);
+                    }
+                    if (err.address) {
+                        modal.find('[name="address"]').removeClass('is-valid').addClass('is-invalid');
+                        $('.invalid-feedback-address').text(err.address);
+                    }
+                } else {
                     modal.modal('toggle');
                     resetForm(form);
                     Swal.fire({
@@ -340,31 +389,18 @@ function addEditCustomer(form) {
                     });
                     getCustomers();
                 }
-                if (data.error) {
-                    $('.invalid-feedback-email').toggleClass('d-block').text(data.error);
-                }
             })
-            .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.toggleClass('d-none');
-                console.log(error.responseJSON, error);
-                if (err) {
-                    if (err.name) {
-                        $('.invalid-feedback-name').text(err.name);
-                    }
-                    if (err.email) {
-                        $('[name="email"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.number_phone) {
-                        $('[name="number_phone"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-tel').text(err.number_phone);
-                    }
-                    if (err.address) {
-                        $('.invalid-feedback-address').text(err.address);
-                    }
+            .fail(function(jqXHR) {
+                if (jqXHR.status != 200 || jqXHR.status == 0) {
+                    loading.addClass('d-none');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thêm khách hàng thất bại',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
-            })
+            });
     })
 
     return;
@@ -406,6 +442,20 @@ function saveCustomer(e, id) {
         _method: 'PATCH'
     }
 
+    if (
+        data.name == '' ||
+        data.email == '' ||
+        data.number_phone == '' ||
+        data.address == ''
+    ) {
+        row.find('input').each(function() {
+            if ($(this).val() == '') {
+                $(this).removeClass('is-valid').addClass('is-invalid');
+            }
+        })
+        return;
+    }
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -418,7 +468,28 @@ function saveCustomer(e, id) {
             data: data
         })
         .done(function(data) {
-            if (data) {
+            if (data && data.status == 422) {
+                err = data.errors;
+                if (err.name) {
+                    row.find('[name="name"]').removeClass('is-valid').addClass('is-invalid');
+                    row.find('[name="name"]').next('.invalid-tooltip').text(err.name);
+                }
+
+                if (err.email) {
+                    row.find('[name="email"]').removeClass('is-valid').addClass('is-invalid');
+                    row.find('[name="email"]').next('.invalid-tooltip').text(err.email);
+                }
+
+                if (err.address) {
+                    row.find('[name="address"]').removeClass('is-valid').addClass('is-invalid');
+                    row.find('[name="address"]').next('.invalid-tooltip').text(err.address);
+                }
+
+                if (err.number_phone) {
+                    row.find('[name="number_phone"]').removeClass('is-valid').addClass('is-invalid');
+                    row.find('[name="number_phone"]').next('.invalid-tooltip').text(err.number_phone);
+                }
+            } else {
                 Swal.fire({
                     icon: 'success',
                     title: data.message,
@@ -428,34 +499,16 @@ function saveCustomer(e, id) {
                 getCustomers();
             }
         })
-        .fail(function(error) {
-            var err = error.responseJSON.errors;
-            if (err) {
-                if (err.name) {
-                    row.find('.valid-field-name').addClass('show').text(err.name);
-                } else {
-                    row.find('.valid-field-name').removeClass('show')
-                }
-
-                if (err.email) {
-                    row.find('.valid-field-email').addClass('show').text(err.email);
-                } else {
-                    row.find('.valid-field-email').removeClass('show')
-                }
-
-                if (err.address) {
-                    row.find('.valid-field-address').addClass('show').text(err.address);
-                } else {
-                    row.find('.valid-field-address').removeClass('show')
-                }
-
-                if (err.number_phone) {
-                    row.find('.valid-field-number_phone').addClass('show').text(err.number_phone);
-                } else {
-                    row.find('.valid-field-number_phone').removeClass('show')
-                }
+        .fail(function(jqXHR) {
+            if (jqXHR.status != 200 || jqXHR.status == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Chỉnh sửa khách hàng thất bại',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
-        })
+        });
     return;
 }
 
@@ -530,17 +583,9 @@ $(document).ready(function() {
     getCustomers();
     importCustomer();
 
-    $('#lstCustomers').on('click', '.btn-block-Customer', function() {
-        blockCustomer($(this).data('id'));
-    })
-
-    $('#lstCustomers').on('click', '.btn-delete-Customer', function() {
-        deleteCustomer($(this).data('id'));
-    })
-
     $('.btn-submit').one("click", function() {
         var form = $(this).closest('form');
-        addEditCustomer(form);
+        addCustomer(form);
     })
 
     $('.btn-search-customer').click(function(e) {
@@ -559,4 +604,5 @@ $(document).ready(function() {
             getCustomersInPage(url);
         }
     })
+
 })

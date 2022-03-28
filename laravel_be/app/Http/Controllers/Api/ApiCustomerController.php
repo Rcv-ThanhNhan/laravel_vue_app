@@ -42,9 +42,11 @@ class ApiCustomerController extends Controller
     public function store(ApiCustomerRequest $request)
     {
         $customerCheck = Customer::whereEmail($request->email)->first();
+
         if($customerCheck){
-            return response()->json(['errors' => ['email' => 'Email đã tồn tại']], 400);
+            return response()->json(['status'=> 422, 'errors' => ['email' => 'Email đã tồn tại']]);
         }
+
         $data = [
             'customer_name' => $request->name,
             'email' => $request->email,
@@ -52,10 +54,11 @@ class ApiCustomerController extends Controller
             'address' => $request->address,
             'is_active' => $request->is_active ? $request->is_active : 0,
         ];
+
         if(Customer::create($data)){
             return response()->json(['message' => 'Thêm người dùng thành công']);
         }
-        return response()->json(['error' => 'Thêm người dùng thất bại'], 500);
+        return response()->json(['message' => 'Thêm người dùng thất bại']);
     }
 
     /**
@@ -90,17 +93,14 @@ class ApiCustomerController extends Controller
     public function update(ApiCustomerRequest $request, $id)
     {
         $customer = Customer::where('customer_id', $id);
-        if(!$customer){
-            return response()->json(['status' => 422, 'error' => 'Chỉnh sửa người dùng thất bại']);
-        }
 
-        // $customerCheck = customer::whereEmail($request->email)->where('is_delete', 0)->first();
-        // if($customerCheck){
-        //     return response()->json(['status' => 422, 'error' => 'Email đã tồn tại']);
-        // }
+        if(!$customer){
+            return response()->json(['status' => 422, 'errors' => 'Chỉnh sửa người dùng thất bại']);
+        }
 
         $data = [
             'customer_name' => $request->name,
+            'email' => $request->email,
             'tel_num' => $request->number_phone,
             'address' => $request->address,
             'is_active' => $request->is_active ? $request->is_active : 1,
@@ -109,7 +109,7 @@ class ApiCustomerController extends Controller
         if($customer->update($data)){
             return response()->json(['message' => 'Chỉnh sửa người dùng thành công']);
         }
-        return response()->json(['error' => 'Chỉnh sửa người dùng thất bại'], 500);
+        return response()->json(['message' => 'Chỉnh sửa người dùng thất bại']);
     }
 
     /**
