@@ -147,11 +147,10 @@ return [
         // ],
 
         '*' => [
-            'required' => ':attribute không được bỏ trống'
-        ],
-        '*' => [
-            'unique' => ':attribute đã tồn tại'
-        ],
+            'required' => ':attribute không được bỏ trống',
+            'unique' => ':attribute đã tồn tại',
+            'max' => ':attribute quá dài'
+        ]
     ],
 
     /*
@@ -167,8 +166,12 @@ return [
 
     'attributes' => [
         'passwd' => 'Mật khẩu',
+        'password' => 'Mật khẩu',
         'passwd_confirm' => 'Mật khẩu xác nhận',
-        'email' => 'Email'
+        'email' => 'Email',
+        'number_phone' => 'Số điện thoại',
+        'name' => 'Tên',
+        'username' => 'Tên người dùng'
     ],
 
 ];

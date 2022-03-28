@@ -116,7 +116,7 @@
             <div class="mb-3 row mx-0 align-items-center">
                 <label class="form-label col-4">Điện thoại <span class="invalid-text">*</span></label>
                 <div class="col-8 px-0">
-                    <input type="number" name="number_phone" placeholder="0123456789" maxLength="12" class="form-control" required>
+                    <input type="number" name="number_phone" pattern="[0][0-9]{9}" placeholder="0123456789" maxLength="12" class="form-control" required>
                     <div class="invalid-feedback invalid-feedback-tel">
                         Số điện thoại không được bỏ trống
                     </div>

@@ -44,6 +44,7 @@ function getCustomers(url = urlApi) {
                         if ($(e.target).val() == '') {
                             $(e.target).removeClass('is-valid').addClass('is-invalid');
                         } else {
+                            $(e.target)[0].setCustomValidity('');
                             $(e.target).addClass('is-valid').removeClass('is-invalid');
                         }
                     })
@@ -361,18 +362,20 @@ function addCustomer(form) {
                 var modal = $('#customerEditAddModal');
                 if (data && data.status == 422) {
                     err = data.errors;
-                    console.log(err);
+
                     if (err.name) {
                         modal.find('[name="name"]').removeClass('is-valid').addClass('is-invalid');
                         $('.invalid-feedback-name').text(err.name);
                     }
                     if (err.email) {
+                        modal.find('[name="email"]')[0].setCustomValidity(err.email);
                         modal.find('[name="email"]').removeClass('is-valid').addClass('is-invalid');
                         $('.invalid-feedback-email').text(err.email);
                     }
                     if (err.number_phone) {
-                        modal.find('[name="tel"]').removeClass('is-valid').addClass('is-invalid');
-                        $('.invalid-feedback-tel').text(err.number_phone);
+                        modal.find('[name="number_phone"]')[0].setCustomValidity(err.email);
+                        modal.find('[name="number_phone"]').removeClass('is-valid').addClass('is-invalid');
+                        $('.invalid-feedback-tel').text(err.number_phone[0]);
                     }
                     if (err.address) {
                         modal.find('[name="address"]').removeClass('is-valid').addClass('is-invalid');
@@ -605,4 +608,11 @@ $(document).ready(function() {
         }
     })
 
+    $('#customerEditAddModal').find('input').each(function(index, ele) {
+        $(ele).on('input', function(e) {
+            if ($(e.target).val() != '') {
+                $(e.target)[0].setCustomValidity('');
+            }
+        })
+    })
 })

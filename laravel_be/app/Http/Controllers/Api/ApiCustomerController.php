@@ -103,7 +103,7 @@ class ApiCustomerController extends Controller
             'email' => $request->email,
             'tel_num' => $request->number_phone,
             'address' => $request->address,
-            'is_active' => $request->is_active ? $request->is_active : 1,
+            'is_active' => $customer->first()->is_active,
         ];
 
         if($customer->update($data)){
