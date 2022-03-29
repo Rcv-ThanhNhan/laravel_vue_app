@@ -143,3 +143,19 @@
 .swal-import .swal2-html-container::-webkit-scrollbar-thumb:hover {
     background: #888;
 }
+
+
+/* BUTTON */
+
+@media (max-width: 768px) {
+    .button-responsive {
+        width: 35px;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    .button-responsive i {
+        margin-right: 10px;
+    }
+}
