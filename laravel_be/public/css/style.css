@@ -70,6 +70,7 @@
     left: 50%;
     width: 100px;
     height: 100px;
+    z-index: 100;
 }
 
 #lstProducts tr .product-code .image-product-container img {
@@ -152,7 +153,7 @@
         width: 35px;
         white-space: nowrap;
         overflow: hidden;
-        padding: 10px;
+        padding: 5px 10px;
         border-radius: 4px;
     }
     .button-responsive i {

@@ -56,9 +56,11 @@
                     Lưu mật khẩu
                 </label>
             </div>
-            <button class="btn btn-az-primary" type="submit">
-                Đăng nhập
-            </button>
+            <div class="text-center text-md-right">
+                <button class="btn btn-az-primary" type="submit">
+                    Đăng nhập
+                </button>
+            </div>
         </form>
         </div><!-- az-signin-header -->
         <div class="az-signin-footer">

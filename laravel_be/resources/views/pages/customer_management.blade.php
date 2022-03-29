@@ -13,15 +13,15 @@
       Quản lí khách hàng
     </h2>
     <form action="{{ env('APP_API').'/search-customer' }}" class="row row-sm mb-3" id="searchCustomer">
-      <div class="col-md-2 mb-3">
+      <div class="col-md-2 mb-3 mb-md-0">
         <label for="">Tên</label>
         <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
       </div>
-      <div class="col-md-2 mb-3">
+      <div class="col-md-2 mb-3 mb-md-0">
         <label for="">Email</label>
         <input class="form-control" placeholder="Email" type="text" name="email">
       </div>
-      <div class="col-md-2 mb-3">
+      <div class="col-md-2 mb-3 mb-md-0">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status">
           <option label="Chọn trạng thái"></option>
@@ -30,21 +30,21 @@
         </select>
       </div>
 
-        <div class="col-md-2 mb-3">
+        <div class="col-md-2 mb-3 mb-md-0">
             <label for="">Địa chỉ</label>
             <input class="form-control" placeholder="Địa chỉ" type="text" name="address">
         </div>
 
         <div class="col-md-2 col-6 d-flex">
-            <button class="col-12 btn btn-primary align-self-end btn-search-customer"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+            <button class="col-12 px-0 btn btn-primary align-self-end btn-search-customer"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
         </div>
 
         <div class="col-md-2 col-6 d-flex">
-            <button class="col-12 btn btn-secondary align-self-end btn-reset-search-customer" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+            <button class="col-12 px-0 btn btn-secondary align-self-end btn-reset-search-customer" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm</button>
         </div>
     </form>
-    <div class="row text-right mb-3">
-        <div class="col-12 row mt-3 mx-0">
+    <div class="row text-right mb-2">
+        <div class="col-12 row mx-0">
             <div class="col-6 d-flex px-0">
                 <a href="{{ route('export.customer') }}" class="btn btn-success mr-2 export-customer button-responsive">
                     <i class="fa-solid fa-file-export"></i> Export CSV
