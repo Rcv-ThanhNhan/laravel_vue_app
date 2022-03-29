@@ -80,8 +80,12 @@ function modalAddEditProduct(type, id) {
             let description = product.description;
             let image = product.product_image;
             let is_sale = product.is_sale;
-            let imgPath = window.location.origin + (image ? '/upload/images/' + image : '/img/no_image.png');
-
+            var imgPath = '/img/no_image.png';
+            if (checkUrlImage(image)) {
+                imgPath = image;
+            } else {
+                imgPath = window.location.origin + '/upload/images/' + image;
+            }
             modal.find('.img-preview').attr('src', imgPath);
             modal.find('form [name="name_product"]').val(name);
             modal.find('form [name="price_product"]').val(price);
@@ -407,6 +411,13 @@ function getProductsInPage(url = urlApi) {
         .fail((error) => {
             return error.responseJSON;
         })
+}
+
+function checkUrlImage(url) {
+    if (url.slice(0, 7) == 'http://' || url.slice(0, 7) == 'https:/') {
+        return true;
+    }
+    return false;
 }
 
 $(document).ready(function() {
