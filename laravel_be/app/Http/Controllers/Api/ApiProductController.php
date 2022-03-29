@@ -49,7 +49,7 @@ class ApiProductController extends Controller
         if(Product::create($data)){
             return response()->json(['message' => 'Thêm sản phẩm thành công']);
         }
-        return response()->json(['error' => 'Thêm sản phẩm thất bại'], 500);
+        return response()->json(['message' => 'Thêm sản phẩm thất bại']);
     }
 
     /**

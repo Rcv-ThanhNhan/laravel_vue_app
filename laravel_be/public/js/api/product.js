@@ -183,6 +183,11 @@ function getProduct(id) {
 }
 
 function deleteProduct(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
@@ -287,11 +292,24 @@ function addEditProduct() {
                 cache: false,
                 beforeSend: function() {
                     loading.addClass('d-none');
+                },
+                success: function() {
+                    loading.removeClass('d-none');
+
                 }
             })
             .done(function(data) {
-                loading.removeClass('d-none');
-                if (data) {
+                if (data && data.status == 422) {
+                    if (err) {
+                        if (err.name_product) {
+                            $('.invalid-feedback-name_product').text(err.name_product);
+                        }
+                        if (err.price_product) {
+                            $('[name="price_product"]')[0].setCustomValidity('Invalid field.');
+                            $('.invalid-feedback-price_product').text(err.price_product);
+                        }
+                    }
+                } else {
                     $('#productEditAddModal').modal('toggle');
                     resetForm(form);
                     Swal.fire({
@@ -302,21 +320,17 @@ function addEditProduct() {
                     });
                     getProducts();
                 }
-            })
-            .fail(function(error) {
-                var err = error.responseJSON.errors;
-                loading.removeClass('d-none');
-                if (err) {
-                    if (err.name_product) {
-
-                        $('.invalid-feedback-name_product').text(err.name_product);
-                    }
-                    if (err.price_product) {
-                        $('[name="price_product"]')[0].setCustomValidity('Invalid field.');
-                        $('.invalid-feedback-price_product').text(err.price_product);
-                    }
+            }).fail(function(jqXHR) {
+                if (jqXHR.status != 200 || jqXHR.status == 0) {
+                    loading.addClass('d-none');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thêm người dùng thất bại',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
-            })
+            });
         return;
     })
 }
