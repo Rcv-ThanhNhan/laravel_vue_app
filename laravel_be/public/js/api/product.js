@@ -236,13 +236,12 @@ function deleteProduct(id) {
 }
 
 function removeFileFromFileList() {
-    // const dt = new DataTransfer();
-    // const input = $('[name="img_product"]');
+    const input = $('[name="img_product"]');
 
-    // console.log(dt.files);
-    // input.files = dt.files;
-    // console.log(input.prop('files'), input.files)
-    alert('not work');
+    input.files = null;
+
+    $('.img-preview').attr('src', window.location.origin + '/img/no_image.png');
+    $('input[name="img_product_name"]').val('');
 }
 
 
@@ -258,20 +257,18 @@ function addEditProduct() {
 
         var frmData = new FormData(this);
 
-        if ($(this).data('type') == 'edit') {
-            frmData.append('_method', 'PATCH');
-        }
-
         if (type == 'edit') {
             frmData.append('_method', 'PATCH');
         }
-
 
         if (
             frmData.get('name_product') == '' ||
             frmData.get('price_product') == ''
         ) {
             return;
+        }
+        if ($('input[name="img_product_name"]').val() == '') {
+            frmData.delete('img_product');
         }
 
         var loading = $('.loading-submit');
@@ -402,8 +399,9 @@ $(document).ready(function() {
     getProducts();
     addEditProduct();
 
+    // Xóa
     $('#lstProducts').on('click', '.btn-delete-product', function() {
-        deleteProduct($(this).data('id'));
+        deleteProduct($(this).attr('data-id'));
     })
 
     // nút tìm kiếm

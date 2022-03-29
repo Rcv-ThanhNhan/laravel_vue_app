@@ -40,3 +40,16 @@ if(!function_exists('createIdProduct')){
         return $newId;
     }
 }
+
+function getUrlImage($file_name, $url = 'upload/images/'){
+    $image = $file_name;
+    if($file_name == 'no_image.png' ){
+        $url = 'img/';
+        $image = $file_name;
+    }
+    if(filter_var($file_name, FILTER_VALIDATE_URL)){
+        $url = '';
+        $image = $file_name;
+    }
+    return $url.$image;
+}

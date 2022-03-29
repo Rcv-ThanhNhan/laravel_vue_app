@@ -33,7 +33,11 @@ class ApiProductController extends Controller
      */
     public function store(ApiProductRequest $request)
     {
-        $file_name = date("Y-m-d-H-i-s").'-'.$request->file('img_product')->getClientOriginalName();
+        $file_name = 'no_image.png';
+        if($request->hasFile('img_product')){
+            $file_name = date("Y-m-d-H-i-s").'-'.$request->file('img_product')->getClientOriginalName();
+            $request->file('img_product')->move ('upload/images', $file_name, 'local');
+        }
         $data = [
             'product_id' => createIdProduct($request->name_product),
             'product_name' => $request->name_product,
@@ -42,10 +46,8 @@ class ApiProductController extends Controller
             'product_image' => $file_name,
             'is_sale' => $request->status ? $request->status : 0,
         ];
-        if($request->file('img_product')->move ('upload/images', $file_name, 'local')){
-            if(Product::create($data)){
-                return response()->json(['message' => 'Thêm sản phẩm thành công']);
-            }
+        if(Product::create($data)){
+            return response()->json(['message' => 'Thêm sản phẩm thành công']);
         }
         return response()->json(['error' => 'Thêm sản phẩm thất bại'], 500);
     }

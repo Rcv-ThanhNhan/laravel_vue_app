@@ -160,7 +160,7 @@
     Swal.fire({
             title: 'Không có dữ liệu để xuất.',
             icon: 'warning',
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonText: 'Đóng',
         });
         })

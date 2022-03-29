@@ -13,7 +13,7 @@
         <td class="product-code">
             {{ $v->product_id }}
             <div class="image-product-container">
-                <img src="{{ $v->product_image ? asset('upload/images/'.$v->product_image) : asset('img/no_image.png') }}" alt="">
+                <img src="{{ asset(getUrlImage($v->product_image)) }}" alt="">
             </div>
         </td>
         <td>{{ $v->product_name }}</td>
