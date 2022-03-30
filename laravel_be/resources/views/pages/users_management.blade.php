@@ -47,7 +47,7 @@
     </form>
     <div class="row text-right mb-2">
         <div class="col-md">
-            <button class="btn btn-primary button-responsive" onclick="modalAddEditUser('add')"
+            <button class="btn btn-primary button-responsive" onclick="modalAddEditUser(event, 'add')"
                     data-bs-toggle="modal" data-bs-target="#UserEditAddModal">
                     <i class="fa-solid fa-user-plus" ></i> Thêm mới
             </button>

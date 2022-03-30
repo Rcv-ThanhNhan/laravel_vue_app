@@ -46,7 +46,7 @@ function getUsers(url = urlApi) {
 
 }
 
-function modalAddEditUser(type, id) {
+function modalAddEditUser(e, type) {
     var modal = $('#UserEditAddModal');
 
     var title = '';
@@ -68,6 +68,7 @@ function modalAddEditUser(type, id) {
 
     if (type == 'edit') {
         resetForm(modal.find('form'))
+        var id = $(e.currentTarget).attr('data-id');
         title = 'Chỉnh sửa user';
         action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
         url = urlApi + '/' + id;
@@ -77,19 +78,30 @@ function modalAddEditUser(type, id) {
         modal.find('form [name="passwd"]').closest('.mb-3').addClass('d-none');
         modal.find('form [name="email"]').prop('disabled', true);
 
-        let user = getUser(id);
-        user.then(function(data) {
-            let user = data.data;
-            let name = user.name;
-            let email = user.email;
-            let group_role = user.group_role;
-            let is_active = user.is_active;
+        getUser(id).then(function(data) {
+            if (data.data.is_delete == 1) {
+                modal.modal('hide');
+                return Swal.fire({
+                    title: 'Không tìm thấy người dùng',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Đóng',
+                    timer: 3000
+                })
+            } else {
+                let user = data.data;
+                let name = user.name;
+                let email = user.email;
+                let group_role = user.group_role;
+                let is_active = user.is_active;
 
-            modal.find('form [name="username"]').val(name);
-            modal.find('form [name="email"]').val(email);
-            modal.find('form [name="group"]').val(group_role);
-            modal.find('form [name="status"]').prop('checked', is_active);
+                modal.find('form [name="username"]').val(name);
+                modal.find('form [name="email"]').val(email);
+                modal.find('form [name="group"]').val(group_role);
+                modal.find('form [name="status"]').prop('checked', is_active);
+            }
         })
+        id = '';
     }
 
     var form = modal.find('form');
@@ -195,6 +207,15 @@ function blockUser(id) {
         buttonsStyling: false
     })
     getUser(id).then(function(data) {
+        if (data.data.is_delete == 1) {
+            return swalWithBootstrapButtons.fire({
+                title: 'Không tìm thấy người dùng',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Đóng',
+                timer: 3000
+            })
+        }
         if (data.data) {
             swalWithBootstrapButtons.fire({
                 title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
@@ -252,6 +273,15 @@ function deleteUser(id) {
     })
     getUser(id).then(function(data) {
         if (data.data) {
+            if (data.data.is_delete == 1) {
+                return swalWithBootstrapButtons.fire({
+                    title: 'Không tìm thấy người dùng',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Đóng',
+                    timer: 3000
+                })
+            }
             swalWithBootstrapButtons.fire({
                 title: 'Bạn có muốn xoá tài khoản ' + data.data.name,
                 icon: 'warning',
@@ -434,6 +464,24 @@ $(document).ready(function() {
 
     $('.btn-search-user').click(function(e) {
         e.preventDefault();
+        const form = $('#searchUser');
+        const frmData = new FormData(form[0]);
+
+        var data = {
+            name: frmData.get('name'),
+            email: frmData.get('email'),
+            group: frmData.get('group'),
+            status: frmData.get('status'),
+        }
+
+        if (
+            data.name == '' &&
+            data.email == '' &&
+            data.group == '' &&
+            data.status == ''
+        ) {
+            return;
+        }
         getUsers();
     })
 

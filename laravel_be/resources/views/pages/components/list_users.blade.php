@@ -15,7 +15,7 @@
         <td>{!! $status !!}</td>
         <td>
             <div class="btn-icon-list">
-            <button type="button" class="btn px-2 py-0 min-h-unset"  onclick="modalAddEditUser('edit', {{ $v->id }})"
+            <button type="button" class="btn px-2 py-0 min-h-unset" data-id="{{ $v->id }}" onclick="modalAddEditUser(event ,'edit')"
                     data-bs-toggle="modal" data-bs-target="#UserEditAddModal">
                 <i class="fa-solid fa-pen text-info"></i>
             </button>

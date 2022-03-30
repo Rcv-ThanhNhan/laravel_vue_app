@@ -422,8 +422,7 @@ $(document).ready(function() {
         var render = $('.img-preview');
         var file = this.files[0];
         var extentionAcept = ['jpg', 'jepg', 'png']
-
-        if ($.inArray(getExtension(file.name), extentionAcept)) {
+        if ($.inArray(getExtension(file.name), extentionAcept) == -1) {
             Swal.fire({
                 icon: 'warning',
                 title: 'File không đúng định dạng',
