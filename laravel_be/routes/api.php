@@ -3,8 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Api\ApiLoginController;
+use App\Http\Controllers\Api\ApiUserController;
+use App\Http\Controllers\Api\ApiCustomerController;
+use App\Http\Controllers\Api\ApiProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +21,21 @@ use App\Http\Controllers\UserController;
 
 Route::apiResources([
     '/register' => RegisterController::class,
-    '/login' => LoginController::class,
-    '/user' => UserController::class,
+    '/login-api' => ApiLoginController::class,
+    '/user' => ApiUserController::class,
+    '/customer' => ApiCustomerController::class,
+    '/product' => ApiProductController::class,
 ]);
 
-Route::get('/user-info',[ UserController::class, 'userInfo'])->middleware('auth:sanctum');
+Route::get('/user-info',[ ApiUserController::class, 'userInfo'])->middleware('auth:sanctum');
+Route::post('/user/update-status',[ ApiUserController::class, 'updateStatus']);
+Route::get('/search-user',[ ApiUserController::class, 'search']);
+
+Route::get('/search-customer',[ ApiCustomerController::class, 'search']);
+
+Route::get('/search-product',[ ApiProductController::class, 'search']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+

@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function(){
+    return redirect()->route('login.index');
 });
 
-Auth::routes();
+Route::resource('/login', LoginController::class);
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register', [LoginController::class, 'register'])->name('register.store');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/user-management', UserController::class);
+    Route::resource('/customer-management', CustomerController::class);
+    Route::resource('/product-management', ProductController::class);
+    Route::get('/export-customer', [CustomerController::class, 'export'])->name('export.customer');
+    Route::post('/import-customer', [CustomerController::class, 'import'])->name('import.customer');
+});

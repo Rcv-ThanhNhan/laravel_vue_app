@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ApiLoginRequest;
 use App\Models\User;
 use Hash;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -17,16 +17,10 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return 'index';
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+        if(!Auth::check()){
+            return view('pages.login');
+        }
+        return redirect()->route('user-management.index');
     }
 
     /**
@@ -37,60 +31,43 @@ class LoginController extends Controller
      */
     public function store(ApiLoginRequest $request)
     {
-        $email = $request->email;
+        $email = $request->username;
         $pwd = $request->password;
         $remember = $request->remember ? true : false;
-        if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
-            $user = User::whereEmail($email)->first();
-            $user->token = $user->createToken("App")->plainTextToken;
-            return $user;
-            return response()->json($user);
+
+        if(User::whereEmail($email)){
+            if(User::whereEmail($email)->first()->is_delete == 1){
+                return back()->with('errorLogin', 'Email không tồn tại')->withInput($request->only('username'));
+            }
+            if(User::whereEmail($email)->first()->is_active == 0){
+                return back()->with('errorLogin', 'Tài khoản đã bị khóa')->withInput($request->only('username'));
+            }
         }
-        return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác']);
+
+        if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){
+            return redirect()->route('user-management.index');
+        }
+        return back()->with('errorLogin', 'Tên tài khoản hoặc mật khẩu không chính xác')->withInput($request->only('username'));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function logout(Request $request)
     {
-        //
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function register(){
+        return view('pages.register');
     }
 }

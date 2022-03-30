@@ -142,9 +142,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        // 'attribute-name' => [
+        //     'rule-name' => 'custom-message',
+        // ],
+
+        '*' => [
+            'required' => ':attribute không được bỏ trống',
+            'unique' => ':attribute đã tồn tại',
+            'max' => ':attribute quá dài'
+        ]
     ],
 
     /*
@@ -158,6 +164,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'passwd' => 'Mật khẩu',
+        'password' => 'Mật khẩu',
+        'passwd_confirm' => 'Mật khẩu xác nhận',
+        'email' => 'Email',
+        'number_phone' => 'Số điện thoại',
+        'name' => 'Tên',
+        'username' => 'Tên người dùng'
+    ],
 
 ];

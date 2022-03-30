@@ -1,0 +1,145 @@
+.min-h-unset {
+    min-height: unset;
+}
+
+.btn {
+    min-height: unset;
+}
+
+.h-250 {
+    min-height: 250px;
+}
+
+.loading-table {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.1)
+}
+
+.loading-table .spinner-border {
+    position: absolute;
+    top: 49%;
+    left: 49%;
+}
+
+.img-container {
+    width: 300px;
+    height: 200px;
+    margin: auto;
+    text-align: center;
+    max-width: 100%;
+}
+
+.img-container img {
+    height: 200px;
+    object-fit: contain;
+    width: 100%;
+}
+
+
+/* button[type=reset] {
+    width: 135px;
+    padding-left: 0;
+    padding-right: 0;
+} */
+
+
+/* show image when hover */
+
+.product-code {
+    position: relative;
+}
+
+#lstProducts tr .product-code:hover {
+    color: #5b47fb;
+    cursor: pointer;
+}
+
+#lstProducts tr .product-code:hover .image-product-container {
+    display: block;
+}
+
+#lstProducts tr .product-code .image-product-container {
+    display: none;
+    transition: all 0.1s ease;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+#lstProducts tr .product-code .image-product-container img {
+    width: 100%;
+    height: 100%;
+}
+
+#lstProducts tr:last-child .product-code .image-product-container {
+    bottom: 5px;
+}
+
+#lstProducts tr:first-child .product-code .image-product-container,
+#lstProducts tr:nth-child(1) .product-code .image-product-container {
+    bottom: -40px;
+}
+
+
+/* ================= */
+
+.w-p-100 {
+    width: 100px;
+}
+
+.valid-field {
+    font-size: 12px;
+    font-style: italic;
+    display: none;
+    margin-top: 3px;
+}
+
+.show.valid-field {
+    display: block;
+}
+
+.invalid-text,
+.error {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #dc3545;
+}
+
+.swal-import .swal2-html-container {
+    max-height: 200px;
+}
+
+.swal2-html-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+/* Track */
+
+.swal-import .swal2-html-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey;
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+.swal-import .swal2-html-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+.swal-import .swal2-html-container::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
