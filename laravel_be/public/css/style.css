@@ -40,13 +40,6 @@
 }
 
 
-/* button[type=reset] {
-    width: 135px;
-    padding-left: 0;
-    padding-right: 0;
-} */
-
-
 /* show image when hover */
 
 .product-code {
@@ -159,4 +152,15 @@
     .button-responsive i {
         margin-right: 10px;
     }
+}
+
+
+/* TABLE */
+
+table tbody tr th,
+table tbody tr td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    overflow: hidden;
 }
