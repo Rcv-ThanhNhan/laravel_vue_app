@@ -157,10 +157,8 @@
 
 /* TABLE */
 
-table tbody tr th,
-table tbody tr td {
-    white-space: nowrap;
-    text-overflow: ellipsis;
+table tr th,
+table tr td {
     max-width: 200px;
-    overflow: hidden;
+    white-space: nowrap;
 }

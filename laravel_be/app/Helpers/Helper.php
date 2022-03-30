@@ -52,3 +52,9 @@ function getUrlImage($file_name, $url = 'upload/images/'){
     }
     return $url.$image;
 }
+
+function versioned_asset($path, $secure = null){
+    $timestamp = @filemtime(public_path($path)) ?: 0;
+
+    return asset($path, $secure) . '?v=' . $timestamp;
+}

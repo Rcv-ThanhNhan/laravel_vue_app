@@ -3,7 +3,7 @@
 @section('title', 'Quản lí sản phẩm')
 
 @section('api')
-<script src="{{ asset('js/api/product.js') }}"></script>
+<script src="{{ versioned_asset('js/api/product.js') }}"></script>
 @endsection
 
 @section('content')
@@ -80,7 +80,7 @@
         </nav>
     </div>
     <!-- ##### MODAL EDIT/ADD USER ##### -->
-    <div class="modal fade" id="productEditAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="productEditAddModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <form class="modal-content needs-validation" novalidate enctype="multipart/form-data">
         <div class="modal-header">

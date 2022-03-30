@@ -3,7 +3,7 @@
 @section('title', 'Quản lí người dùng')
 
 @section('api')
-<script src="{{ asset('js/api/user.js') }}"></script>
+<script src="{{ versioned_asset('js/api/user.js') }}"></script>
 @endsection
 
 @section('content')
@@ -76,7 +76,7 @@
         </nav>
     </div>
     <!-- ##### MODAL EDIT/ADD USER ##### -->
-    <div class="modal fade" id="UserEditAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="UserEditAddModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">
         <form class="modal-content needs-validation" novalidate >
           <div class="modal-header">
@@ -89,6 +89,7 @@
               <div class="col-8 px-0">
                     <input type="text" class="form-control"  name="username" placeholder="Nguyễn Văn A" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-username">
+                        Tên người dùng không được bỏ trống
                     </div>
                 </div>
             </div>
@@ -97,6 +98,7 @@
               <div class="col-8 px-0">
                 <input type="email" class="form-control" name="email" placeholder="name@example.com" maxlength="32" required>
                 <div class="invalid-feedback invalid-feedback-email">
+                    Email không được bỏ trống
                 </div>
             </div>
             </div>
@@ -105,6 +107,7 @@
                 <div class="col-8 px-0">
                     <input type="password" name="passwd" class="form-control" maxlength="191" required>
                     <div class="invalid-feedback invalid-feedback-passwd">
+                        Mật khẩu không được bỏ trống
                     </div>
                 </div>
             </div>
@@ -113,6 +116,7 @@
               <div class="col-8 px-0">
                 <input type="password" name="passwd_confirm" class="form-control" maxlength="191" required>
                 <div class="invalid-feedback invalid-feedback-passwd_confirm">
+                    Mật khẩu xác nhận không được bỏ trống
                 </div>
             </div>
             </div>

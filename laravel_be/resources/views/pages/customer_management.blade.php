@@ -3,7 +3,7 @@
 @section('title', 'Quản lí khách hàng')
 
 @section('api')
-    <script src="{{ asset('js/api/customer.js') }}"></script>
+    <script src="{{ versioned_asset('js/api/customer.js') }}"></script>
 @endsection
 
 @section('content')
@@ -86,7 +86,7 @@
         </nav>
     </div>
     <!-- ##### MODAL EDIT/ADD USER ##### -->
-    <div class="modal fade" id="customerEditAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="customerEditAddModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">
         <form class="modal-content needs-validation" novalidate >
             @csrf

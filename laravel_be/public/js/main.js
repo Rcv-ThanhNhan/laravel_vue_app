@@ -69,10 +69,28 @@ function setMaxlength(ele) {
     if (ele.val().length >= ele.attr('maxlength'))
         ele.val(ele.val().slice(0, ele.attr('maxlength')));
 }
+
+function handleCloseModal() {
+    $('.modal').on('hide.bs.modal', function() {
+        var input = $(this).find('form[data-type="add"] input.form-control');
+        var notEmpty = false;
+        input.each(function(i, ele) {
+            if ($(ele).val() != '') {
+                return notEmpty = true;
+            }
+        })
+        if (notEmpty) {
+            let text = "Sau khi đóng dữ liệu nhập sẽ bị mất.";
+            if (!confirm(text)) { return false };
+        }
+    });
+}
+
 $(document).ready(function() {
     activeRoute();
     validation();
-    checkValidation()
+    checkValidation();
+    handleCloseModal();
 
     $('[maxlength][type="number"]').on('input', function() {
         setMaxlength($(this))
