@@ -3,7 +3,7 @@
 @section('title', 'Đăng nhập')
 
 @section('api')
-{{-- <script src="{{ asset('js/api/login.js') }}"></script> --}}
+<script src="{{ asset('js/api/login.js') }}"></script>
 @endsection
 
 @section('content')

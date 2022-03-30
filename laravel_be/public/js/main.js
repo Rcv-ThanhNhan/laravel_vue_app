@@ -77,4 +77,17 @@ $(document).ready(function() {
     $('[maxlength][type="number"]').on('input', function() {
         setMaxlength($(this))
     })
+
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function() {
+            $('.loading-submit').removeClass('d-none');
+        },
+        success: function() {
+            $('.loading-submit').addClass('d-none');
+        },
+    });
 })

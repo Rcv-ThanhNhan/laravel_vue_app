@@ -50,8 +50,11 @@ function login() {
 
     })
 }
+
 $(document).ready(function() {
-    login()
+    // login()
 
-
+    $('.login-form').submit(function() {
+        $(this).find('[type="submit"]').prop('disabled', true)
+    })
 })

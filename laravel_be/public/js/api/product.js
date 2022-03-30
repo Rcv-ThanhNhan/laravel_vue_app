@@ -1,4 +1,4 @@
-var urlApi = window.APP_API + '/product';
+var urlApi = '/api/product';
 
 function getProducts(url = urlApi) {
     var render = $('#lstProducts');
@@ -84,7 +84,7 @@ function modalAddEditProduct(type, id) {
             if (checkUrlImage(image)) {
                 imgPath = image;
             } else {
-                imgPath = window.location.origin + '/upload/images/' + image;
+                imgPath = image ? window.location.origin + '/upload/images/' + image : '/img/no_image.png';
             }
             modal.find('.img-preview').attr('src', imgPath);
             modal.find('form [name="name_product"]').val(name);
@@ -187,11 +187,6 @@ function getProduct(id) {
 }
 
 function deleteProduct(id) {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
@@ -282,25 +277,13 @@ function addEditProduct() {
 
         var loading = $('.loading-submit');
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $.ajax({
                 url: url,
                 method: method,
                 data: frmData,
                 contentType: false,
                 processData: false,
-                cache: false,
-                beforeSend: function() {
-                    loading.addClass('d-none');
-                },
-                success: function() {
-                    loading.removeClass('d-none');
-
-                }
+                cache: false
             })
             .done(function(data) {
                 if (data && data.status == 422) {
@@ -387,11 +370,6 @@ function getExtension(filename) {
 function getProductsInPage(url = urlApi) {
     var render = $('#lstProducts');
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $.ajax({
             url: url,
             method: "get",
@@ -414,7 +392,7 @@ function getProductsInPage(url = urlApi) {
 }
 
 function checkUrlImage(url) {
-    if (url.slice(0, 7) == 'http://' || url.slice(0, 7) == 'https:/') {
+    if (url && (url.slice(0, 7) == 'http://' || url.slice(0, 7) == 'https:/')) {
         return true;
     }
     return false;

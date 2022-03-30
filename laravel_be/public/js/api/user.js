@@ -1,4 +1,4 @@
-var urlApi = window.APP_API + '/user';
+var urlApi = '/api/user';
 
 function getUsers(url = urlApi) {
     const form = $('#searchUser');
@@ -23,12 +23,6 @@ function getUsers(url = urlApi) {
         dataSearch = data;
     }
 
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $.ajax({
             url: url,
             method: "get",
@@ -345,22 +339,11 @@ function addEditUser() {
             }
         }
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $.ajax({
                 url: url,
                 method: method,
                 data: data,
-                cache: false,
-                beforeSend: function() {
-                    loading.removeClass('d-none');
-                },
-                success: function(data) {
-                    loading.removeClass('d-none');
-                }
+                cache: false
             })
             .done(function(data) {
                 if (data && data.status == 422) {
@@ -414,11 +397,6 @@ function addEditUser() {
 function getUsersInPage(url = urlApi) {
     var render = $('#lstUsers');
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $.ajax({
             url: url,
             method: "get",

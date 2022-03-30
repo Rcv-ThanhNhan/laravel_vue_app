@@ -43,11 +43,10 @@ if(!function_exists('createIdProduct')){
 
 function getUrlImage($file_name, $url = 'upload/images/'){
     $image = $file_name;
-    if($file_name == 'no_image.png' ){
+    if($file_name == 'no_image.png' || $file_name == ''){
         $url = 'img/';
-        $image = $file_name;
-    }
-    if(filter_var($file_name, FILTER_VALIDATE_URL)){
+        $image = 'no_image.png';
+    } else if(filter_var($file_name, FILTER_VALIDATE_URL)){
         $url = '';
         $image = $file_name;
     }
