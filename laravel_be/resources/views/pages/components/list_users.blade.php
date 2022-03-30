@@ -9,9 +9,9 @@
     @endphp
     <tr>
         <th scope="row">{{ $index }}</th>
-        <td>{{ $v->name }}</td>
+        <td class="text-truncate">{{ $v->name }}</td>
         <td>{{ $v->email }}</td>
-        <td>{{ $v->group_role }}</td>
+        <td class="text-truncate">{{ $v->group_role }}</td>
         <td>{!! $status !!}</td>
         <td>
             <div class="btn-icon-list">

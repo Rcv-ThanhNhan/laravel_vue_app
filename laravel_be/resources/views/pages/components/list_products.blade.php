@@ -16,8 +16,8 @@
                 <img src="{{ asset(getUrlImage($v->product_image)) }}" alt="">
             </div>
         </td>
-        <td>{{ $v->product_name }}</td>
-        <td class="text-truncate" style="max-width: 200px">{{ $v->description }}</td>
+        <td class="text-truncate">{{ $v->product_name }}</td>
+        <td class="text-truncate">{{ $v->description }}</td>
         <td>{{ number_format($v->product_price, 0, ',', '.') }} VNĐ</td>
         <td>{!! $is_sale !!}</td>
         <td>

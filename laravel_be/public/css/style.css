@@ -157,8 +157,11 @@
 
 /* TABLE */
 
-table tr th,
-table tr td {
-    max-width: 200px;
+table thead th {
     white-space: nowrap;
+}
+
+table tr td,
+table tr th {
+    max-width: 200px;
 }
