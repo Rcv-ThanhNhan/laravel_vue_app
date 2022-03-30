@@ -1,4 +1,4 @@
-var urlApi = 'http://127.0.0.1:8000/api/customer';
+var urlApi = window.APP_API + '/customer';
 
 function getCustomers(url = urlApi) {
     const form = $('#searchCustomer');

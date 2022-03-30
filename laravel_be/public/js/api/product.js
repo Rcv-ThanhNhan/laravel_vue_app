@@ -1,4 +1,4 @@
-var urlApi = 'http://127.0.0.1:8000/api/product';
+var urlApi = window.APP_API + '/product';
 
 function getProducts(url = urlApi) {
     var render = $('#lstProducts');

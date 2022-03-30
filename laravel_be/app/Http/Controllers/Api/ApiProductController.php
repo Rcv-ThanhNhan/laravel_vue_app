@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\File;
 
 class ApiProductController extends Controller
 {
+    private $upload_path = 'upload/images';
+
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +38,7 @@ class ApiProductController extends Controller
         $file_name = 'no_image.png';
         if($request->hasFile('img_product')){
             $file_name = date("Y-m-d-H-i-s").'-'.$request->file('img_product')->getClientOriginalName();
-            $request->file('img_product')->move ('upload/images', $file_name, 'local');
+            $request->file('img_product')->move ($this->upload_path, $file_name, 'local');
         }
         $data = [
             'product_id' => createIdProduct($request->name_product),
@@ -81,13 +83,13 @@ class ApiProductController extends Controller
         $img = $product->first()->product_image;
         $file_name = $old_file;
         if($old_file != $img && $old_file != null){
-            if(File::exists(public_path('upload/images/'.$img))){
-                File::delete(public_path('upload/images/'.$img));
+            if(File::exists(public_path($this->upload_path.'/'.$img))){
+                File::delete(public_path($this->upload_path.'/'.$img));
             };
             $new_file = $request->file('img_product');
             $file_name = date("Y-m-d-H-i-s").'-'.$new_file->getClientOriginalName();
 
-            $request->file('img_product')->move('upload/images', $file_name, 'local');
+            $request->file('img_product')->move($this->upload_path, $file_name, 'local');
         }
 
         $data = [
@@ -116,9 +118,9 @@ class ApiProductController extends Controller
             return response()->json(['error' => 'Xóa sản phẩm thất bại'], 500);
         }
 
-        if(File::exists(public_path('upload/images/'.$product->first()->product_image))){
-            File::delete(public_path('upload/images/'.$product->first()->product_image));
-        };
+        if(File::exists(public_path($this->upload_path.'/'.$product->first()->product_image))){
+            File::delete(public_path($this->upload_path.'/'.$product->first()->product_image));
+        }
 
         if($product->delete()){
             return response()->json(['message' => 'Xóa sản phẩm thành công'], 200);

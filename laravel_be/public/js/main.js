@@ -19,6 +19,19 @@ var validation = function() {
 function checkValidation() {
     var formValidate = $('form.needs-validation');
 
+    var attributes = {
+        'passwd': 'Mật khẩu',
+        'password': 'Mật khẩu',
+        'passwd_confirm': 'Mật khẩu xác nhận',
+        'email': 'Email',
+        'number_phone': 'Số điện thoại',
+        'name': 'Tên',
+        'username': 'Tên người dùng',
+        'address': 'Địa chỉ',
+        'name_product': 'Tên sản phẩm',
+        'price_product': 'Giá sản phẩm',
+    };
+
     formValidate.each(function(index, ele) {
         var input = $(ele).find('input.form-control');
         input.on('input', function(e) {
@@ -33,7 +46,9 @@ function checkValidation() {
                 _this.removeClass('is-invalid').addClass('is-valid')
             }
             if (_thisVal == '') {
-                _this.next('.invalid-feedback').text('Vui lòng nhập vào trường này')
+                var name = _this.attr('name');
+                var attribute = attributes[name] ? attributes[name] : 'Trường';
+                _this.next('.invalid-feedback').text(attribute + ' không được bỏ trống')
                 _this.removeClass('is-valid').addClass('is-invalid');
             } else {
                 _this.removeClass('is-invalid').addClass('is-valid')

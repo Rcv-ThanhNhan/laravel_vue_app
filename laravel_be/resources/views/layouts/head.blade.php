@@ -32,9 +32,10 @@
 
 
     {{-- #### API ##### --}}
-
+    <script>
+        window.APP_API = `{{ env('APP_API') }}`;
+    </script>
     <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.validation.js') }}"></script>
 
     @yield('api')
 

@@ -1,4 +1,4 @@
-var urlApi = 'http://127.0.0.1:8000/api/user';
+var urlApi = window.APP_API + '/user';
 
 function getUsers(url = urlApi) {
     const form = $('#searchUser');
