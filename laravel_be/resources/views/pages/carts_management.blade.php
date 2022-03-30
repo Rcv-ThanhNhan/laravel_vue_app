@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Quản lí người dùng')
+@section('title', 'Quản lí giỏ hàng')
 
 @section('api')
 <script src="{{ versioned_asset('js/api/user.js') }}"></script>
@@ -10,7 +10,7 @@
 
 <div class="container my-3">
     <h2 class="title-page mb-3">
-      Quản lí người dùng
+      Quản lí giỏ hàng
     </h2>
     <form action="{{ env('APP_API').'/search-user' }}" class="row row-sm mb-3" id="searchUser">
       <div class="col-md-2 mb-3 mb-md-0">
@@ -58,14 +58,15 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Họ tên</th>
-            <th>Email</th>
-            <th>Nhóm</th>
+            <th>Mã hóa đơn</th>
+            <th>Tên khách hàng</th>
+            <th>Địa chỉ</th>
+            <th>Tổng giá</th>
             <th>Trạng thái</th>
             <th></th>
           </tr>
         </thead>
-        <tbody id="lstUsers">
+        <tbody id="lstCarts">
 
         </tbody>
       </table>

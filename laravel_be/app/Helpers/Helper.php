@@ -40,3 +40,20 @@ if(!function_exists('createIdProduct')){
         return $newId;
     }
 }
+
+function getUrlImage($file_name, $url = 'upload/images/'){
+    $image = $file_name;
+    if($file_name == 'no_image.png' || $file_name == ''){
+        $url = 'img/';
+        $image = 'no_image.png';
+    } else if(filter_var($file_name, FILTER_VALIDATE_URL)){
+        $url = '';
+        $image = $file_name;
+    }
+    return $url.$image;
+}
+
+function versioned_asset($path, $secure = null){
+    $timestamp = @filemtime(public_path($path)) ?: 0;
+    return asset($path, $secure) . '?v=' . $timestamp;
+}

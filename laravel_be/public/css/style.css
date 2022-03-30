@@ -40,13 +40,6 @@
 }
 
 
-/* button[type=reset] {
-    width: 135px;
-    padding-left: 0;
-    padding-right: 0;
-} */
-
-
 /* show image when hover */
 
 .product-code {
@@ -70,6 +63,7 @@
     left: 50%;
     width: 100px;
     height: 100px;
+    z-index: 100;
 }
 
 #lstProducts tr .product-code .image-product-container img {
@@ -142,4 +136,32 @@
 
 .swal-import .swal2-html-container::-webkit-scrollbar-thumb:hover {
     background: #888;
+}
+
+
+/* BUTTON */
+
+@media (max-width: 768px) {
+    .button-responsive {
+        width: 35px;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+    .button-responsive i {
+        margin-right: 10px;
+    }
+}
+
+
+/* TABLE */
+
+table thead th {
+    white-space: nowrap;
+}
+
+table tr td,
+table tr th {
+    max-width: 200px;
 }

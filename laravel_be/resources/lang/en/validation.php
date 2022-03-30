@@ -171,7 +171,8 @@ return [
         'email' => 'Email',
         'number_phone' => 'Số điện thoại',
         'name' => 'Tên',
-        'username' => 'Tên người dùng'
+        'username' => 'Tên người dùng',
+        'address' => 'Địa chỉ'
     ],
 
 ];

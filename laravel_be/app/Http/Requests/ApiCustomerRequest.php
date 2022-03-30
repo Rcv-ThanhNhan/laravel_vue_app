@@ -35,11 +35,7 @@ class ApiCustomerRequest extends FormRequest
 
     public function messages(){
         return [
-            'name.required' => ':attribute không được bỏ trống',
-            'address.required' => 'Địa chỉ không được bỏ trống',
-            'email.required' => ':attribute không được bỏ trống',
-            'email.email' => ':attribute không đúng định dạng',
-            'number_phone.required' => ':attribute không được bỏ trống',
+            '*.required' => ':attribute không được bỏ trống',
             'number_phone.regex' => ':attribute không đúng định dạng',
             'number_phone.digits_between' => ':attribute không đúng định dạng'
         ];

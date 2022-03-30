@@ -34,14 +34,19 @@ class LoginController extends Controller
         $email = $request->username;
         $pwd = $request->password;
         $remember = $request->remember ? true : false;
+        $user = User::whereEmail($email)->first();
+        $errorLogin = '';
+        if($user){
+            if($user->is_active == 0){
+                $errorLogin = 'Tài khoản đã bị khóa';
+            }
+            if($user->is_delete == 1){
+                $errorLogin = 'Email không tồn tại';
+            }
+        }
 
-        if(User::whereEmail($email)){
-            if(User::whereEmail($email)->first()->is_delete == 1){
-                return back()->with('errorLogin', 'Email không tồn tại')->withInput($request->only('username'));
-            }
-            if(User::whereEmail($email)->first()->is_active == 0){
-                return back()->with('errorLogin', 'Tài khoản đã bị khóa')->withInput($request->only('username'));
-            }
+        if($errorLogin != ''){
+            return back()->with('errorLogin', $errorLogin)->withInput($request->only('username'));
         }
 
         if(Auth::attempt(['email' => $email, 'password' => $pwd], $remember)){

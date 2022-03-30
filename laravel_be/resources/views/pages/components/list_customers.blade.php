@@ -6,7 +6,7 @@
     @endphp
     <tr>
         <th scope="row">{{ $index }}</th>
-        <td>
+        <td class="text-truncate">
             <div class="position-relative">
                 <input type="text" class="form-control d-none" value="{{ $v->customer_name }}" name="name" style="height:24px" required>
                 <div class="invalid-tooltip valid-field-name">
@@ -24,7 +24,7 @@
             </div>
             <span>{{ $v->email }}</span>
         </td>
-        <td>
+        <td class="text-truncate">
             <div class="position-relative">
                 <input type="text" class="form-control d-none" value="{{ $v->address }}" name="address" style="height:24px" required>
                 <div class="invalid-tooltip valid-field-address">

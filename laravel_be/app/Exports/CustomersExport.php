@@ -25,7 +25,7 @@ class CustomersExport implements FromCollection, WithHeadings, WithMapping, With
     */
     public function collection()
     {
-        $lstCustomer = Customer::select('customer_name', 'email', 'tel_num', 'address')
+        return Customer::select('customer_name', 'email', 'tel_num', 'address')
                        ->orderBy('customer_id', 'desc')
                        ->Name($this->request)
                        ->Email($this->request)
@@ -33,7 +33,7 @@ class CustomersExport implements FromCollection, WithHeadings, WithMapping, With
                        ->IsActive($this->request)
                        ->limit(10)
                        ->get();
-        return $lstCustomer;
+
     }
 
     public function headings(): array

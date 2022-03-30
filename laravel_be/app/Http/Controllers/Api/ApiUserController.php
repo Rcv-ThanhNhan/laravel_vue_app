@@ -59,7 +59,6 @@ class ApiUserController extends Controller
     public function show($id)
     {
         return response()->json(['data' => User::find($id)]);
-        // return UserResource::make(User::findOrFail($id));
     }
 
     /**
@@ -72,12 +71,23 @@ class ApiUserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
+        $errors = [];
         if(!$user){
-            return response()->json(['status' => 500, 'error' => 'Chỉnh sửa người dùng thất bại']);
+            $errors = [
+                'status' => 500,
+                'error' => 'Chỉnh sửa người dùng thất bại'
+            ];
         }
 
-        if($request->email){
-            return response()->json(['errors' => ['email' => 'Không thể thay đổi email'], 'status' => 422]);
+        else if($request->email){
+            $errors = [
+                'status' => 422,
+                'errors' => ['email' => 'Không thể thay đổi email']
+            ];
+        }
+
+        if($errors){
+            return response()->json($errors);
         }
 
         $data = [

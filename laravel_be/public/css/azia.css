@@ -12748,6 +12748,7 @@ body {
     background-color: #fff;
     box-shadow: 0 0 30px rgba(28, 39, 60, 0.08);
     border-bottom: 1px solid rgba(28, 39, 60, 0.12);
+    z-index: 901;
 }
 
 @media (min-width: 992px) {
@@ -16466,6 +16467,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
 }
 
 .az-card-signin {

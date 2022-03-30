@@ -13,11 +13,11 @@
         <td class="product-code">
             {{ $v->product_id }}
             <div class="image-product-container">
-                <img src="{{ $v->product_image ? asset('upload/images/'.$v->product_image) : asset('img/no_image.png') }}" alt="">
+                <img src="{{ asset(getUrlImage($v->product_image)) }}" alt="">
             </div>
         </td>
-        <td>{{ $v->product_name }}</td>
-        <td class="text-truncate" style="max-width: 200px">{{ $v->description }}</td>
+        <td class="text-truncate">{{ $v->product_name }}</td>
+        <td class="text-truncate">{{ $v->description }}</td>
         <td>{{ number_format($v->product_price, 0, ',', '.') }} VNĐ</td>
         <td>{!! $is_sale !!}</td>
         <td>

@@ -23,8 +23,8 @@ class ProductSeeder extends Seeder
             Product::insert([
                 'product_id' => $id,
                 'product_name' => $name,
-                'product_price' => $faker->numberBetween($min = 1000, $max = 900000),
-                'product_image' => $faker->imageUrl($width = 100, $height = 100),
+                'product_price' => $faker->numberBetween(1000, 900000),
+                'product_image' => $faker->imageUrl(200, 200),
                 'is_sale' => 1,
                 'description' => $faker->text,
                 'created_at' =>  \Carbon\Carbon::now()

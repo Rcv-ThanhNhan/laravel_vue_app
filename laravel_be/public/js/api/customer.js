@@ -1,4 +1,4 @@
-var urlApi = 'http://127.0.0.1:8000/api/customer';
+var urlApi = '/api/customer';
 
 function getCustomers(url = urlApi) {
     const form = $('#searchCustomer');
@@ -59,11 +59,6 @@ function getCustomers(url = urlApi) {
 function getCustomersInPage(url = urlApi) {
     var render = $('#lstCustomers');
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $.ajax({
             url: url,
             method: "get",
@@ -144,7 +139,6 @@ function navigation(links) {
     var render = $('.pagination-container');
     var pageItem = '';
     var paginate = '';
-    // let maxItem = 7;
 
     let pageState = links;
 
@@ -323,7 +317,6 @@ function addCustomer(form) {
         var method = $(this).attr('method');
 
         var frmData = new FormData(this);
-        var loading = $('.loading-submit');
 
         var data = {
             name: frmData.get('name'),
@@ -342,21 +335,10 @@ function addCustomer(form) {
             return;
         }
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $.ajax({
                 url: url,
                 method: method,
-                data: data,
-                beforeSend: function() {
-                    loading.removeClass('d-none');
-                },
-                success: function() {
-                    loading.addClass('d-none');
-                },
+                data: data
             })
             .done(function(data) {
                 var modal = $('#customerEditAddModal');

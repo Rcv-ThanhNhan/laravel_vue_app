@@ -3,21 +3,21 @@
 @section('title', 'Quản lí sản phẩm')
 
 @section('api')
-<script src="{{ asset('js/api/product.js') }}"></script>
+<script src="{{ versioned_asset('js/api/product.js') }}"></script>
 @endsection
 
 @section('content')
 
 <div class="container my-3">
-    <h2 class="title-page mb-3">
+    <h2 class="title-page mb-3 mb-md-0">
     Quản lí sản phẩm
     </h2>
     <form action="{{ env('APP_API').'/search-product' }}" class="row row-sm mb-3" id="searchProduct">
-    <div class="col-md-2">
+    <div class="col-md-2 mb-3 mb-md-0">
         <label for="">Tên sản phẩm</label>
         <input class="form-control" placeholder="Tên sản phẩm..." type="text" name="name_product">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 mb-3 mb-md-0">
         <label for="">Trạng thái</label>
         <select class="form-control" name="status_product">
         <option label="Chọn trạng thái"></option>
@@ -26,7 +26,7 @@
         <option value="0">Ngừng bán</option>
         </select>
     </div>
-        <div class="col-md-4 d-flex">
+        <div class="col-md-4 mb-3 mb-md-0 d-flex">
             <div class="col-6 pl-0 pr-2">
                 <label for="">Giá bán từ</label>
                 <input class="form-control" placeholder="Giá bán từ" min="0" type="number" name="price_from">
@@ -37,17 +37,17 @@
             </div>
         </div>
 
-        <div class="col-md-2 d-flex">
-            <button class="col-12 btn btn-primary align-self-end btn-search-product"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+        <div class="col-md-2 col-6 d-flex">
+            <button class="col-12 px-0 btn btn-primary align-self-end btn-search-product"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
         </div>
 
-        <div class="col-md-2 d-flex">
-            <button class="col-12 btn btn-secondary align-self-end btn-reset-search-product" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm kiếm</button>
+        <div class="col-md-2 col-6 d-flex">
+            <button class="col-12 px-0 btn btn-secondary align-self-end btn-reset-search-product" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm</button>
         </div>
     </form>
-    <div class="row text-right mb-3">
-        <div class="col-12 text-right mt-3 mx-0">
-            <button class="btn btn-primary" onclick="modalAddEditProduct('add')"
+    <div class="row text-right mb-2">
+        <div class="col-12 text-right mx-0">
+            <button class="btn btn-primary button-responsive" onclick="modalAddEditProduct('add')"
                     data-bs-toggle="modal" data-bs-target="#productEditAddModal">
                     <i class="fa-solid fa-cart-shopping mr-2"></i> Thêm mới
             </button>
@@ -80,7 +80,7 @@
         </nav>
     </div>
     <!-- ##### MODAL EDIT/ADD USER ##### -->
-    <div class="modal fade" id="productEditAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="productEditAddModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <form class="modal-content needs-validation" novalidate enctype="multipart/form-data">
         <div class="modal-header">
@@ -160,7 +160,7 @@
     Swal.fire({
             title: 'Không có dữ liệu để xuất.',
             icon: 'warning',
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonText: 'Đóng',
         });
         })

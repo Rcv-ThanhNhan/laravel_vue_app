@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApiProductRequest extends FormRequest
 {
@@ -35,5 +37,10 @@ class ApiProductRequest extends FormRequest
             'price_product.required' => 'Giá sản phẩm không được bỏ trống',
             'price_product.numeric' => 'Giá sản phẩm phải là số',
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json(['status' => 422,'errors' => $validator->errors()]));
     }
 }

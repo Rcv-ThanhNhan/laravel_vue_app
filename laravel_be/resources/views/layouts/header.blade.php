@@ -21,6 +21,9 @@
           <li class="nav-item">
             <a href="{{ route('product-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Quản lí sản phẩm</a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('cart-management.index') }}" class="nav-link" ><i class="fa-solid fa-cart-shopping mr-2"></i> Quản lí giỏ hàng</a>
+          </li>
           {{-- <li class="nav-item">
             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>
             <nav class="az-menu-sub">
