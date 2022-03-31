@@ -31,17 +31,6 @@ class ApiOrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -49,7 +38,7 @@ class ApiOrderController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(['data' => Order::where(['order_id'=> $id])->first()]);
     }
 
     /**
@@ -72,7 +61,25 @@ class ApiOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::where('order_id', $id)->first();
+        $response = '';
+        if(!$order){
+            $response = ['status' => 500, 'error' => 'Cập nhật người dùng thất bại'];
+        }
+        if($response != ''){
+            return response()->json($response);
+        }
+
+        $data = [
+            'order_status' => $request->status
+        ];
+
+        $query = $order->update($data);
+
+        if($query){
+            return response()->json(['message'=> 'Cập nhật thành công']);
+        }
+        return response()->json(['status' => 500, 'error' => 'Cập nhật người dùng thất bại']);
     }
 
     /**

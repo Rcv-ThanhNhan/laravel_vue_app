@@ -17,6 +17,10 @@ class Customer extends Model
         'is_active',
     ];
 
+    // public function order(){
+    //     return $this->hasOne('Order', 'customer_id', 'customer_id');
+    // }
+
     /**
      * quanlity of page
      *

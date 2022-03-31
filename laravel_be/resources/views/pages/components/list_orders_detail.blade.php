@@ -1,8 +1,6 @@
 @if($data->count() > 0)
-{{-- @dd($data) --}}
     @foreach($data as $i => $v)
     @php
-    // dd($v->order_id, $v->customers);
         $status = $v->order_status == 1 ?
                             '<span class="text-success">Đã xác nhận</span>' :
                             '<span class="text-danger">Chờ xác nhận</span>';
@@ -12,11 +10,9 @@
     <tr>
         <th scope="row">{{ $index }}</th>
         <td class="text-truncate">{{ $v->order_id }}</td>
-        <td>{{ $v->customers ? $v->customers->customer_name : '--' }}</td>
-        <td class="text-truncate">{{ $v->customers ? $v->customers->address : '--' }}</td>
+        <td>{{ 'Customer'.$index }}</td>
+        <td class="text-truncate">{{ 'Shop '.$v->order_shop }}</td>
         <td>{{ number_format($v->total_price, 0, ',','.') }}</td>
-        <td>{{ date_format(date_create($v->order_date), 'd-m-Y') }}</td>
-        <td class="text-truncate">{!! $v->note_customer !!}</td>
         <td>{!! $status !!}</td>
         <td>
             <div class="btn-icon-list">

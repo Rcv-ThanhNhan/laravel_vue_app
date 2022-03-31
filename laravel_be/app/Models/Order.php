@@ -11,16 +11,17 @@ class Order extends Model
 
     protected $perPage = 10;
 
-    protected $guards = [];
+    protected $guarded = [];
+
+    protected $primaryKey  = 'order_id';
 
     public function ordersDetail(){
         return $this->hasOne('orders_detail', 'order_id', 'order_id');
     }
 
-    public function customer(){
-        return $this->hasOne('customers', 'customer_id', 'customer_id');
+    public function customers(){
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
     }
-
 
     /**
      * Method scopeName

@@ -16,7 +16,7 @@
         <div class="row row-sm col-md-8 pr-0">
             <div class="col-md-4 mb-3 mb-md-0">
                 <label for="">Mã hóa đơn</label>
-                <input class="form-control" placeholder="Nhập họ tên..." type="text" name="name">
+                <input class="form-control" placeholder="Nhập Mã hóa đơn" type="text" name="name">
             </div>
             <div class="col-md-4 mb-3 mb-md-0">
                 <label for="">Thời gian đặt</label>
@@ -49,6 +49,8 @@
             <th>Tên khách hàng</th>
             <th>Địa chỉ</th>
             <th>Tổng giá</th>
+            <th>Ngày đặt</th>
+            <th>Ghi chú</th>
             <th>Trạng thái</th>
             <th></th>
         </tr>

@@ -109,7 +109,7 @@ function resetForm(form) {
     })
 }
 
-function getUser(id) {
+function getOrder(id) {
 
     var url = urlApi + '/' + id;
 
@@ -312,6 +312,53 @@ function getOrdersInPage(url = urlApi) {
             return error.responseJSON;
         })
 
+}
+
+function changeStatus(e) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-2'
+        },
+        buttonsStyling: false
+    })
+    var id = $(e.currentTarget).attr('data-id');
+    getOrder(id).then(function(data) {
+        swalWithBootstrapButtons.fire({
+            title: (data.data.order_status == 1 ? 'Hủy' : 'Xác nhận') + ' đơn hàng',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var url = urlApi + '/' + id;
+                $.ajax({
+                        url: url,
+                        method: 'patch',
+                        data: {
+                            status: data.data.order_status == 1 ? 0 : 1
+                        }
+                    })
+                    .done((datas) => {
+                        console.log(datas)
+                        if (datas) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: datas.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            getOrders();
+                        }
+                    })
+                    .fail((error) => {
+                        return error.responseJSON;
+                    })
+            }
+        })
+    })
 }
 
 $(document).ready(function() {

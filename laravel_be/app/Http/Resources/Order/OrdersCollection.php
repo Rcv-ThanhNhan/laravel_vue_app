@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Order;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
-
+use App\Http\Resources\Customer\CustomerResource;
 class OrdersCollection extends ResourceCollection
 {
     /**
@@ -14,8 +14,12 @@ class OrdersCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+        $collection = [
+            'data' => $this->collection,
+            'page' => $request->page
+        ];
         return [
-            'data' => view('pages.components.list_orders', ['data' => $this->collection, 'page' => $request->page])->render(),
+            'data' => view('pages.components.list_orders', $collection)->render(),
         ];
     }
 }
