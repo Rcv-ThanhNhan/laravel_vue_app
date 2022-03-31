@@ -92,4 +92,27 @@ class ApiOrderController extends Controller
     {
         //
     }
+
+    /**
+     * Method search
+     *
+     * @param Request $request
+     *
+     * @return void
+     */
+    public function search(Request $request){
+        $users = Order::idOrder($request)
+                    ->orderDate($request)
+                    ->isOrderConfirmed($request)
+                    ->orderBy('order_id', 'desc')
+                    ->paginate();
+
+        $users->appends([
+            'order_id' => $request->order_code,
+            'order_date' => $request->from_date,
+            'order_status' => $request->status,
+        ]);
+
+        return new OrdersCollection($users);
+    }
 }

@@ -32,7 +32,7 @@
     @endforeach
 @else
     <tr>
-        <td colspan="6" class="font-weight-bold text-center">Không có dữ liệu</td>
+        <td colspan="8" class="font-weight-bold text-center">Không có dữ liệu</td>
     </tr>
 @endif
 

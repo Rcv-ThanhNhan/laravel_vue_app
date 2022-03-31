@@ -37,6 +37,8 @@ Route::get('/search-customer',[ ApiCustomerController::class, 'search']);
 
 Route::get('/search-product',[ ApiProductController::class, 'search']);
 
+Route::get('/search-order',[ ApiOrderController::class, 'search']);
+
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });

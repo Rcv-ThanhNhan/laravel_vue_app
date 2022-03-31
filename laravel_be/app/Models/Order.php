@@ -31,9 +31,9 @@ class Order extends Model
      *
      * @return void
      */
-    public function scopeId($query, $request){
-        if($request->has('code_order') && $request->code_order != ''){
-            $query->where('order_id', 'like', '%'.$request->code_order.'%');
+    public function scopeIdOrder($query, $request){
+        if($request->has('order_code') && $request->order_code != ''){
+            $query->where('order_id', 'like', '%'.$request->order_code.'%');
         }
     }
 
@@ -47,21 +47,7 @@ class Order extends Model
      */
     public function scopeOrderDate($query, $request){
         if($request->has('from_date') && $request->from_date != ''){
-            $query->where('order_date', 'like', '%'.$request->from_date.'%');
-        }
-    }
-
-    /**
-     * Method scopeGroup
-     *
-     * @param $query $query [explicite description]
-     * @param $request $request [explicite description]
-     *
-     * @return void
-     */
-    public function scopeGroup($query, $request){
-        if($request->has('group') && $request->group != ''){
-            $query->where('group_role', $request->group);
+            $query->whereDate('order_date', '>=', $request->from_date);
         }
     }
 
@@ -73,9 +59,9 @@ class Order extends Model
      *
      * @return void
      */
-    public function scopeIsActive($query, $request){
+    public function scopeIsOrderConfirmed($query, $request){
         if($request->has('status') && $request->status != ''){
-            $query->where('is_active', $request->status);
+            $query->where('order_status', $request->status);
         }
     }
 }

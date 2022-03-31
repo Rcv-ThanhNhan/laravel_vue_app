@@ -1,31 +1,30 @@
 var urlApi = '/api/order';
-var formSearch = $('#searchUser');
 
 function getOrders(url = urlApi) {
+    var formSearch = $('#searchOrder');
     const frmData = new FormData(formSearch[0]);
     var dataSearch = {};
     var render = $('#lstOrders');
     var data = {
-        name: frmData.get('name'),
-        email: frmData.get('email'),
-        group: frmData.get('group'),
+        order_code: frmData.get('order_code'),
+        from_date: frmData.get('from_date'),
         status: frmData.get('status'),
     }
 
-    // if (
-    //     data.name != '' ||
-    //     data.email != '' ||
-    //     data.group != '' ||
-    //     data.status != ''
-    // ) {
-    //     url = formSearch.attr('action');
-    //     dataSearch = data;
-    // }
+    if (
+        data.order_code != '' ||
+        data.from_date != '' ||
+        data.status != ''
+    ) {
+        url = formSearch.attr('action');
+        dataSearch = data;
+        console.log(123)
+    }
 
     $.ajax({
             url: url,
             method: "get",
-            // data: dataSearch,
+            data: dataSearch,
             beforeSend: function() {
                 render.html(`
                 <div class="loading-table">
@@ -367,19 +366,20 @@ $(document).ready(function() {
 
     $('.btn-search-order').click(function(e) {
         e.preventDefault();
+        var formSearch = $('#searchOrder');
         const frmData = new FormData(formSearch[0]);
 
         var data = {
-            name: frmData.get('name'),
-            email: frmData.get('email'),
-            group: frmData.get('group'),
+            order_code: frmData.get('order_code'),
+            from_date: frmData.get('from_date'),
             status: frmData.get('status'),
         }
 
+
+        console.log(data);
         if (
-            data.name == '' &&
-            data.email == '' &&
-            data.group == '' &&
+            data.order_code == '' &&
+            data.from_date == '' &&
             data.status == ''
         ) {
             return;
@@ -388,6 +388,7 @@ $(document).ready(function() {
     })
 
     $('.btn-reset-search-order').click(function() {
+        var formSearch = $('#searchOrder');
         resetForm(formSearch);
         getOrders();
     })

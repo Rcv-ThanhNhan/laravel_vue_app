@@ -12,11 +12,11 @@
     <h2 class="title-page mb-3">
     Quản lí giỏ hàng
     </h2>
-    <form action="{{ env('APP_API').'/search-user' }}" class="row row-sm mb-3 justify-content-between" id="searchUser">
+    <form action="{{ env('APP_API').'/search-order' }}" class="row row-sm mb-3 justify-content-between" id="searchOrder">
         <div class="row row-sm col-md-8 pr-0">
             <div class="col-md-4 mb-3 mb-md-0">
                 <label for="">Mã hóa đơn</label>
-                <input class="form-control" placeholder="Nhập Mã hóa đơn" type="text" name="name">
+                <input class="form-control" placeholder="Nhập Mã hóa đơn" type="text" name="order_code">
             </div>
             <div class="col-md-4 mb-3 mb-md-0">
                 <label for="">Thời gian đặt</label>
@@ -33,10 +33,10 @@
         </div>
         <div class="row row-sm col-md-4">
             <div class="col-6 d-flex">
-                <button class="col-12 px-0 btn btn-primary align-self-end btn-search-user"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
+                <button class="col-12 px-0 btn btn-primary align-self-end btn-search-order"><i class="fas fa-search mr-1"></i> Tìm kiếm</button>
             </div>
             <div class="col-6 pr-0 d-flex">
-                <button class="col-12 px-0 btn btn-secondary align-self-end btn-reset-search-user" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm</button>
+                <button class="col-12 px-0 btn btn-secondary align-self-end btn-reset-search-order" type="reset"><i class="fa-solid fa-x mr-1"></i> Xóa tìm</button>
             </div>
         </div>
     </form>
