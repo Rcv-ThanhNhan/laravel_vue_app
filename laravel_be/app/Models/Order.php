@@ -16,7 +16,7 @@ class Order extends Model
     protected $primaryKey  = 'order_id';
 
     public function ordersDetail(){
-        return $this->hasOne('orders_detail', 'order_id', 'order_id');
+        return $this->hasOne(OrderDetail::class, 'order_id', 'order_id');
     }
 
     public function customers(){
@@ -26,8 +26,8 @@ class Order extends Model
     /**
      * Method scopeName
      *
-     * @param $query $query [explicite description]
-     * @param $request $request [explicite description]
+     * @param $query $query
+     * @param $request $request
      *
      * @return void
      */
@@ -40,8 +40,8 @@ class Order extends Model
     /**
      * Method scopeEmail
      *
-     * @param $query $query [explicite description]
-     * @param $request $request [explicite description]
+     * @param $query $query
+     * @param $request $request
      *
      * @return void
      */
@@ -54,8 +54,8 @@ class Order extends Model
     /**
      * Method scopeIsActive
      *
-     * @param $query $query [explicite description]
-     * @param $request $request [explicite description]
+     * @param $query $query
+     * @param $request $request
      *
      * @return void
      */

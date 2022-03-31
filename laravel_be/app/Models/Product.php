@@ -19,6 +19,11 @@ class Product extends Model
         'is_sale',
         'description',
     ];
+
+    public function shops(){
+        return $this->hasMany(Shop::class, 'shop_id', 'shop_id');
+    }
+
     /**
      * Method scopeName
      *

@@ -1,11 +1,10 @@
 @if($data->count() > 0)
-{{-- @dd($data) --}}
     @foreach($data as $i => $v)
     @php
-    // dd($v->order_id, $v->customers);
         $status = $v->order_status == 1 ?
                             '<span class="text-success">Đã xác nhận</span>' :
-                            '<span class="text-danger">Chờ xác nhận</span>';
+                            ($v->order_status == 2 ? '<span class="text-success">Đã giao</span>' :
+                                                     '<span class="text-danger">Chờ xác nhận</span>');
         $numPage = $page ? $page : 1;
         $index = $numPage*10-10+$i+1;
     @endphp
@@ -20,9 +19,11 @@
         <td>{!! $status !!}</td>
         <td>
             <div class="btn-icon-list">
-                <button class="btn text-{{ $v->order_status == 0 ? 'success' : 'danger' }} p-0 btn-status" onclick="changeStatus(event)" data-id="{{ $v->order_id }}">
-                    <i class="fa-solid {{ $v->order_status == 0 ? 'fa-check' : 'fa-x' }}"></i>
-                </button>
+                @if($v->order_status != 2)
+                    <button class="btn text-{{ $v->order_status == 0 ? 'success' : 'danger' }} p-0 btn-status" onclick="changeStatus(event)" data-id="{{ $v->order_id }}">
+                        <i class="fa-solid {{ $v->order_status == 0 ? 'fa-check' : 'fa-x' }}"></i>
+                    </button>
+                @endif
                 <a href="{{ route('order-management.show', $v->order_id) }}" class="btn px-2 py-0 min-h-unset">
                     <i class="fa-solid fa-eye text-primary"></i>
                 </a>

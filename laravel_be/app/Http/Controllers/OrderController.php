@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -45,7 +46,10 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return view('pages.order_detail');
+        $data = [
+            'order' => Order::find($id)
+        ];
+        return view('pages.order_detail', $data);
     }
 
     /**
