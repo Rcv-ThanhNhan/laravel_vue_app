@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\Order\OrdersCollection;
+use App\Http\Resources\Order\OrderResource;
+use App\Models\Order;
 
-class CartController extends Controller
+class ApiOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +17,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('pages.carts_management');
+        return new OrdersCollection(Order::orderBy('order_id', 'desc')->paginate());
     }
 
     /**

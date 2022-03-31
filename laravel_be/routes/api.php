@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ApiLoginController;
 use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\ApiCustomerController;
 use App\Http\Controllers\Api\ApiProductController;
+use App\Http\Controllers\Api\ApiOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::apiResources([
     '/user' => ApiUserController::class,
     '/customer' => ApiCustomerController::class,
     '/product' => ApiProductController::class,
+    '/order' => ApiOrderController::class,
 ]);
 
 Route::get('/user-info',[ ApiUserController::class, 'userInfo'])->middleware('auth:sanctum');

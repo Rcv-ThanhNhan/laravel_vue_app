@@ -1,11 +1,10 @@
-var urlApi = '/api/user';
+var urlApi = '/api/order';
+var formSearch = $('#searchUser');
 
-function getUsers(url = urlApi) {
-    const form = $('#searchUser');
-    const frmData = new FormData(form[0]);
+function getOrders(url = urlApi) {
+    const frmData = new FormData(formSearch[0]);
     var dataSearch = {};
-    var render = $('#lstUsers');
-
+    var render = $('#lstOrders');
     var data = {
         name: frmData.get('name'),
         email: frmData.get('email'),
@@ -13,20 +12,20 @@ function getUsers(url = urlApi) {
         status: frmData.get('status'),
     }
 
-    if (
-        data.name != '' ||
-        data.email != '' ||
-        data.group != '' ||
-        data.status != ''
-    ) {
-        url = form.attr('action');
-        dataSearch = data;
-    }
+    // if (
+    //     data.name != '' ||
+    //     data.email != '' ||
+    //     data.group != '' ||
+    //     data.status != ''
+    // ) {
+    //     url = formSearch.attr('action');
+    //     dataSearch = data;
+    // }
 
     $.ajax({
             url: url,
             method: "get",
-            data: dataSearch,
+            // data: dataSearch,
             beforeSend: function() {
                 render.html(`
                 <div class="loading-table">
@@ -46,79 +45,10 @@ function getUsers(url = urlApi) {
 
 }
 
-function modalAddEditUser(e, type) {
-    var modal = $('#UserEditAddModal');
-
-    var title = '';
-    var action = '';
-    var url = '';
-    var method = '';
-
-    if (type == 'add') {
-        resetForm(modal.find('form'))
-        title = 'Thêm user';
-        action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Thêm';
-        url = urlApi;
-        method = 'POST';
-
-        modal.find('form [name="passwd_confirm"]').closest('.mb-3').removeClass('d-none');
-        modal.find('form [name="passwd"]').closest('.mb-3').removeClass('d-none');
-        modal.find('form [name="email"]').prop('disabled', false);
-    }
-
-    if (type == 'edit') {
-        resetForm(modal.find('form'))
-        var id = $(e.currentTarget).attr('data-id');
-        title = 'Chỉnh sửa user';
-        action = '<div class="spinner-border text-light d-none loading-submit" role="status" style="width: 1rem; height: 1rem"></div> Lưu';
-        url = urlApi + '/' + id;
-        method = 'POST';
-
-        modal.find('form [name="passwd_confirm"]').closest('.mb-3').addClass('d-none');
-        modal.find('form [name="passwd"]').closest('.mb-3').addClass('d-none');
-        modal.find('form [name="email"]').prop('disabled', true);
-
-        getUser(id).then(function(data) {
-            if (data.data.is_delete == 1) {
-                modal.modal('hide');
-                return Swal.fire({
-                    title: 'Không tìm thấy người dùng',
-                    icon: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Đóng',
-                    timer: 3000
-                })
-            } else {
-                let user = data.data;
-                let name = user.name;
-                let email = user.email;
-                let group_role = user.group_role;
-                let is_active = user.is_active;
-
-                modal.find('form [name="username"]').val(name);
-                modal.find('form [name="email"]').val(email);
-                modal.find('form [name="group"]').val(group_role);
-                modal.find('form [name="status"]').prop('checked', is_active);
-            }
-        })
-        id = '';
-    }
-
-    var form = modal.find('form');
-    form.attr('action', url);
-    form.attr('data-type', type);
-    form.attr('method', method);
-    modal.find('.modal-title').text(title);
-    modal.find('.btn-submit').html(action);
-
-
-}
-
 function navigation(links) {
     var render = $('.pagination-container');
     var pageItem = '';
     var paginate = '';
-    // let maxItem = 7;
 
     let pageState = links;
 
@@ -198,72 +128,7 @@ function getUser(id) {
     return user;
 }
 
-function blockUser(id) {
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger mr-2'
-        },
-        buttonsStyling: false
-    })
-    getUser(id).then(function(data) {
-        if (data.data.is_delete == 1) {
-            return swalWithBootstrapButtons.fire({
-                title: 'Không tìm thấy người dùng',
-                icon: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Đóng',
-                timer: 3000
-            })
-        }
-        if (data.data) {
-            swalWithBootstrapButtons.fire({
-                title: 'Bạn có muốn ' + (data.data.is_active ? 'khóa' : 'mở khóa') + ' tài khoản ' + data.data.name,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Đồng ý',
-                cancelButtonText: 'Hủy',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var url = urlApi + '/update-status';
-
-                    $.ajax({
-                            url: url,
-                            method: "post",
-                            data: {
-                                id: id
-                            }
-                        })
-                        .done((data) => {
-                            if (data) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                                getUsers();
-                            }
-                        })
-                        .fail((error) => {
-                            return error.responseJSON;
-                        })
-                }
-            })
-        } else {
-            swalWithBootstrapButtons.fire({
-                title: 'Không tìm thấy người dùng',
-                icon: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Đóng',
-                timer: 3000
-            })
-        }
-    })
-}
-
-function deleteUser(id) {
+function deleteOrder(id) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
@@ -325,7 +190,7 @@ function deleteUser(id) {
     })
 }
 
-function addEditUser() {
+function editUser() {
     var form = $('#UserEditAddModal').find('form');
     form.submit(function(e) {
         e.preventDefault();
@@ -424,8 +289,8 @@ function addEditUser() {
     })
 }
 
-function getUsersInPage(url = urlApi) {
-    var render = $('#lstUsers');
+function getOrdersInPage(url = urlApi) {
+    var render = $('#lstOrders');
 
     $.ajax({
             url: url,
@@ -450,22 +315,12 @@ function getUsersInPage(url = urlApi) {
 }
 
 $(document).ready(function() {
-    getUsers();
-    addEditUser();
+    getOrders();
+    editUser();
 
-    $('#lstUsers').on('click', '.btn-block-user', function() {
-        blockUser($(this).data('id'));
-    })
-
-    $('#lstUsers').on('click', '.btn-delete-user', function() {
-        deleteUser($(this).attr('data-id'));
-    })
-
-
-    $('.btn-search-user').click(function(e) {
+    $('.btn-search-order').click(function(e) {
         e.preventDefault();
-        const form = $('#searchUser');
-        const frmData = new FormData(form[0]);
+        const frmData = new FormData(formSearch[0]);
 
         var data = {
             name: frmData.get('name'),
@@ -482,18 +337,18 @@ $(document).ready(function() {
         ) {
             return;
         }
-        getUsers();
+        getOrders();
     })
 
-    $('.btn-reset-search-user').click(function() {
-        resetForm($('#searchUser'));
-        getUsers();
+    $('.btn-reset-search-order').click(function() {
+        resetForm(formSearch);
+        getOrders();
     })
 
     $('.pagination-container').click('.page-link', function(e) {
         if ($(e.target).data('link')) {
             let url = $(e.target).data('link');
-            getUsersInPage(url);
+            getOrdersInPage(url);
         }
     })
 })

@@ -54,6 +54,10 @@ function checkValidation() {
                 _this.removeClass('is-invalid').addClass('is-valid')
             }
         })
+
+        $('.login-form').submit(function() {
+            $(this).find('[type="submit"]').prop('disabled', false).html('Đăng nhập')
+        })
     })
 }
 

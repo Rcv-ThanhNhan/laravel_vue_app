@@ -5,7 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/user-management', UserController::class);
     Route::resource('/customer-management', CustomerController::class);
     Route::resource('/product-management', ProductController::class);
-    Route::resource('/cart-management', CartController::class);
+    Route::resource('/order-management', OrderController::class);
     Route::get('/export-customer', [CustomerController::class, 'export'])->name('export.customer');
     Route::post('/import-customer', [CustomerController::class, 'import'])->name('import.customer');
 });
