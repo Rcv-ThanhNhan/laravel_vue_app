@@ -58,7 +58,7 @@ export default {
             user: {
                 // email: '',
                 // password: '',
-                email: 'admin@admin.com',
+                email: 'admin@gmail.com',
                 password: '123123',
                 remember: false
             },
@@ -69,7 +69,7 @@ export default {
     },
     methods:{
         login: function(){
-            this.$axios.post('http://localhost:8000/api/login', this.user)
+            this.$axios.post('/login', this.user)
             .then(response => {
                 window.localStorage.setItem('user', JSON.stringify(response.data));
                 this.$router.push({name: 'home'})

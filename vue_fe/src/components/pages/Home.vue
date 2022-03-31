@@ -17,5 +17,5 @@ export default {
 }
 </script>
 
-<style src="@./../../public/css/style.css">
+<style src="@/../../public/css/style.css">
 </style>
