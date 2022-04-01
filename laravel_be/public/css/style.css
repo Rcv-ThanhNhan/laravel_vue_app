@@ -163,5 +163,6 @@ table thead th {
 
 table tr td,
 table tr th {
+    white-space: nowrap;
     max-width: 200px;
 }

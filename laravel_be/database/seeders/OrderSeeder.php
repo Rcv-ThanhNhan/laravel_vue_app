@@ -39,9 +39,9 @@ class OrderSeeder extends Seeder
                 'cancel_date' => \Carbon\Carbon::tomorrow()->addDays(5),
                 'note_customer' => $faker->text(50),
                 'error_code_api' => 200,
-            ])->id;
+            ])->order_id;
             OrderDetail::create([
-                'order_id' => $id,
+                'order_id' => $id ?: 1,
                 'detail_line' => $faker->numberBetween(1,5),
                 'product_id' => $faker->numberBetween(1,50),
                 'price_buy' => $price_buy,

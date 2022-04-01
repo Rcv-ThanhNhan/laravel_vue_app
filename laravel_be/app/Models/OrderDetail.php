@@ -16,7 +16,11 @@ class OrderDetail extends Model
         return $this->hasOne(Customer::class, 'customer_id', 'receiver_id');
     }
 
-    public function pruducts(){
+    public function products(){
         return $this->hasMany(Product::class, 'product_id', 'product_id');
+    }
+
+    public function shop(){
+        return $this->hasOne(Shop::class, 'shop_id', 'shop_id');
     }
 }

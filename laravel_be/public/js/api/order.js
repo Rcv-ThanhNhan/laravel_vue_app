@@ -18,7 +18,6 @@ function getOrders(url = urlApi) {
     ) {
         url = formSearch.attr('action');
         dataSearch = data;
-        console.log(123)
     }
 
     $.ajax({
@@ -112,7 +111,7 @@ function getOrder(id) {
 
     var url = urlApi + '/' + id;
 
-    var user = $.ajax({
+    var order = $.ajax({
             url: url,
             method: "get",
         })
@@ -124,7 +123,7 @@ function getOrder(id) {
         .fail((error) => {
             return error.responseJSON;
         })
-    return user;
+    return order;
 }
 
 function getOrdersInPage(url = urlApi) {
@@ -180,7 +179,6 @@ function changeStatus(e) {
                         }
                     })
                     .done((datas) => {
-                        console.log(datas)
                         if (datas) {
                             Swal.fire({
                                 icon: 'success',
@@ -201,7 +199,6 @@ function changeStatus(e) {
 
 $(document).ready(function() {
     getOrders();
-    editUser();
 
     $('.btn-search-order').click(function(e) {
         e.preventDefault();
@@ -214,8 +211,6 @@ $(document).ready(function() {
             status: frmData.get('status'),
         }
 
-
-        console.log(data);
         if (
             data.order_code == '' &&
             data.from_date == '' &&

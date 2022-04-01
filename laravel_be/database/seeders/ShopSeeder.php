@@ -25,7 +25,7 @@ class ShopSeeder extends Seeder
             ],
             [
                 'shop_id' => '3',
-                'shop_name' => 'Amazon'
+                'shop_name' => 'Alibaba'
             ]
         ];
         foreach($data as $v){

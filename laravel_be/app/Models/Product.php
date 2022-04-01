@@ -20,8 +20,8 @@ class Product extends Model
         'description',
     ];
 
-    public function shops(){
-        return $this->hasMany(Shop::class, 'shop_id', 'shop_id');
+    public function orderDetail(){
+        return $this->belongsTo(OrderDetail::class, 'product_id', 'product_id');
     }
 
     /**

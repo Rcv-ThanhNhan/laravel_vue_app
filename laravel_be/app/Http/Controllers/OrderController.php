@@ -46,8 +46,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        $order = Order::find($id);
+
+        if(!$order){
+            return redirect()->route('order-management.index');
+        }
         $data = [
-            'order' => Order::find($id)
+            'order' => $order
         ];
         return view('pages.order_detail', $data);
     }
