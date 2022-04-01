@@ -3,7 +3,7 @@
 @section('title', 'Chi tiết đơn hàng')
 
 @section('api')
-<script src="{{ versioned_asset('js/api/order_detail.js') }}"></script>
+<script src="{{ mix('js/api/order_detail.js') }}"></script>
 @endsection
 
 @section('content')

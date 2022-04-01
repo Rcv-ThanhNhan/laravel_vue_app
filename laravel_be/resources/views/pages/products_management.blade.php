@@ -3,7 +3,7 @@
 @section('title', 'Quản lí sản phẩm')
 
 @section('api')
-<script src="{{ versioned_asset('js/api/product.js') }}"></script>
+<script src="{{ mix('js/api/product.js') }}"></script>
 @endsection
 
 @section('content')

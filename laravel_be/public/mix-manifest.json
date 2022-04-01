@@ -1,0 +1,9 @@
+{
+    "/js/main.js": "/js/main.js?id=bd37bf37849d634a1a9b62d103f1ff65",
+    "/js/api/customer.js": "/js/api/customer.js?id=24241d9cbbcf08490a59481bdb3afccb",
+    "/js/api/login.js": "/js/api/login.js?id=8375ae5759c7fafee0c8fdfac906507d",
+    "/js/api/product.js": "/js/api/product.js?id=8271bf17a84702d85e4daefd5d332beb",
+    "/js/api/order.js": "/js/api/order.js?id=495703e81061d7658ee32307f558d2cf",
+    "/js/api/user.js": "/js/api/user.js?id=7f78827bf83bee437bfbeb336803cd5b",
+    "/js/api/order_detail.js": "/js/api/order_detail.js?id=d41d8cd98f00b204e9800998ecf8427e"
+}
