@@ -74,21 +74,21 @@ function setMaxlength(ele) {
         ele.val(ele.val().slice(0, ele.attr('maxlength')));
 }
 
-function handleCloseModal() {
-    $('.modal').on('hide.bs.modal', function() {
-        var input = $(this).find('form[data-type="add"] input.form-control');
-        var notEmpty = false;
-        input.each(function(i, ele) {
-            if ($(ele).val() != '') {
-                return notEmpty = true;
-            }
-        })
-        if (notEmpty) {
-            let text = "Sau khi đóng dữ liệu nhập sẽ bị mất.";
-            if (!confirm(text)) { return false };
-        }
-    });
-}
+// function handleCloseModal() {
+//     $('.modal').on('hide.bs.modal', function() {
+//         var input = $(this).find('form[data-type="add"] input.form-control');
+//         var notEmpty = false;
+//         input.each(function(i, ele) {
+//             if ($(ele).val() != '') {
+//                 return notEmpty = true;
+//             }
+//         })
+//         if (notEmpty) {
+//             let text = "Sau khi đóng dữ liệu nhập sẽ bị mất.";
+//             if (!confirm(text)) { return false };
+//         }
+//     });
+// }
 
 $(document).ready(function() {
     activeRoute();

@@ -34,10 +34,10 @@ function getProducts(url = urlApi) {
                 </div>`)
             }
         })
-        .done((data) => {
-            if (data) {
-                render.html(data.data);
-                navigation(data.meta);
+        .done((datas) => {
+            if (datas) {
+                render.html(datas.data);
+                navigation(datas.meta);
             }
         })
         .fail((error) => {
@@ -109,7 +109,6 @@ function navigation(links) {
     var render = $('.pagination-container');
     var pageItem = '';
     var paginate = '';
-    // let maxItem = 7;
 
     let pageState = links;
 
@@ -139,7 +138,7 @@ function navigation(links) {
     if (pageState.last_page > 1) {
         paginate += ` <div class="paginate-style">
                 <nav aria-label="Page navigation example">
-                    <span>Hiện thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
+                    <span>Hiển thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
                     <ul class="pagination justify-content-end">
                         ${renderPrev}
                         ${pageItem}
@@ -172,7 +171,7 @@ function resetForm(form) {
 function getProduct(id) {
     var url = urlApi + '/' + id;
 
-    var product = $.ajax({
+    return $.ajax({
             url: url,
             method: "get",
         })
@@ -184,7 +183,6 @@ function getProduct(id) {
         .fail((error) => {
             return error.responseJSON;
         })
-    return product;
 }
 
 function deleteProduct(id) {
@@ -206,17 +204,15 @@ function deleteProduct(id) {
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var url = urlApi + '/' + id;
-
                     $.ajax({
-                            url: url,
+                            url: urlApi + '/' + id,
                             method: "delete",
                         })
-                        .done((data) => {
-                            if (data) {
+                        .done((datas) => {
+                            if (datas) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: data.message,
+                                    title: datas.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -319,7 +315,6 @@ function addEditProduct() {
                     });
                 }
             });
-        return;
     })
 }
 

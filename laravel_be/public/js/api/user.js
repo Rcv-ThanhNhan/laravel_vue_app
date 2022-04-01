@@ -34,10 +34,10 @@ function getUsers(url = urlApi) {
                 </div>`)
             }
         })
-        .done((data) => {
-            if (data) {
-                render.html(data.data);
-                navigation(data.meta);
+        .done(function(datas) {
+            if (datas) {
+                render.html(datas.data);
+                navigation(datas.meta);
             }
         })
         .fail((error) => {
@@ -118,7 +118,6 @@ function navigation(links) {
     var render = $('.pagination-container');
     var pageItem = '';
     var paginate = '';
-    // let maxItem = 7;
 
     let pageState = links;
 
@@ -148,7 +147,7 @@ function navigation(links) {
     if (pageState.last_page > 1) {
         paginate += ` <div class="paginate-style">
                 <nav aria-label="Page navigation example">
-                    <span>Hiện thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
+                    <span>Hiển thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
                     <ul class="pagination justify-content-end">
                         ${renderPrev}
                         ${pageItem}
@@ -183,7 +182,7 @@ function getUser(id) {
 
     var url = urlApi + '/' + id;
 
-    var user = $.ajax({
+    return $.ajax({
             url: url,
             method: "get",
         })
@@ -195,7 +194,7 @@ function getUser(id) {
         .fail((error) => {
             return error.responseJSON;
         })
-    return user;
+
 }
 
 function blockUser(id) {
@@ -235,11 +234,11 @@ function blockUser(id) {
                                 id: id
                             }
                         })
-                        .done((data) => {
-                            if (data) {
+                        .done(function(datas) {
+                            if (datas) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: data.message,
+                                    title: datas.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -297,11 +296,11 @@ function deleteUser(id) {
                             url: url,
                             method: "delete",
                         })
-                        .done((data) => {
-                            if (data) {
+                        .done(function(datas) {
+                            if (datas) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: data.message,
+                                    title: datas.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 });

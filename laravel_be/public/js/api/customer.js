@@ -168,7 +168,7 @@ function navigation(links) {
     if (pageState.last_page > 1) {
         paginate += ` <div class="paginate-style">
                 <nav aria-label="Page navigation example">
-                    <span>Hiện thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
+                    <span>Hiển thị ${pageState.from } đên ${pageState.to } trên ${pageState.total} người dùng</span>
                     <ul class="pagination justify-content-end">
                         ${renderPrev}
                         ${pageItem}

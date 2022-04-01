@@ -8,7 +8,7 @@ function login() {
         var username = formData.get('username');
         var passwd = formData.get('password');
         var loading = $('.loading-submit');
-        // console.log(username, passwd);
+
         // if (username != '' && passwd != '') {
         $.ajax({
                 url: url,
@@ -16,14 +16,10 @@ function login() {
                 data: {
                     email: username,
                     password: passwd
-                },
-                beforeSend: function() {
-                    loading.toggleClass('d-none');
                 }
             })
             .done((data) => {
                 if (data) {
-                    loading.toggleClass('d-none');
                     if (data.error) {
                         $('.invalid-feedback-email').toggle().text(data.error);
                     } else {
@@ -35,16 +31,7 @@ function login() {
                 }
             })
             .fail((error) => {
-                loading.toggleClass('d-none');
-                var err = error.responseJSON.errors;
-                if (err) {
-                    if (err.email) {
-                        $('.invalid-feedback-email').text(err.email);
-                    }
-                    if (err.password) {
-                        $('.invalid-feedback-password').text(err.password);
-                    }
-                }
+                return error.responseJSON;
             })
             // }
 
